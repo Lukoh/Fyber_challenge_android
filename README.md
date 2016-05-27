@@ -12,4 +12,4 @@ All source in goforer.com.base package were already used in my opensource projec
 My FyberAndroidChallenge App runs well.
 
 
-<img src="https://github.com/Lukoh/FyberAndroidChallenge/blob/master/Screenshot.png" alt="Log-in Demo" width="350" />
+<img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot.png" alt="Log-in Demo" width="350" />
