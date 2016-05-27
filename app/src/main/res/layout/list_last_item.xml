@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    android:background="#00000000"
+    android:gravity="center_horizontal" >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_list_last_item"
+        android:layout_marginTop="23dp"
+        android:layout_marginBottom="23dp" />
+
+</RelativeLayout>

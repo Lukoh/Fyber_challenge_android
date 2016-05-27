@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Fyber_Challenge_Android</string>
+    <string name="not_connected_internet">Internet connection not available.</string>
+    <string name="toast_process_error">This app is going to exit due to an error of data processing.</string>
+    <string name="loading">Loading on&#8230;</string>
+    <string name="fab_menu_offer">Offer</string>
+    <string name="toast_last_page">Last page.</string>
+    <string name="toast_no_offers">No Offers.</string>
+    <string name="toast_disconnect_phrase">Can not access the internet.</string>
+    <string name="toast_server_error_phrase">Can not connect to the server, try again later.</string>
+    <string name="toast_response_signature_mismatch_phrase">The signature of response is not valid.</string>
+</resources>
