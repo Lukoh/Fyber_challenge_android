@@ -347,7 +347,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
      * RequestClient to get the information or images from server.
      * <p>
      * To request information or data to Web server, you must override
-     * This method is called whenever the swipe gesture triggers a refresh.
+     * This method is called whenever the adapter position of the last visible view is to last item on the list.
      * </p>
      *
      * @param isNew set to true to request new information or images, or false
