@@ -44,7 +44,6 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
 
     private OfferListAdapter mAdapter;
 
-    private int mPageNum;
     private int mTotalPageNum;
 
     @Override
@@ -57,7 +56,6 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mPageNum = 1;
         mTotalPageNum = 1;
 
         setItemHasFixedSize(true);
@@ -88,6 +86,7 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
 
             @Override
             public void onScrolledToLast(RecyclerView recyclerView, int dx, int dy) {
+                requestData(false);
                 Log.i(TAG, "onScrolledToLast");
             }
 
@@ -122,40 +121,33 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     }
 
     @Override
+    protected void updateData() {
+        doneRefreshing();
+        Log.i(TAG, "updateData");
+    }
+
+    @Override
     protected List<Offers> parseItems(JsonElement json) {
         return new ListModel<>(Offers.class).fromJson(json);
     }
 
-    @Override
-    protected void setReachedToLastItem(int itemCount) {
-        if (itemCount <= REQUEST_ITEM_COUNT) {
-            setReachedToLast();
-            mAdapter.setReachToLast(true);
-        } else {
-            mAdapter.setReachToLast(false);
-        }
-    }
-
     private void requestOfferList(boolean isNew) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        if (mCurrentPage > mTotalPageNum && mTotalPageNum > 1) {
+            doneRefreshing();
+            mAdapter.setReachedToLastPage(true);
+            Toast.makeText(mContext, R.string.toast_last_page, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         OfferListEvent event = new OfferListEvent(isNew);
         String advertisingId = CommonUtils.getGoogleAID();
         long timestamp = System.currentTimeMillis() / 1000L;
 
-        if (mPageNum <= mTotalPageNum && mTotalPageNum > 1) {
-            if (mPageNum == mTotalPageNum) {
-                doneRefreshing();
-                Toast.makeText(mContext, R.string.toast_last_page, Toast.LENGTH_SHORT).show();
-                return;
-            } else {
-                mPageNum++;
-            }
-        }
-
-        String hashKey = getHashKey(advertisingId, timestamp, mPageNum);
+        String hashKey = getHashKey(advertisingId, timestamp, mCurrentPage);
         hashKey = hashKey.toLowerCase();
 
         Intermediary.INSTANCE.getOffers(mContext, APP_ID, advertisingId, IP, LOCALE, OFFER_TYPES,
-                mPageNum, timestamp, UID, hashKey, event);
+                mCurrentPage, timestamp, UID, hashKey, event);
     }
 
     @SuppressWarnings("")
@@ -177,7 +169,7 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
                     return;
                 }
 
-                if (mPageNum == 1) {
+                if (mCurrentPage == 1) {
                     mTotalPageNum = event.getResponseClient().getPages();
                 }
 

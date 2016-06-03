@@ -33,7 +33,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import goforer.com.fyber_challenge_android.R;
 import com.google.gson.JsonElement;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
@@ -47,14 +46,13 @@ import butterknife.BindView;
 import goforer.com.base.model.event.ResponseListEvent;
 import goforer.com.base.ui.adapter.BaseListAdapter;
 import goforer.com.base.ui.adapter.DividerItemDecoration;
+import goforer.com.fyber_challenge_android.R;
 
 /**
  * A {@link BaseFragment}'s subclass with {@link SwipyRefreshLayout} and {@link RecyclerView}.
  */
 public abstract class RecyclerFragment<T> extends BaseFragment {
     private static final String TAG = "RecyclerFragment";
-
-    protected static final int REQUEST_ITEM_COUNT = 30;
 
     private BaseListAdapter mBaseArrayAdapter;
     private OnProcessListener mListener;
@@ -65,6 +63,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
 
     protected boolean mIsLoading = false;
     protected boolean mIsReachToLast = false;
+    protected boolean mIsUpdated = false;
 
     protected int mCurrentPage = 0;
 
@@ -148,6 +147,19 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
         }
     }
 
+    private void requestUpdate() {
+        if (!mIsLoading) {
+            mIsLoading = true;
+            if (mBaseArrayAdapter != null) {
+                mBaseArrayAdapter.setLoadingItems(true);
+            }
+
+            mIsUpdated = true;
+
+            updateData();
+        }
+    }
+
     /**
      * An OnScrollListener can be set on a RecyclerView to receive messages
      * when a scrolling event has occurred on that RecyclerView.
@@ -164,12 +176,16 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (!mIsLoading && !mIsReachToLast && dy >= 0) {
+                if (!mIsLoading && !mBaseArrayAdapter.isReachedToLastPage() && dy >= 0) {
                     int lastVisibleItemPosition = getLastVisibleItem();
                     int totalItemCount = recyclerView.getLayoutManager().getItemCount();
                     if (lastVisibleItemPosition >= totalItemCount - 1) {
                         scrolledReachToLast();
+                        mBaseArrayAdapter.setReachedToLastItem(true);
+                        setReachedToLast(true);
                         mListener.onScrolledToLast(recyclerView, dx, dy);
+                    } else {
+                        setReachedToLast(false);
                     }
                 }
             }
@@ -240,7 +256,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
         mSwipeLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh(SwipyRefreshLayoutDirection direction) {
-                request(true);
+                requestUpdate();
             }
         });
     }
@@ -340,6 +356,16 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
     protected abstract void requestData(boolean isNew);
 
     /**
+     * RequestClient to get the updated information or images from server.
+     * <p>
+     * To request information or data to Web server, you must override
+     * This method is called whenever the swipe gesture triggers a refresh.
+     * </p>
+     *
+     */
+    protected abstract void updateData();
+
+    /**
      * The information should be refreshed whenever the user refresh the contents of a view via
      * a vertical swipe gesture.
      * <p>
@@ -399,9 +425,11 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
 
     /**
      * Notify that page is reached to last page(item) in the List.
+     *
+     * @param isReachedToLast set true if the page(item) is reached to last page(item)
      */
-    protected void setReachedToLast() {
-        mIsReachToLast = true;
+    protected void setReachedToLast(boolean isReachedToLast) {
+        mIsReachToLast = isReachedToLast;
     }
 
     /**
@@ -440,9 +468,9 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
                             clear();
                         }
 
-                        setReachedToLastItem(items.size());
                         addItems(items);
                         doneRefreshing();
+                        mIsUpdated = false;
                         mListener.onCompleted(OnProcessListener.RESULT_SUCCESS);
                     }
                 }
@@ -450,23 +478,6 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
         } else {
             mListener.onCompleted(OnProcessListener.RESULT_ERROR);
         }
-    }
-
-    /**
-     * Notify that the item is the last to the adapter if the item is reached to the last or
-     * there is no more item.
-     * <p>
-     * If this method would be not overridden to any Fragment which is derived form RecyclerFragment,
-     * it does not carry out any work. So this method has no body.
-     * If a developer want to set the item is reached to the last, a developer must override
-     * this method and implement some code to do it.
-     * <p/>
-     * See {@link #handleEvent(ResponseListEvent)}.
-     *
-     * @param itemsSize the items size
-     */
-    protected void setReachedToLastItem(int itemsSize) {
-        // Do nothing
     }
 
     /**
@@ -479,8 +490,16 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
 
         if (items != null && !items.isEmpty()) {
             int startIndex = mItems.size();
-            mItems.addAll(0, items);
-            mRecyclerView.setAdapter(mAdapter);
+            if (mIsUpdated) {
+                mItems.addAll(0, items);
+            } else {
+                mItems.addAll(items);
+            }
+
+            if (mCurrentPage == 1) {
+                mRecyclerView.setAdapter(mBaseArrayAdapter);
+            }
+
             mBaseArrayAdapter.notifyItemRangeChanged(startIndex, items.size());
         } else{
             mBaseArrayAdapter.notifyDataSetChanged();

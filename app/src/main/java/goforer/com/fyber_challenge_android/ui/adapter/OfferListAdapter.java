@@ -37,7 +37,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
     public int getItemCount() {
         int count  = super.getItemCount();
 
-        if (isReachedToLast() && count >= 0) {
+        if (isReachedToLastPage() && isReachedToLastItem() && count >= 0) {
             count++;
         } else if (count > 1) {
             count++;
@@ -48,7 +48,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
 
     @Override
     public int getItemViewType(int position) {
-        if (isReachedToLast() && position == getItemCount() - 1) {
+        if (isReachedToLastItem() && isReachedToLastPage() && position == getItemCount() - 1) {
             return VIEW_TYPE_FOOTER;
         }
 

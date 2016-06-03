@@ -27,7 +27,8 @@ import java.util.List;
  * BaseListAdapter.
  */
 public abstract class BaseListAdapter<T> extends BaseAdapter {
-    private boolean mIsReachToLast = false;
+    private boolean mIsReachedToLastItem = false;
+    private boolean mIsReachedToLastPage = false;
     private boolean mIsEmptyItems = false;
     private boolean mIsLoadingItems = false;
 
@@ -52,6 +53,10 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemBindable) {
+            if (position >= mItems.size()) {
+                return;
+            }
+
             T item = mItems.get(position);
             if (item != null) {
                 ((ItemBindable<T>) holder).bindItem(item);
@@ -60,12 +65,21 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     }
 
     /**
-     * Set true if the item or page is reached to the last.
+     * Set true if the item is reached to the last.
      *
-     * @param isReachToLast true if the item or page is reached to the last
+     * @param isReachedToLast true if the item is reached to the last
      */
-    public void setReachToLast(boolean isReachToLast) {
-        mIsReachToLast = isReachToLast;
+    public void setReachedToLastItem(boolean isReachedToLast) {
+        mIsReachedToLastItem = isReachedToLast;
+    }
+
+    /**
+     * Set true if the page is reached to the last.
+     *
+     * @param isReachedToLast true if the page is reached to the last
+     */
+    public void setReachedToLastPage(boolean isReachedToLast) {
+        mIsReachedToLastPage = isReachedToLast;
     }
 
     /**
@@ -87,11 +101,20 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     }
 
     /**
-     * Check if the item or page is reached to the last.
+     * Check if the item is reached to the last.
      *
      * @return true if the item or page is reached to the last
      */
-    public boolean isReachedToLast() { return mIsReachToLast; }
+    public boolean isReachedToLastItem() { return mIsReachedToLastItem; }
+
+    /**
+     * Check if the page is reached to the last.
+     *
+     * @return true if the item or page is reached to the last
+     */
+    public boolean isReachedToLastPage() {
+        return mIsReachedToLastPage;
+    }
 
     /**
      * Check if the items is empty.
