@@ -106,7 +106,7 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
 
     @Override
     protected RecyclerView.Adapter createAdapter() {
-        return mAdapter = new OfferListAdapter(mActivity, mItems, R.layout.list_offer_item);
+        return mAdapter = new OfferListAdapter(mActivity, mItems, R.layout.list_offer_item, true);
     }
 
     @Override
@@ -122,7 +122,13 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
 
     @Override
     protected void updateData() {
-        doneRefreshing();
+        try {
+            mCurrentPage++;
+            requestOfferList(false);
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
         Log.i(TAG, "updateData");
     }
 

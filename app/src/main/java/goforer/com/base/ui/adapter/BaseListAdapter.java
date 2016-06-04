@@ -31,6 +31,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     private boolean mIsReachedToLastPage = false;
     private boolean mIsEmptyItems = false;
     private boolean mIsLoadingItems = false;
+    private boolean mUsedLoadingImage = false;
 
     protected List<T> mItems;
 
@@ -101,6 +102,15 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     }
 
     /**
+     * Set true if the loading image is used.
+     *
+     * @param usedLoadingImage true if the loading image is used
+     */
+    public void setUsedLoadingImage(boolean usedLoadingImage) {
+        mUsedLoadingImage = usedLoadingImage;
+    }
+
+    /**
      * Check if the item is reached to the last.
      *
      * @return true if the item or page is reached to the last
@@ -129,4 +139,11 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
      * @return true if the items is loading
      */
     public boolean isLoadingItems() { return mIsLoadingItems; }
+
+    /**
+     * Check if the loading image is used to the list as an item.
+     *
+     * @return true if the loading image is used
+     */
+    public boolean usedLoadImage() { return mUsedLoadingImage; }
 }

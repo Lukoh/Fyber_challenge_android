@@ -27,9 +27,11 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
 
     private static final String PAY_OUT = "PayOut : ";
 
-    public OfferListAdapter(BaseActivity activity, List<Offers> items, int layoutResId) {
+    public OfferListAdapter(BaseActivity activity, List<Offers> items, int layoutResId,
+                            boolean usedLoadingImage) {
         super(items, layoutResId);
 
+        setUsedLoadingImage(usedLoadingImage);
         mActivity = activity;
     }
 
@@ -37,7 +39,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
     public int getItemCount() {
         int count  = super.getItemCount();
 
-        if (isReachedToLastPage() && isReachedToLastItem() && count >= 0) {
+        if (isReachedToLastPage() && count >= 0) {
             count++;
         } else if (count > 1) {
             count++;
@@ -48,8 +50,10 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
 
     @Override
     public int getItemViewType(int position) {
-        if (isReachedToLastItem() && isReachedToLastPage() && position == getItemCount() - 1) {
+        if (isReachedToLastPage() && position == getItemCount() - 1) {
             return VIEW_TYPE_FOOTER;
+        } else if (position > 1 && position == getItemCount() - 1) {
+            return VIEW_TYPE_LOADING;
         }
 
         return VIEW_TYPE_ITEM;
@@ -58,10 +62,15 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
         View view;
+
         switch (type) {
             case VIEW_TYPE_FOOTER:
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_last_item,
                         viewGroup, false);
+                return new DefaultViewHolder(view);
+            case VIEW_TYPE_LOADING:
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(
+                        R.layout.list_loading_item, viewGroup, false);
                 return new DefaultViewHolder(view);
             default:
                 return super.onCreateViewHolder(viewGroup, type);
@@ -77,7 +86,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         switch (getItemViewType(position)){
             case VIEW_TYPE_FOOTER:
-                return;
+            case VIEW_TYPE_LOADING:
             default:
                 super.onBindViewHolder(viewHolder, position);
         }
