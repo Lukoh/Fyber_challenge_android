@@ -122,12 +122,12 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
 
     @Override
     protected void updateData() {
-        try {
-            mCurrentPage++;
-            requestOfferList(false);
-        } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+        /**
+         * Please put some module to update new data here, instead of doneRefreshing() method if
+         * there is some data to be updated in Server side.
+         * I just put doneRefreshing() method because there is no data to be updated from Sever side.
+         */
+        doneRefreshing();
 
         Log.i(TAG, "updateData");
     }
