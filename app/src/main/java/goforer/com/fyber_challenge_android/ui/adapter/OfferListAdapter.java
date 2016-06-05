@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-
 import butterknife.BindView;
 import goforer.com.fyber_challenge_android.R;
 import goforer.com.fyber_challenge_android.model.data.Offers;
@@ -41,8 +40,10 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
 
         if (isReachedToLastPage() && count >= 0) {
             count++;
-        } else if (count > 1) {
+            return count;
+        } else if (isReachedToLastItem() && count > 1) {
             count++;
+            return count;
         }
 
         return count;
