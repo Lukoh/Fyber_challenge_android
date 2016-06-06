@@ -40,7 +40,8 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
 
         if (isReachedToLastPage() && count >= 0) {
             count++;
-        } else if (count > 1) {
+            return count;
+        } else if (isReachedToLastItem() && count > 1) {
             count++;
         }
 
@@ -49,6 +50,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
 
     @Override
     public int getItemViewType(int position) {
+        int i = getItemCount();
         if (isReachedToLastPage() && position == getItemCount() - 1) {
             return VIEW_TYPE_FOOTER;
         } else if (position > 1 && position == getItemCount() - 1) {
