@@ -182,6 +182,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
                 if (!mIsLoading && !mBaseArrayAdapter.isReachedToLastPage() && dy >= 0) {
                     int lastVisibleItemPosition = getLastVisibleItem();
                     int totalItemCount = recyclerView.getLayoutManager().getItemCount();
@@ -511,6 +512,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
                     } else {
                         mListVisibleItemCount = INVISIBLE_LOADING_IMAGE;
                     }
+
                     mRecyclerView.setAdapter(mBaseArrayAdapter);
                 }
             }
