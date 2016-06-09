@@ -67,10 +67,9 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
 
     @Override
     public int getItemViewType(int position) {
-        int itemCount = getItemCount();
-        if (isReachedToLastPage() && position == itemCount - 1) {
+        if (isReachedToLastPage() && position == getItemCount() - 1) {
             return VIEW_TYPE_FOOTER;
-        } else if (position >= 0 && position == itemCount - 1) {
+        } else if (position >= 0 && position == getItemCount() - 1) {
             return VIEW_TYPE_LOADING;
         }
 

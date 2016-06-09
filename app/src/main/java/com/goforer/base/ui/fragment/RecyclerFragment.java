@@ -59,7 +59,6 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
 
     private BaseListAdapter mBaseArrayAdapter;
     private OnProcessListener mListener;
-    private Adapter mAdapter;
 
     private int mListVisibleItemCount;
 
@@ -126,12 +125,12 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
         addItemDecorations();
         addItemTouchListener();
         mRecyclerView.setItemAnimator(createItemAnimator());
-        mAdapter = createAdapter();
+        Adapter adapter = createAdapter();
 
         setScrollListener();
 
-        if (mAdapter instanceof BaseListAdapter) {
-            mBaseArrayAdapter = (BaseListAdapter)mAdapter;
+        if (adapter instanceof BaseListAdapter) {
+            mBaseArrayAdapter = (BaseListAdapter)adapter;
         }
 
         Log.i(TAG, "Initialize views");
@@ -159,6 +158,8 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
             if (mBaseArrayAdapter != null) {
                 mBaseArrayAdapter.setLoadingItems(true);
             }
+
+            mIsUpdated = true;
 
             updateData();
         }
@@ -367,9 +368,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
      * </p>
      *
      */
-    protected void updateData() {
-        mIsUpdated = true;
-    }
+    protected abstract void updateData();
 
     /**
      * The information should be refreshed whenever the user refresh the contents of a view via
@@ -479,7 +478,6 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
 
                         addItems(items);
                         doneRefreshing();
-                        mIsUpdated = false;
                         mListener.onCompleted(OnProcessListener.RESULT_SUCCESS);
                     }
                 }

@@ -134,7 +134,6 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
 
     @Override
     protected void updateData() {
-        super.updateData();
         /**
          * Please put some module to update new data here, instead of doneRefreshing() method if
          * there is some data to be updated in Server side.
