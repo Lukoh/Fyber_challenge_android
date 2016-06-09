@@ -57,6 +57,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
         int count  = super.getItemCount();
         if (count >= 0 && isReachedToLastPage()) {
             ++count;
+            return count;
         } else if (count >= 0 && isReachedToLastItem()) {
             ++count;
         }

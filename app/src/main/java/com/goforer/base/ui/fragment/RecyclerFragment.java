@@ -160,8 +160,6 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
                 mBaseArrayAdapter.setLoadingItems(true);
             }
 
-            mIsUpdated = true;
-
             updateData();
         }
     }
@@ -187,12 +185,11 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
                     int lastVisibleItemPosition = getLastVisibleItem();
                     int totalItemCount = recyclerView.getLayoutManager().getItemCount();
                     if (lastVisibleItemPosition >= totalItemCount - mListVisibleItemCount) {
-                        scrolledReachToLast();
                         mBaseArrayAdapter.setReachedToLastItem(true);
-                        setReachedToLast(true);
+                        scrolledReachToLast();
                         mListener.onScrolledToLast(recyclerView, dx, dy);
                     } else {
-                        setReachedToLast(false);
+                        mBaseArrayAdapter.setReachedToLastItem(false);
                     }
                 }
             }
@@ -370,7 +367,9 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
      * </p>
      *
      */
-    protected abstract void updateData();
+    protected void updateData() {
+        mIsUpdated = true;
+    }
 
     /**
      * The information should be refreshed whenever the user refresh the contents of a view via
@@ -402,7 +401,9 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
 
         if (!mIsLoading) {
             mIsLoading = true;
-            if (mBaseArrayAdapter != null) mBaseArrayAdapter.setLoadingItems(true);
+            if (mBaseArrayAdapter != null) {
+                mBaseArrayAdapter.setLoadingItems(true);
+            }
 
             mCurrentPage++;
         }
@@ -422,6 +423,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
      */
     public void doneRefreshing() {
         mIsLoading = false;
+        mIsUpdated = false;
 
         if (mBaseArrayAdapter != null) mBaseArrayAdapter.setLoadingItems(false);
 
@@ -496,7 +498,6 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
         Log.i(TAG, "addItems");
 
         if (items != null && !items.isEmpty()) {
-            int startIndex = mItems.size();
             if (mIsUpdated) {
                 mItems.addAll(0, items);
                 mRecyclerView.setAdapter(mBaseArrayAdapter);
@@ -516,11 +517,9 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
                     mRecyclerView.setAdapter(mBaseArrayAdapter);
                 }
             }
-
-            mBaseArrayAdapter.notifyItemRangeChanged(startIndex, items.size());
-        } else{
-            mBaseArrayAdapter.notifyDataSetChanged();
         }
+
+        mBaseArrayAdapter.notifyDataSetChanged();
     }
 
     /**
