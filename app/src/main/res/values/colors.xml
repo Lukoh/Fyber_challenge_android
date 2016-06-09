@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="black">#000000</color>
+    <color name="black_alpha_35">#000000</color>
     <color name="gray">#868686</color>
     <color name="swipyrefreshlayout_bg">#F2F2F2</color>
     <color name="swipeBar">#E43231</color>
@@ -12,4 +13,10 @@
     <color name="fab_color_normal">#1565C0</color>
     <color name="fab_color_pressed">#2272CD</color>
     <color name="fab_color_ripple">#62B2FF</color>
+    <color name="post_button">#205FAF</color>
+    <color name="text_input_comment">#353535</color>
+    <color name="text_hint_input_comment">#C0C0C0</color>
+    <color name="comment_bar_divider">#969696</color>
+    <color name="comment_bar_line">#B6B6B6</color>
+    <color name="divider_bar">#919191</color>
 </resources>

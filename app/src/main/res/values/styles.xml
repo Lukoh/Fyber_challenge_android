@@ -38,4 +38,17 @@
         <item name="fab_colorRipple">#92B2FF</item>
     </style>
 
+    <style name="Base.TextAppearance.Fyber" parent="android:TextAppearance">
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="TextAppearance.Fyber.comment.input" parent="Base.TextAppearance.Fyber">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/text_input_comment</item>
+        <item name="android:textColorHint">@color/text_hint_input_comment</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:maxLines">9</item>
+    </style>
+
 </resources>

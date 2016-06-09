@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:id="@+id/ll_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#fff"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp" >
+
+        <ImageButton
+            android:id="@+id/btn_like"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_button_like"
+            android:background="@android:color/transparent"
+            android:layout_gravity="bottom" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/comment_bar_divider" />
+
+        <ImageButton
+            android:id="@+id/btn_share"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_button_share"
+            android:layout_marginLeft="6dp"
+            android:background="@android:color/transparent"
+            android:layout_gravity="bottom" />
+
+        <EditText
+            android:id="@+id/et_comment"
+            style="@style/TextAppearance.Fyber.comment.input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
+            android:layout_weight="1"
+            android:padding="9dp"
+            android:layout_marginLeft="4dp"
+            android:hint="@string/hint_comment"
+            android:background="#fff"
+            android:inputType="textMultiLine"
+            android:maxHeight="90dp"
+            android:maxLines="4" />
+
+        <TextView
+            android:id="@+id/tv_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:textStyle="bold"
+            android:text="@string/post_button"
+            android:padding="10dp"
+            android:textSize="14dp"
+            android:textColor="@color/post_button"
+            android:layout_gravity="bottom" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:id="@+id/v_top_line"
+        android:background="@color/comment_bar_line"
+        android:layout_alignTop="@+id/ll_input" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:id="@+id/v_bottom_line"
+        android:background="@color/comment_bar_line"
+        android:layout_alignBottom="@+id/ll_input"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"/>
+
+</RelativeLayout>

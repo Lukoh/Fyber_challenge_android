@@ -9,4 +9,17 @@
     <string name="toast_disconnect_phrase">Can not access the internet.</string>
     <string name="toast_server_error_phrase">Can not connect to the server, try again later.</string>
     <string name="toast_response_signature_mismatch_phrase">The signature of response is not valid.</string>
+    <string name="hint_comment">Input your comment</string>
+    <string name="post_button">Post</string>
+    <string name="offer_id">Offer ID : </string>
+    <string name="teaser">Teaser : </string>
+    <string name="required_actions">Actions : </string>
+    <string name="payout">PayOut : </string>
+    <string name="link">Link : </string>
+    <string name="offer_types">Offer Types </string>
+    <string name="offer_type_id">Type ID :  </string>
+    <string name="offer_type_readable">Readable :  </string>
+    <string name="time_to_payout">Time to payout</string>
+    <string name="amount">Amount : </string>
+    <string name="readable">Readable : </string>
 </resources>

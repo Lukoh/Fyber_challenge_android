@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:padding="6dp" >
 
-    <goforer.com.base.ui.view.SquircleImageView
+    <com.goforer.base.ui.view.SquircleImageView
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:id="@+id/iv_hires"

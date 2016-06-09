@@ -6,7 +6,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "goforer.com.fyber_challenge_android"
+        applicationId "com.goforer.fyber_challenge_android"
         minSdkVersion 18
         targetSdkVersion 23
         versionCode 1

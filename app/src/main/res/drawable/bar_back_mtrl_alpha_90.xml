@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/abc_ic_ab_back_mtrl_am_alpha"
+    android:toDegrees="0"
+    android:fromDegrees="270">
+</rotate>
