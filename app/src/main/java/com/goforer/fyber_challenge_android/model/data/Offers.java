@@ -16,12 +16,16 @@
 
 package com.goforer.fyber_challenge_android.model.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.goforer.base.model.BaseModel;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Offers extends BaseModel {
+public final class Offers extends BaseModel implements Parcelable {
     @SerializedName("title")
     private String mTitle;
     @SerializedName("offer_id")
@@ -33,7 +37,7 @@ public class Offers extends BaseModel {
     @SerializedName("link")
     private String mLink;
     @SerializedName("offer_types")
-    private ArrayList<OfferTypes> mOfferTypes;
+    private List<OfferTypes> mOfferTypes;
     @SerializedName("thumbnail")
     private Thumbnail mThumbnail;
     @SerializedName("payout")
@@ -61,7 +65,7 @@ public class Offers extends BaseModel {
         return mLink;
     }
 
-    public ArrayList<OfferTypes> getOfferTypes() {
+    public List<OfferTypes> getOfferTypes() {
         return mOfferTypes;
     }
 
@@ -77,7 +81,52 @@ public class Offers extends BaseModel {
         return mTimeToPayout;
     }
 
-    public static class OfferTypes {
+
+    protected Offers(Parcel in) {
+        mTitle = in.readString();
+        mOfferId = in.readLong();
+        mTeaser = in.readString();
+        mRequiredActions = in.readString();
+        mLink = in.readString();
+        mOfferTypes = new ArrayList<>();
+        in.readTypedList(mOfferTypes, OfferTypes.CREATOR);
+        mThumbnail = in.readParcelable(Thumbnail.class.getClassLoader());
+        mPayout = in.readInt();
+        mTimeToPayout = in.readParcelable(TimeToPayout.class.getClassLoader());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mTitle);
+        dest.writeLong(mOfferId);
+        dest.writeString(mTeaser);
+        dest.writeString(mRequiredActions);
+        dest.writeString(mLink);
+        dest.writeTypedList(mOfferTypes);
+        dest.writeParcelable(mThumbnail, flags);
+        dest.writeInt(mPayout);
+        dest.writeParcelable(mTimeToPayout, flags);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Offers> CREATOR = new Parcelable.Creator<Offers>() {
+        @Override
+        public Offers createFromParcel(Parcel in) {
+            return new Offers(in);
+        }
+
+        @Override
+        public Offers[] newArray(int size) {
+            return new Offers[size];
+        }
+    };
+
+    public final static class OfferTypes implements Parcelable {
         @SerializedName("offer_type_id")
         private int mOfferTypeId;
         @SerializedName("readable")
@@ -90,9 +139,38 @@ public class Offers extends BaseModel {
         public String getReadable() {
             return mReadable;
         }
+
+        protected OfferTypes(Parcel in) {
+            mOfferTypeId = in.readInt();
+            mReadable = in.readString();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(mOfferTypeId);
+            dest.writeString(mReadable);
+        }
+
+        @SuppressWarnings("unused")
+        public static final Parcelable.Creator<OfferTypes> CREATOR = new Parcelable.Creator<OfferTypes>() {
+            @Override
+            public OfferTypes createFromParcel(Parcel in) {
+                return new OfferTypes(in);
+            }
+
+            @Override
+            public OfferTypes[] newArray(int size) {
+                return new OfferTypes[size];
+            }
+        };
     }
 
-    public static class Thumbnail {
+    public final static class Thumbnail implements Parcelable {
         @SerializedName("lowres")
         private String mLowres;
         @SerializedName("hires")
@@ -105,9 +183,38 @@ public class Offers extends BaseModel {
         public String getHires() {
             return mHires;
         }
+
+        protected Thumbnail(Parcel in) {
+            mLowres = in.readString();
+            mHires = in.readString();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(mLowres);
+            dest.writeString(mHires);
+        }
+
+        @SuppressWarnings("unused")
+        public static final Parcelable.Creator<Thumbnail> CREATOR = new Parcelable.Creator<Thumbnail>() {
+            @Override
+            public Thumbnail createFromParcel(Parcel in) {
+                return new Thumbnail(in);
+            }
+
+            @Override
+            public Thumbnail[] newArray(int size) {
+                return new Thumbnail[size];
+            }
+        };
     }
 
-    public static class TimeToPayout {
+    public final static class TimeToPayout implements Parcelable {
         @SerializedName("amount")
         private long mAmount;
         @SerializedName("readable")
@@ -120,5 +227,34 @@ public class Offers extends BaseModel {
         public String getReadable() {
             return mReadable;
         }
+
+        protected TimeToPayout(Parcel in) {
+            mAmount = in.readLong();
+            mReadable = in.readString();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeLong(mAmount);
+            dest.writeString(mReadable);
+        }
+
+        @SuppressWarnings("unused")
+        public static final Parcelable.Creator<TimeToPayout> CREATOR = new Parcelable.Creator<TimeToPayout>() {
+            @Override
+            public TimeToPayout createFromParcel(Parcel in) {
+                return new TimeToPayout(in);
+            }
+
+            @Override
+            public TimeToPayout[] newArray(int size) {
+                return new TimeToPayout[size];
+            }
+        };
     }
 }

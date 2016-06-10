@@ -40,16 +40,19 @@ import java.util.List;
 import butterknife.BindView;
 
 public class OfferListAdapter extends BaseListAdapter<Offers> {
-    private static BaseActivity mActivity;
-
     private static final String PAY_OUT = "PayOut : ";
 
-    public OfferListAdapter(BaseActivity activity, List<Offers> items, int layoutResId,
+    private static BaseActivity mActivity;
+
+    public final List<Offers> mOffersItems;
+
+    public OfferListAdapter(BaseActivity activity, final List<Offers> items, int layoutResId,
                             boolean usedLoadingImage) {
         super(items, layoutResId);
 
         setUsedLoadingImage(usedLoadingImage);
         mActivity = activity;
+        mOffersItems = items;
     }
 
     @Override
@@ -96,7 +99,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
 
     @Override
     protected RecyclerView.ViewHolder createViewHolder(View view, int type) {
-        return new OfferListViewHolder(view);
+        return new OfferListViewHolder(view, mItems);
     }
 
     @Override
@@ -110,7 +113,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
     }
 
     static class OfferListViewHolder extends BaseViewHolder<Offers> {
-        private Offers mOffers;
+        private List<Offers> mOffersItems;
 
         @BindView(R.id.iv_hires)
         SquircleImageView mHiresView;
@@ -121,31 +124,40 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
         @BindView(R.id.tv_payout)
         TextView mPayoutView;
 
-        public OfferListViewHolder(View itemView) {
+        public OfferListViewHolder(View itemView, List<Offers> items) {
             super(itemView);
+
+            mOffersItems = items;
         }
 
         @SuppressLint("SetTextI18n")
         @Override
-        public void bindItem(@NonNull final Offers offers) {
-            mOffers = offers;
-
+        public void bindItem(@NonNull final Offers offers, final int position) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (mActivity.resumed()) {
                         SelectAction action = new SelectAction();
-                        action.setOffers(mOffers);
+                        /**
+                         * For using ViewPager in OffersInfoActivity, the list of Offers and
+                         * the position of an item have been passed into OffersInfoActivity.
+                         * It means that I'm going to put ViewPager and implement some module
+                         * to allow a user to see each Offers's information by flipping left
+                         * and right through pages of data.
+                         */
+                        action.setOffers(offers);
+                        action.setOffersList(mOffersItems);
+                        action.setPosition(position);
                         EventBus.getDefault().post(action);
                     }
                 }
             });
 
 
-            mHiresView.setImage(mOffers.getThumbnail().getHires());
-            mTitleView.setText(mOffers.getTitle());
-            mTeaserView.setText(mOffers.getTeaser());
-            mPayoutView.setText(PAY_OUT + String.valueOf(mOffers.getPayout()).toString());
+            mHiresView.setImage(offers.getThumbnail().getHires());
+            mTitleView.setText(offers.getTitle());
+            mTeaserView.setText(offers.getTeaser());
+            mPayoutView.setText(PAY_OUT + String.valueOf(offers.getPayout()).toString());
 
 
         }

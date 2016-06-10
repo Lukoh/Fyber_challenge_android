@@ -60,7 +60,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
 
             T item = mItems.get(position);
             if (item != null) {
-                ((ItemBindable<T>) holder).bindItem(item);
+                ((ItemBindable<T>) holder).bindItem(item, position);
             }
         }
     }

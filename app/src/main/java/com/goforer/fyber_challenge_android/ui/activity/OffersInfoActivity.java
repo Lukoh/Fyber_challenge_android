@@ -29,6 +29,8 @@ import com.goforer.fyber_challenge_android.R;
 import com.goforer.fyber_challenge_android.model.data.Offers;
 import com.goforer.fyber_challenge_android.utility.ActivityCaller;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -36,6 +38,9 @@ public class OffersInfoActivity extends BaseActivity {
     private static final String TAG = "OffersInfoActivity";
 
     private Offers mOffers;
+    private List<Offers> mItems;
+
+    private int mPosition;
 
     @BindView(R.id.iv_hires)
     SquircleImageView mHiresView;
@@ -69,9 +74,26 @@ public class OffersInfoActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         String infoString = getIntent().getStringExtra(Offers.class.getName());
+
+        /**
+         * For using ViewPager in OffersInfoActivity, the list of Offers and
+         * the position of an item have been passed into OffersInfoActivity.
+         * It means that I'm going to put ViewPager and implement some module to allow a user to see
+         * each Offers's information by flipping left and right through pages of data.
+         */
+        mPosition = getIntent().getIntExtra(ActivityCaller.EXTRA_OFFERS_ITEMS_POSITION, -1);
+        mItems = this.getIntent().getExtras().getParcelableArrayList(
+                ActivityCaller.EXTRA_OFFERS_LIST);
+
         if (!TextUtils.isEmpty(infoString)) {
             mOffers = Offers.gson().fromJson(infoString, Offers.class);
         }
+
+        /*
+        if (mItems != null && mPosition != -1) {
+            mOffers = mItems.get(mPosition);
+        }
+        */
 
         super.onCreate(savedInstanceState);
 

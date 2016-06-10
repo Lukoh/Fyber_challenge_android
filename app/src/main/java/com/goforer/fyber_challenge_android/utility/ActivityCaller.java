@@ -24,8 +24,14 @@ import android.net.Uri;
 import com.goforer.fyber_challenge_android.model.data.Offers;
 import com.goforer.fyber_challenge_android.ui.activity.OffersInfoActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum  ActivityCaller {
     INSTANCE;
+
+    public static final String EXTRA_OFFERS_LIST = "fyber:offers_list";
+    public static final String EXTRA_OFFERS_ITEMS_POSITION = "fyber:offers_items_position";
 
     public Intent createIntent(Context context, Class<?> cls, boolean isNewTask) {
         Intent intent = new Intent(context, cls);
@@ -48,11 +54,12 @@ public enum  ActivityCaller {
     }
 
 
-    public void callItemInfo(Context context, Offers offers) {
+    public void callItemInfo(Context context, Offers offers, List<Offers> items, int position) {
         Intent intent = createIntent(context, OffersInfoActivity.class, true);
         String offersInfo = Offers.gson().toJson(offers);
         intent.putExtra(Offers.class.getName(), offersInfo);
-
+        intent.putParcelableArrayListExtra(EXTRA_OFFERS_LIST, (ArrayList)items);
+        intent.putExtra(EXTRA_OFFERS_ITEMS_POSITION, position);
         context.startActivity(intent);
     }
 

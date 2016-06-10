@@ -173,6 +173,7 @@ public class OffersListActivity extends BaseActivity {
     @SuppressWarnings("")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAction(SelectAction action) {
-        ActivityCaller.INSTANCE.callItemInfo(this, action.getOffers());
+        ActivityCaller.INSTANCE.callItemInfo(this, action.getOffers(), action.getOffersList(),
+                action.getPosition());
     }
 }

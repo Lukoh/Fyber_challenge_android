@@ -18,6 +18,8 @@ package com.goforer.fyber_challenge_android.model.action;
 
 import com.goforer.fyber_challenge_android.model.data.Offers;
 
+import java.util.List;
+
 /**
  * Define action to handle selecting the eatery
  *
@@ -33,9 +35,32 @@ import com.goforer.fyber_challenge_android.model.data.Offers;
  */
 public class SelectAction {
     private Offers mOffers;
+    private List<Offers> mOffersList;
+    private int mPosition;
 
-    public Offers getOffers() { return mOffers; }
-    public void setOffers(Offers offers) { mOffers = offers; }
+    public Offers getOffers() {
+        return mOffers;
+    }
+
+    public List<Offers> getOffersList() {
+        return mOffersList;
+    }
+
+    public int getPosition() {
+        return mPosition;
+    }
+
+    public void setOffers(Offers offers) {
+        mOffers = offers;
+    }
+
+    public void setOffersList(List<Offers> offersList) {
+        mOffersList = offersList;
+    }
+
+    public void setPosition(int position) {
+        mPosition = position;
+    }
     
 }
 
