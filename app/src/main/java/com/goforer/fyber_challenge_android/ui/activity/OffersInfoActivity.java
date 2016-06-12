@@ -17,59 +17,40 @@
 package com.goforer.fyber_challenge_android.ui.activity;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
 import com.goforer.base.ui.activity.BaseActivity;
-import com.goforer.base.ui.view.SquircleImageView;
+import com.goforer.base.ui.view.SwipeViewPager;
 import com.goforer.fyber_challenge_android.R;
 import com.goforer.fyber_challenge_android.model.data.Offers;
+import com.goforer.fyber_challenge_android.ui.adapter.OffersInfoAdapter;
 import com.goforer.fyber_challenge_android.utility.ActivityCaller;
+import com.sembozdemir.viewpagerarrowindicator.library.ViewPagerArrowIndicator;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 public class OffersInfoActivity extends BaseActivity {
     private static final String TAG = "OffersInfoActivity";
+    private static final String TRANSITION_IMAGE = "OffersInfoActivity:image";
+
+    private static final int PAGE_MARGIN_VALUE = 40;
 
     private Offers mOffers;
     private List<Offers> mItems;
+    private ActionBar mActionBar;
 
     private int mPosition;
 
-    @BindView(R.id.iv_hires)
-    SquircleImageView mHiresView;
-    @BindView(R.id.iv_lowres)
-    SquircleImageView mLowresView;
-    @BindView(R.id.tv_offer_id)
-    TextView mOfferIdView;
-    @BindView(R.id.tv_teaser)
-    TextView mTeaserView;
-    @BindView(R.id.tv_payout)
-    TextView mPayoutView;
-    @BindView(R.id.tv_link)
-    TextView mLinkView;
-    @BindView(R.id.tv_offer_type_id)
-    TextView mOfferTypeIdView;
-    @BindView(R.id.tv_offer_type_readable)
-    TextView mOfferTypeReadableView;
-    @BindView(R.id.tv_offer_type_id2)
-    TextView mOfferTypeId2View;
-    @BindView(R.id.tv_offer_type_readable2)
-    TextView mOfferTypeReadable2View;
-    @BindView(R.id.tv_amount)
-    TextView mAmountView;
-    @BindView(R.id.tv_readable)
-    TextView mReadableView;
-    @BindView(R.id.comment_bar)
-    View mCommentBar;
-    @BindView(R.id.comment_holder)
-    View mCommentHolder;
+    @BindView(R.id.pager_flip)
+    SwipeViewPager mSwipePager;
+    @BindView(R.id.viewPagerArrowIndicator)
+    ViewPagerArrowIndicator mViewPagerArrowIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,17 +70,11 @@ public class OffersInfoActivity extends BaseActivity {
             mOffers = Offers.gson().fromJson(infoString, Offers.class);
         }
 
-        /*
         if (mItems != null && mPosition != -1) {
             mOffers = mItems.get(mPosition);
         }
-        */
 
         super.onCreate(savedInstanceState);
-
-        if (mOffers != null) {
-            fillView();
-        }
     }
 
     @Override
@@ -124,22 +99,25 @@ public class OffersInfoActivity extends BaseActivity {
 
     @Override
     protected void setViews() {
-        super.setViews();
-        mCommentBar.setVisibility(View.VISIBLE);
+        OffersInfoAdapter adapter = new OffersInfoAdapter(getSupportFragmentManager(), mItems);
+        mSwipePager.setAdapter(adapter);
+        ViewCompat.setTransitionName(mSwipePager, TRANSITION_IMAGE);
+        mSwipePager.setPageMargin(PAGE_MARGIN_VALUE);
+
+        handleSwipePager();
     }
 
     @Override
     protected void setActionBar() {
         super.setActionBar();
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
-            //actionBar.setHomeAsUpIndicator(R.drawable.bar_back_mtrl_alpha_90);
-            actionBar.setTitle(mOffers.getTitle());
-            actionBar.setElevation(0);
-            actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar = getSupportActionBar();
+        if (mActionBar != null) {
+            mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+            mActionBar.setTitle(mOffers.getTitle());
+            mActionBar.setElevation(0);
+            mActionBar.setDisplayShowTitleEnabled(true);
+            mActionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
@@ -167,29 +145,48 @@ public class OffersInfoActivity extends BaseActivity {
         super.finish();
     }
 
-    private void fillView() {
-        setThumbnail(mOffers.getThumbnail().getHires(), mOffers.getThumbnail().getLowres());
-
-        mOfferIdView.setText(String.valueOf(mOffers.getOfferId()));
-        mTeaserView.setText(mOffers.getTeaser());
-        mPayoutView.setText(String.valueOf(mOffers.getPayout()));
-        mLinkView.setText(mOffers.getLink());
-        mOfferTypeIdView.setText(String.valueOf(mOffers.getOfferTypes().get(0).getOfferTypeId()));
-        mOfferTypeReadableView.setText(mOffers.getOfferTypes().get(0).getReadable());
-        mOfferTypeId2View.setText(String.valueOf(mOffers.getOfferTypes().get(1).getOfferTypeId()));
-        mOfferTypeReadable2View.setText(mOffers.getOfferTypes().get(1).getReadable());
-        mAmountView.setText(String.valueOf(mOffers.getTimeToPayout().getAmount()));
-        mReadableView.setText(mOffers.getTimeToPayout().getReadable());
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
-    private void setThumbnail(String hiresUrl, String lowresUrl) {
-        mHiresView.setImage(hiresUrl);
-        mLowresView.setImage(lowresUrl);
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
-    @SuppressWarnings("")
-    @OnClick(R.id.tv_link)
-    void onGoToLink() {
-        ActivityCaller.INSTANCE.callLink(this, mOffers.getLink());
+    private void handleSwipePager() {
+        mSwipePager.setCurrentItem(mPosition, false);
+        mViewPagerArrowIndicator.bind(mSwipePager);
+        mViewPagerArrowIndicator.setArrowIndicatorRes(R.drawable.arrowleft,
+                R.drawable.arrowright);
+        mSwipePager.setOnSwipeOutListener(new SwipeViewPager.OnSwipeOutListener() {
+            @Override
+            public void onSwipeOutAtStart() {
+            }
+
+            @Override
+            public void onSwipeOutAtEnd() {
+            }
+        });
+
+        mActionBar.setTitle(mItems.get(mPosition).getTitle());
+
+        mSwipePager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mPosition = position;
+                mActionBar.setTitle(mItems.get(position).getTitle());
+                Log.d(TAG, "called onPageSelected");
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 }

@@ -61,7 +61,7 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_offer_list, container, false);
+        return inflater.inflate(R.layout.fragment_offers_list, container, false);
     }
 
     @Override
@@ -153,7 +153,6 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
         if (mCurrentPage > mTotalPageNum && mTotalPageNum > 1) {
             doneRefreshing();
             mAdapter.setReachedToLastPage(true);
-            Toast.makeText(mContext, R.string.toast_last_page, Toast.LENGTH_SHORT).show();
             return;
         }
 

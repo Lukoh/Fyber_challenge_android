@@ -1,46 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/content_holder"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content_inner_holder"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent" >
 
-    <RelativeLayout
+    <com.sembozdemir.viewpagerarrowindicator.library.ViewPagerArrowIndicator
+        android:id="@+id/viewPagerArrowIndicator"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/info_container"
-        android:gravity="bottom" >
+        android:layout_height="match_parent">
 
-        <ScrollView
+        <com.goforer.base.ui.view.SwipeViewPager
+            android:id="@+id/pager_flip"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/comment_bar"
-            android:fillViewport="true" >
+            android:layout_height="match_parent" />
 
-            <include
-                android:id="@+id/info_bar"
-                layout="@layout/view_offers_info_item"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+    </com.sembozdemir.viewpagerarrowindicator.library.ViewPagerArrowIndicator>
 
-        </ScrollView>
-
-        <include
-            android:id="@+id/comment_bar"
-            layout="@layout/layout_comment_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignWithParentIfMissing="true" />
-
-        <FrameLayout
-            android:id="@+id/comment_holder"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:background="@color/black_alpha_35"
-            android:layout_alignParentBottom="true"
-            android:visibility="gone" />
-
-    </RelativeLayout>
-
-
-</RelativeLayout>
+</FrameLayout>
