@@ -81,6 +81,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
      */
     public void setReachedToLastPage(boolean isReachedToLast) {
         mIsReachedToLastPage = isReachedToLast;
+        setReachedToLastItem(false);
     }
 
     /**
