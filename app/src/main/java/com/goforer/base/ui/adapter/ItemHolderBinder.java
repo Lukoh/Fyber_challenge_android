@@ -17,13 +17,12 @@
 package com.goforer.base.ui.adapter;
 
 import android.support.annotation.NonNull;
-import android.view.View;
 
 /**
- * A ItemHolder describes an item view and metadata about its place within the RecyclerView.
+ * A ItemHolderBinder describes an item view and metadata about its place within the RecyclerView.
  *
- * <p>{@link BaseAdapter} implementations should subclass ItemHolder and add fields for caching
- * potentially expensive {@link View#findViewById(int)} results.</p>
+ * <p>All ViewHolder extended {@link BaseViewHolder} implementations should subclass ItemHolderBinder
+ * and implements bindItemHolder method to to display the item at the specified position.</p>
  *
  */
 public interface ItemHolderBinder<T> {
