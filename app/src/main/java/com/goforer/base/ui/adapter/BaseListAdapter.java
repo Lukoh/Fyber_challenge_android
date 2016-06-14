@@ -53,14 +53,14 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     @SuppressWarnings("unchecked")
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ItemHolderBind) {
+        if (holder instanceof ItemHolderBinder) {
             if (position >= mItems.size()) {
                 return;
             }
 
             T item = mItems.get(position);
             if (item != null) {
-                ((ItemHolderBind<T>) holder).bindItemHolder(item, position);
+                ((ItemHolderBinder<T>) holder).bindItemHolder(item, position);
             }
         }
     }

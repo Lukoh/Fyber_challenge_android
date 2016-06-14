@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
  *
  * <p>See {@link RecyclerView.ViewHolder} if you'd like to get more.</p>
  */
-public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implements ItemHolderBind<T> {
+public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implements ItemHolderBinder<T> {
     public Context mContext;
 
     public BaseViewHolder(View itemView) {

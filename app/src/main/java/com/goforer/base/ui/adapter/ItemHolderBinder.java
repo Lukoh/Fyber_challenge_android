@@ -26,7 +26,7 @@ import android.view.View;
  * potentially expensive {@link View#findViewById(int)} results.</p>
  *
  */
-public interface ItemHolderBind<T> {
+public interface ItemHolderBinder<T> {
     /**
      * Called by RecyclerView to display the item at the specified position. This method
      * should update the contents of the item's view to reflect the item at the given position.
