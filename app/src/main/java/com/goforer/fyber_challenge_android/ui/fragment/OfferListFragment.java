@@ -153,7 +153,6 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
         if (mCurrentPage > mTotalPageNum && mTotalPageNum > 1) {
             doneRefreshing();
             mAdapter.setReachedToLastPage(true);
-            showToastMessage(getString(R.string.toast_last_page));
             return;
         }
 
