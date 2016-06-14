@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.goforer.base.model.ListModel;
 import com.goforer.base.ui.fragment.RecyclerFragment;
 import com.goforer.fyber_challenge_android.R;
+import com.goforer.fyber_challenge_android.model.action.MoveItemAction;
 import com.goforer.fyber_challenge_android.model.data.Offers;
 import com.goforer.fyber_challenge_android.model.event.OfferListEvent;
 import com.goforer.fyber_challenge_android.ui.adapter.OfferListAdapter;
@@ -193,6 +194,12 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
                 handleEvent(event);
                 break;
         }
+    }
+
+    @SuppressWarnings("")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAction(MoveItemAction action) {
+        mAdapter.moveSelectedPosition(getRecyclerView().getLayoutManager(), action.getPosition());
     }
 
     private void showToastMessage(String phrase) {

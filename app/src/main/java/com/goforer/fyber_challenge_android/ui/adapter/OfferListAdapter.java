@@ -19,6 +19,7 @@ package com.goforer.fyber_challenge_android.ui.adapter;
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,8 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
 
     private static BaseActivity mActivity;
 
-    public final List<Offers> mOffersItems;
+    private int mSelectedPosition = 0;
+
 
     public OfferListAdapter(BaseActivity activity, final List<Offers> items, int layoutResId,
                             boolean usedLoadingImage) {
@@ -52,7 +54,6 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
 
         setUsedLoadingImage(usedLoadingImage);
         mActivity = activity;
-        mOffersItems = items;
     }
 
     @Override
@@ -112,7 +113,19 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
         }
     }
 
-    static class OfferListViewHolder extends BaseViewHolder<Offers> {
+    public boolean moveSelectedPosition(LayoutManager layoutManager, int position) {
+        if (position >= 0 && position < getItemCount()) {
+            notifyItemChanged(mSelectedPosition);
+            mSelectedPosition = position;
+            notifyItemChanged(mSelectedPosition);
+            layoutManager.scrollToPosition(mSelectedPosition);
+            return true;
+        }
+
+        return false;
+    }
+
+    public class OfferListViewHolder extends BaseViewHolder<Offers> {
         private List<Offers> mOffersItems;
 
         @BindView(R.id.iv_hires)
@@ -137,6 +150,9 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
                 @Override
                 public void onClick(View view) {
                     if (mActivity.resumed()) {
+                        mSelectedPosition = position;
+                        notifyItemChanged(mSelectedPosition);
+
                         SelectAction action = new SelectAction();
                         /**
                          * For using ViewPager in OffersInfoActivity, the list of Offers and
@@ -157,7 +173,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
             mHiresView.setImage(offers.getThumbnail().getHires());
             mTitleView.setText(offers.getTitle());
             mTeaserView.setText(offers.getTeaser());
-            mPayoutView.setText(PAY_OUT + String.valueOf(offers.getPayout()).toString());
+            mPayoutView.setText(PAY_OUT + String.valueOf(offers.getPayout()));
 
 
         }

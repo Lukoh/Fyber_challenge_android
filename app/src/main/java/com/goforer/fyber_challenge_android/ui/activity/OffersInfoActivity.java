@@ -16,12 +16,14 @@
 
 package com.goforer.fyber_challenge_android.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.goforer.base.ui.activity.BaseActivity;
 import com.goforer.base.ui.view.SwipeViewPager;
@@ -54,8 +56,6 @@ public class OffersInfoActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String infoString = getIntent().getStringExtra(Offers.class.getName());
-
         /**
          * For using ViewPager in OffersInfoActivity, the list of Offers and
          * the position of an item have been passed into OffersInfoActivity.
@@ -66,12 +66,18 @@ public class OffersInfoActivity extends BaseActivity {
         mItems = this.getIntent().getExtras().getParcelableArrayList(
                 ActivityCaller.EXTRA_OFFERS_LIST);
 
+        /*
+        // To set Offers's information using GSon from the String to  of an object of Offers.
+        String infoString = getIntent().getStringExtra(Offers.class.getName());
         if (!TextUtils.isEmpty(infoString)) {
             mOffers = Offers.gson().fromJson(infoString, Offers.class);
         }
+        */
 
         if (mItems != null && mPosition != -1) {
             mOffers = mItems.get(mPosition);
+        } else {
+            Toast.makeText(this, getString(R.string.toast_no_offers), Toast.LENGTH_SHORT).show();
         }
 
         super.onCreate(savedInstanceState);
@@ -122,6 +128,16 @@ public class OffersInfoActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            Intent intent = new Intent();
+            intent.putExtra(ActivityCaller.EXTRA_SELECTED_ITEM_POSISTION, mPosition);
+            this.setResult(RESULT_OK, intent);
+        }
+        return super.onOptionsItemSelected(menuItem);
+    }
+
+    @Override
     protected void setEffectIn() {
         Log.i(TAG, "setEffectIn");
 
@@ -137,6 +153,10 @@ public class OffersInfoActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra(ActivityCaller.EXTRA_SELECTED_ITEM_POSISTION, mPosition);
+        this.setResult(RESULT_OK, intent);
+
         super.onBackPressed();
     }
 

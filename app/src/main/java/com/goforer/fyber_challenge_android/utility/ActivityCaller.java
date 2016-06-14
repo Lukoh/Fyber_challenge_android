@@ -32,6 +32,9 @@ public enum  ActivityCaller {
 
     public static final String EXTRA_OFFERS_LIST = "fyber:offers_list";
     public static final String EXTRA_OFFERS_ITEMS_POSITION = "fyber:offers_items_position";
+    public static final String EXTRA_SELECTED_ITEM_POSISTION = "fyber:selected_item_position";
+
+    public static final int SELECTED_ITEM_POSITION = 1000;
 
     public Intent createIntent(Context context, Class<?> cls, boolean isNewTask) {
         Intent intent = new Intent(context, cls);
@@ -54,13 +57,14 @@ public enum  ActivityCaller {
     }
 
 
-    public void callItemInfo(Context context, Offers offers, List<Offers> items, int position) {
-        Intent intent = createIntent(context, OffersInfoActivity.class, true);
+    public void callItemInfo(Activity activity, Offers offers, List<Offers> items, int position,
+                             int requestCode) {
+        Intent intent = createIntent(activity, OffersInfoActivity.class, true);
         String offersInfo = Offers.gson().toJson(offers);
         intent.putExtra(Offers.class.getName(), offersInfo);
         intent.putParcelableArrayListExtra(EXTRA_OFFERS_LIST, (ArrayList)items);
         intent.putExtra(EXTRA_OFFERS_ITEMS_POSITION, position);
-        context.startActivity(intent);
+        activity.startActivityForResult(intent, requestCode);
     }
 
     public void callLink(Context context,  String url) {

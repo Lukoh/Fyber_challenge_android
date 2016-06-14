@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.github.clans.fab.FloatingActionMenu;
 import com.goforer.base.ui.activity.BaseActivity;
 import com.goforer.fyber_challenge_android.R;
+import com.goforer.fyber_challenge_android.model.action.MoveItemAction;
 import com.goforer.fyber_challenge_android.model.action.SelectAction;
 import com.goforer.fyber_challenge_android.ui.fragment.OfferListFragment;
 import com.goforer.fyber_challenge_android.utility.ActivityCaller;
@@ -37,6 +38,7 @@ import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -132,7 +134,20 @@ public class OffersListActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        switch(requestCode) {
+            case ActivityCaller.SELECTED_ITEM_POSITION:
+                if (resultCode == RESULT_OK) {
+                    int position = data.getIntExtra(
+                            ActivityCaller.EXTRA_SELECTED_ITEM_POSISTION, -1);
+                    if (position != -1) {
+                        MoveItemAction action = new MoveItemAction();
+                        action.setPosition(position);
+                        EventBus.getDefault().post(action);
+                    }
+                }
+                break;
+            default:
+        }
     }
 
     @SuppressWarnings("")
@@ -180,6 +195,6 @@ public class OffersListActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAction(SelectAction action) {
         ActivityCaller.INSTANCE.callItemInfo(this, action.getOffers(), action.getOffersList(),
-                action.getPosition());
+                action.getPosition(), ActivityCaller.SELECTED_ITEM_POSITION);
     }
 }
