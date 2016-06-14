@@ -19,5 +19,5 @@ package com.goforer.base.ui.adapter;
 import android.support.annotation.NonNull;
 
 public interface ItemBindable<T> {
-    void bindItem(@NonNull T item, int position);
+    void bindItemHolder(@NonNull T item, int position);
 }

@@ -60,7 +60,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
 
             T item = mItems.get(position);
             if (item != null) {
-                ((ItemBindable<T>) holder).bindItem(item, position);
+                ((ItemBindable<T>) holder).bindItemHolder(item, position);
             }
         }
     }
@@ -75,8 +75,8 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     }
 
     /**
-     * Set true if the page is reached to the last and notify any registered observers that
-     * the data set has changed for last footer.
+     * Set true if the page is reached to the last and notify any registered observers that the item
+     * reflected at last item in last page has been newly inserted for last footer.
      *
      * @param isReachedToLast true if the page is reached to the last
      */
@@ -84,7 +84,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
         mIsReachedToLastPage = isReachedToLast;
         if (isReachedToLast) {
             setReachedToLastItem(false);
-            notifyDataSetChanged();
+            notifyItemInserted(mItems.size());
         }
     }
 

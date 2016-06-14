@@ -28,6 +28,6 @@ public class DefaultViewHolder extends BaseViewHolder<Object> {
     }
 
     @Override
-    public void bindItem(@NonNull Object obj, int position) {
+    public void bindItemHolder(@NonNull Object obj, int position) {
     }
 }

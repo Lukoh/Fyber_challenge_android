@@ -132,7 +132,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
 
         @SuppressLint("SetTextI18n")
         @Override
-        public void bindItem(@NonNull final Offers offers, final int position) {
+        public void bindItemHolder(@NonNull final Offers offers, final int position) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
