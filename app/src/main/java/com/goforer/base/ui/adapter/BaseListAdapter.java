@@ -75,13 +75,15 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     }
 
     /**
-     * Set true if the page is reached to the last.
+     * Set true if the page is reached to the last and notify any registered observers that
+     * the data set has changed for last footer.
      *
      * @param isReachedToLast true if the page is reached to the last
      */
     public void setReachedToLastPage(boolean isReachedToLast) {
         mIsReachedToLastPage = isReachedToLast;
         setReachedToLastItem(false);
+        notifyDataSetChanged();
     }
 
     /**
