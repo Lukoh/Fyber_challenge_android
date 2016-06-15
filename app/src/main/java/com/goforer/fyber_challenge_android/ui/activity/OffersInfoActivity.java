@@ -44,10 +44,10 @@ public class OffersInfoActivity extends BaseActivity {
     private static final int PAGE_MARGIN_VALUE = 40;
 
     private Offers mOffers;
-    private List<Offers> mItems;
+    private List<Offers> mOffersItems;
     private ActionBar mActionBar;
 
-    private int mPosition;
+    private int mItemPosition;
 
     @BindView(R.id.pager_flip)
     SwipeViewPager mSwipePager;
@@ -62,8 +62,8 @@ public class OffersInfoActivity extends BaseActivity {
          * It means that I'm going to put ViewPager and implement some module to allow a user to see
          * each Offers's information by flipping left and right through pages of data.
          */
-        mPosition = getIntent().getIntExtra(ActivityCaller.EXTRA_OFFERS_ITEMS_POSITION, -1);
-        mItems = this.getIntent().getExtras().getParcelableArrayList(
+        mItemPosition = getIntent().getIntExtra(ActivityCaller.EXTRA_OFFERS_ITEM_POSITION, -1);
+        mOffersItems = getIntent().getExtras().getParcelableArrayList(
                 ActivityCaller.EXTRA_OFFERS_LIST);
 
         /*
@@ -74,8 +74,8 @@ public class OffersInfoActivity extends BaseActivity {
         }
         */
 
-        if (mItems != null && mPosition != -1) {
-            mOffers = mItems.get(mPosition);
+        if (mOffersItems != null && mItemPosition != -1) {
+            mOffers = mOffersItems.get(mItemPosition);
         } else {
             Toast.makeText(this, getString(R.string.toast_no_offers), Toast.LENGTH_SHORT).show();
         }
@@ -105,12 +105,14 @@ public class OffersInfoActivity extends BaseActivity {
 
     @Override
     protected void setViews() {
-        OffersInfoAdapter adapter = new OffersInfoAdapter(getSupportFragmentManager(), mItems);
-        mSwipePager.setAdapter(adapter);
-        ViewCompat.setTransitionName(mSwipePager, TRANSITION_IMAGE);
-        mSwipePager.setPageMargin(PAGE_MARGIN_VALUE);
+        if (mOffersItems != null && mItemPosition != -1) {
+            OffersInfoAdapter adapter = new OffersInfoAdapter(getSupportFragmentManager(), mOffersItems);
+            mSwipePager.setAdapter(adapter);
+            ViewCompat.setTransitionName(mSwipePager, TRANSITION_IMAGE);
+            mSwipePager.setPageMargin(PAGE_MARGIN_VALUE);
 
-        handleSwipePager();
+            handleSwipePager();
+        }
     }
 
     @Override
@@ -131,7 +133,7 @@ public class OffersInfoActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         if (menuItem.getItemId() == android.R.id.home) {
             Intent intent = new Intent();
-            intent.putExtra(ActivityCaller.EXTRA_SELECTED_ITEM_POSISTION, mPosition);
+            intent.putExtra(ActivityCaller.EXTRA_SELECTED_ITEM_POSITION, mItemPosition);
             this.setResult(RESULT_OK, intent);
         }
         return super.onOptionsItemSelected(menuItem);
@@ -154,7 +156,7 @@ public class OffersInfoActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent();
-        intent.putExtra(ActivityCaller.EXTRA_SELECTED_ITEM_POSISTION, mPosition);
+        intent.putExtra(ActivityCaller.EXTRA_SELECTED_ITEM_POSITION, mItemPosition);
         this.setResult(RESULT_OK, intent);
 
         super.onBackPressed();
@@ -176,7 +178,7 @@ public class OffersInfoActivity extends BaseActivity {
     }
 
     private void handleSwipePager() {
-        mSwipePager.setCurrentItem(mPosition, false);
+        mSwipePager.setCurrentItem(mItemPosition, false);
         mViewPagerArrowIndicator.bind(mSwipePager);
         mViewPagerArrowIndicator.setArrowIndicatorRes(R.drawable.arrowleft,
                 R.drawable.arrowright);
@@ -190,7 +192,7 @@ public class OffersInfoActivity extends BaseActivity {
             }
         });
 
-        mActionBar.setTitle(mItems.get(mPosition).getTitle());
+        mActionBar.setTitle(mOffersItems.get(mItemPosition).getTitle());
 
         mSwipePager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -199,8 +201,8 @@ public class OffersInfoActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                mPosition = position;
-                mActionBar.setTitle(mItems.get(position).getTitle());
+                mItemPosition = position;
+                mActionBar.setTitle(mOffersItems.get(position).getTitle());
                 Log.d(TAG, "called onPageSelected");
             }
 

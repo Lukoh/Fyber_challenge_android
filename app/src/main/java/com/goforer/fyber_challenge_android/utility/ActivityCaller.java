@@ -31,8 +31,8 @@ public enum  ActivityCaller {
     INSTANCE;
 
     public static final String EXTRA_OFFERS_LIST = "fyber:offers_list";
-    public static final String EXTRA_OFFERS_ITEMS_POSITION = "fyber:offers_items_position";
-    public static final String EXTRA_SELECTED_ITEM_POSISTION = "fyber:selected_item_position";
+    public static final String EXTRA_OFFERS_ITEM_POSITION = "fyber:offers_items_position";
+    public static final String EXTRA_SELECTED_ITEM_POSITION = "fyber:selected_item_position";
 
     public static final int SELECTED_ITEM_POSITION = 1000;
 
@@ -63,7 +63,7 @@ public enum  ActivityCaller {
         String offersInfo = Offers.gson().toJson(offers);
         intent.putExtra(Offers.class.getName(), offersInfo);
         intent.putParcelableArrayListExtra(EXTRA_OFFERS_LIST, (ArrayList)items);
-        intent.putExtra(EXTRA_OFFERS_ITEMS_POSITION, position);
+        intent.putExtra(EXTRA_OFFERS_ITEM_POSITION, position);
         activity.startActivityForResult(intent, requestCode);
     }
 

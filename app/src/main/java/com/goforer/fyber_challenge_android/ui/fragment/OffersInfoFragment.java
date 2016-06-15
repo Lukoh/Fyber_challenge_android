@@ -21,7 +21,7 @@ import butterknife.OnClick;
 public class OffersInfoFragment extends BaseFragment {
     private List<Offers> mItems;
 
-    private int mPosition;
+    private int mItemPosition;
 
     @BindView(R.id.iv_hires)
     SquircleImageView mHiresView;
@@ -58,7 +58,7 @@ public class OffersInfoFragment extends BaseFragment {
     static public OffersInfoFragment newInstance(List<Offers> offersItems, int position) {
         OffersInfoFragment fragment = new OffersInfoFragment();
         fragment.mItems = offersItems;
-        fragment.mPosition = position;
+        fragment.mItemPosition = position;
 
         return fragment;
     }
@@ -87,21 +87,25 @@ public class OffersInfoFragment extends BaseFragment {
     }
 
     private void fillView() {
-        setThumbnail(mItems.get(mPosition).getThumbnail().getHires(), mItems.get(mPosition).getThumbnail().getLowres());
+        setThumbnail(mItems.get(mItemPosition).getThumbnail().getHires(),
+                mItems.get(mItemPosition).getThumbnail().getLowres());
 
-        mOfferIdView.setText(String.valueOf(mItems.get(mPosition).getOfferId()));
-        mTeaserView.setText(mItems.get(mPosition).getTeaser());
-        mPayoutView.setText(String.valueOf(mItems.get(mPosition).getPayout()));
-        mLinkView.setText(mItems.get(mPosition).getLink());
-        mOfferTypeIdView.setText(String.valueOf(mItems.get(mPosition).getOfferTypes().get(0).getOfferTypeId()));
-        mOfferTypeReadableView.setText(mItems.get(mPosition).getOfferTypes().get(0).getReadable());
-        if (mItems.get(mPosition).getOfferTypes().size() > 1)  {
-            mOfferTypeId2View.setText(String.valueOf(mItems.get(mPosition).getOfferTypes().get(1).getOfferTypeId()));
-            mOfferTypeReadable2View.setText(mItems.get(mPosition).getOfferTypes().get(1).getReadable());
+        mOfferIdView.setText(String.valueOf(mItems.get(mItemPosition).getOfferId()));
+        mTeaserView.setText(mItems.get(mItemPosition).getTeaser());
+        mPayoutView.setText(String.valueOf(mItems.get(mItemPosition).getPayout()));
+        mLinkView.setText(mItems.get(mItemPosition).getLink());
+        mOfferTypeIdView.setText(String.valueOf(
+                mItems.get(mItemPosition).getOfferTypes().get(0).getOfferTypeId()));
+        mOfferTypeReadableView.setText(mItems.get(mItemPosition).getOfferTypes().get(0).getReadable());
+        if (mItems.get(mItemPosition).getOfferTypes().size() > 1)  {
+            mOfferTypeId2View.setText(String.valueOf(
+                    mItems.get(mItemPosition).getOfferTypes().get(1).getOfferTypeId()));
+            mOfferTypeReadable2View.setText(
+                    mItems.get(mItemPosition).getOfferTypes().get(1).getReadable());
         }
 
-        mAmountView.setText(String.valueOf(mItems.get(mPosition).getTimeToPayout().getAmount()));
-        mReadableView.setText(mItems.get(mPosition).getTimeToPayout().getReadable());
+        mAmountView.setText(String.valueOf(mItems.get(mItemPosition).getTimeToPayout().getAmount()));
+        mReadableView.setText(mItems.get(mItemPosition).getTimeToPayout().getReadable());
     }
 
     private void setThumbnail(String hiresUrl, String lowresUrl) {
@@ -112,7 +116,7 @@ public class OffersInfoFragment extends BaseFragment {
     @SuppressWarnings("")
     @OnClick(R.id.tv_link)
     void onGoToLink() {
-        ActivityCaller.INSTANCE.callLink(mContext, mItems.get(mPosition).getLink());
+        ActivityCaller.INSTANCE.callLink(mContext, mItems.get(mItemPosition).getLink());
     }
 
 }

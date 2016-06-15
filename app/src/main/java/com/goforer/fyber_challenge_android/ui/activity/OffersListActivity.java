@@ -138,7 +138,7 @@ public class OffersListActivity extends BaseActivity {
             case ActivityCaller.SELECTED_ITEM_POSITION:
                 if (resultCode == RESULT_OK) {
                     int position = data.getIntExtra(
-                            ActivityCaller.EXTRA_SELECTED_ITEM_POSISTION, -1);
+                            ActivityCaller.EXTRA_SELECTED_ITEM_POSITION, -1);
                     if (position != -1) {
                         MoveItemAction action = new MoveItemAction();
                         action.setPosition(position);
