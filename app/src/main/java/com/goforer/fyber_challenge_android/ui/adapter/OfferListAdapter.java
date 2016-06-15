@@ -45,9 +45,6 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
 
     private static BaseActivity mActivity;
 
-    private int mSelectedPosition = 0;
-
-
     public OfferListAdapter(BaseActivity activity, final List<Offers> items, int layoutResId,
                             boolean usedLoadingImage) {
         super(items, layoutResId);
@@ -115,10 +112,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
 
     public boolean moveSelectedPosition(LayoutManager layoutManager, int position) {
         if (position >= 0 && position < getItemCount()) {
-            notifyItemChanged(mSelectedPosition);
-            mSelectedPosition = position;
-            notifyItemChanged(mSelectedPosition);
-            layoutManager.scrollToPosition(mSelectedPosition);
+            layoutManager.scrollToPosition(position);
             return true;
         }
 
@@ -150,9 +144,6 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
                 @Override
                 public void onClick(View view) {
                     if (mActivity.resumed()) {
-                        mSelectedPosition = position;
-                        notifyItemChanged(mSelectedPosition);
-
                         SelectAction action = new SelectAction();
                         /**
                          * For using ViewPager in OffersInfoActivity, the list of Offers and
