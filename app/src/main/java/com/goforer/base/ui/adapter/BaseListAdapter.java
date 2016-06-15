@@ -17,6 +17,7 @@
 package com.goforer.base.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.LayoutManager;
 
 import java.util.List;
 
@@ -113,6 +114,22 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
      */
     public void setUsedLoadingImage(boolean usedLoadingImage) {
         mUsedLoadingImage = usedLoadingImage;
+    }
+
+    /**
+     * Scroll to the specified adapter position.
+     * Actual position of the item on the screen depends on the LayoutManager implementation.
+     *
+     * @param layoutManager The currently bound LayoutManager
+     * @param position Scroll to this adapter position
+     */
+    public boolean moveSelectedPosition(LayoutManager layoutManager, int position) {
+        if (position >= 0 && position < getItemCount()) {
+            layoutManager.scrollToPosition(position);
+            return true;
+        }
+
+        return false;
     }
 
     /**

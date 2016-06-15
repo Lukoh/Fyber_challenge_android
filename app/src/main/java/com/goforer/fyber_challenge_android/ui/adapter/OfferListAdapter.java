@@ -19,7 +19,6 @@ package com.goforer.fyber_challenge_android.ui.adapter;
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,15 +109,6 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
         }
     }
 
-    public boolean moveSelectedPosition(LayoutManager layoutManager, int position) {
-        if (position >= 0 && position < getItemCount()) {
-            layoutManager.scrollToPosition(position);
-            return true;
-        }
-
-        return false;
-    }
-
     public class OfferListViewHolder extends BaseViewHolder<Offers> {
         private List<Offers> mOffersItems;
 
@@ -160,13 +150,10 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
                 }
             });
 
-
             mHiresView.setImage(offers.getThumbnail().getHires());
             mTitleView.setText(offers.getTitle());
             mTeaserView.setText(offers.getTeaser());
             mPayoutView.setText(PAY_OUT + String.valueOf(offers.getPayout()));
-
-
         }
     }
 }
