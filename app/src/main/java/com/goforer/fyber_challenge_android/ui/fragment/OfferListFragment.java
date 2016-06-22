@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionMenu;
 import com.goforer.base.model.ListModel;
 import com.goforer.base.ui.fragment.RecyclerFragment;
 import com.goforer.fyber_challenge_android.R;
@@ -33,6 +34,7 @@ import com.goforer.fyber_challenge_android.model.action.MoveItemAction;
 import com.goforer.fyber_challenge_android.model.data.Offers;
 import com.goforer.fyber_challenge_android.model.event.OfferListEvent;
 import com.goforer.fyber_challenge_android.ui.adapter.OfferListAdapter;
+import com.goforer.fyber_challenge_android.ui.view.SlidingDrawer;
 import com.goforer.fyber_challenge_android.utility.CommonUtils;
 import com.goforer.fyber_challenge_android.web.Intermediary;
 import com.goforer.fyber_challenge_android.web.communicator.ResponseClient;
@@ -45,6 +47,9 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 public class OfferListFragment extends RecyclerFragment<Offers> {
     private static final String TAG = "OfferListFragment";
 
@@ -56,8 +61,12 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     private static final int OFFER_TYPES = 112;
 
     private OfferListAdapter mAdapter;
+    private SlidingDrawer mSlidingDrawer;
 
     private int mTotalPageNum;
+
+    @BindView(R.id.fam_menu)
+    FloatingActionMenu mMenu;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -69,11 +78,22 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mMenu.hideMenu(false);
         mTotalPageNum = 1;
 
         setItemHasFixedSize(true);
 
         refresh();
+
+        mSlidingDrawer = new SlidingDrawer(getBaseActivity(), SlidingDrawer.DRAWER_PROFILE_TYPE,
+                R.id.drawer_container, savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        //add the values which need to be saved from the drawer to the bundle
+        outState = mSlidingDrawer.getDrawer().saveInstanceState(outState);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -95,6 +115,10 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
                     Toast.makeText(mContext, R.string.toast_process_error,
                             Toast.LENGTH_SHORT).show();
                 }
+
+                mMenu.showMenuButton(true);
+                mMenu.setClosedOnTouchOutside(true);
+                mMenu.showMenu(true);
             }
 
             @Override
@@ -106,11 +130,15 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
             @Override
             public void onScrolling() {
                 Log.i(TAG, "onScrolling");
+
+                mMenu.showMenu(false);
             }
 
             @Override
             public void onScrolled() {
                 Log.i(TAG, "onScrolled");
+
+                mMenu.hideMenu(true);
             }
         });
 
@@ -200,6 +228,12 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAction(MoveItemAction action) {
         mAdapter.moveSelectedPosition(getRecyclerView().getLayoutManager(), action.getPosition());
+    }
+
+    @SuppressWarnings("")
+    @OnClick(R.id.fam_menu)
+    void onMenuToggle() {
+        mMenu.toggle(true);
     }
 
     private void showToastMessage(String phrase) {

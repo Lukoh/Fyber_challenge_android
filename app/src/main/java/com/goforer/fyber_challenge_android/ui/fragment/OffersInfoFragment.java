@@ -25,14 +25,8 @@ public class OffersInfoFragment extends BaseFragment {
 
     @BindView(R.id.iv_hires)
     SquircleImageView mHiresView;
-    @BindView(R.id.iv_lowres)
-    SquircleImageView mLowresView;
-    @BindView(R.id.tv_offer_id)
-    TextView mOfferIdView;
     @BindView(R.id.tv_teaser)
     TextView mTeaserView;
-    @BindView(R.id.tv_payout)
-    TextView mPayoutView;
     @BindView(R.id.tv_link)
     TextView mLinkView;
     @BindView(R.id.tv_offer_type_id)
@@ -89,10 +83,7 @@ public class OffersInfoFragment extends BaseFragment {
     private void fillView() {
         setThumbnail(mItems.get(mItemPosition).getThumbnail().getHires(),
                 mItems.get(mItemPosition).getThumbnail().getLowres());
-
-        mOfferIdView.setText(String.valueOf(mItems.get(mItemPosition).getOfferId()));
         mTeaserView.setText(mItems.get(mItemPosition).getTeaser());
-        mPayoutView.setText(String.valueOf(mItems.get(mItemPosition).getPayout()));
         mLinkView.setText(mItems.get(mItemPosition).getLink());
         mOfferTypeIdView.setText(String.valueOf(
                 mItems.get(mItemPosition).getOfferTypes().get(0).getOfferTypeId()));
@@ -110,7 +101,6 @@ public class OffersInfoFragment extends BaseFragment {
 
     private void setThumbnail(String hiresUrl, String lowresUrl) {
         mHiresView.setImage(hiresUrl);
-        mLowresView.setImage(lowresUrl);
     }
 
     @SuppressWarnings("")

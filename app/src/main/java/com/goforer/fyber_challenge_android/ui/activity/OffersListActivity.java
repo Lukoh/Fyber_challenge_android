@@ -20,12 +20,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.github.clans.fab.FloatingActionMenu;
 import com.goforer.base.ui.activity.BaseActivity;
 import com.goforer.fyber_challenge_android.R;
 import com.goforer.fyber_challenge_android.model.action.MoveItemAction;
@@ -45,28 +45,26 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.IOException;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 public class OffersListActivity extends BaseActivity {
     private static final String TAG = "OffersListActivity";
 
-    @BindView(R.id.fam_menu)
-    FloatingActionMenu mMenu;
+    public static final String HOME_URL = "https://github.com/Lukoh";
+
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     @BindView(R.id.tv_notice)
     TextView mNoticeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         new GetGAIDTask().execute();
+
+        super.onCreate(savedInstanceState);
 
         if (!ConnectionUtils.INSTANCE.isNetworkAvailable(this)) {
             mNoticeText.setVisibility(View.VISIBLE);
         }
-
-        mMenu.showMenuButton(true);
-        mMenu.setClosedOnTouchOutside(true);
     }
 
     @Override
@@ -81,6 +79,11 @@ public class OffersListActivity extends BaseActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
     }
@@ -91,19 +94,27 @@ public class OffersListActivity extends BaseActivity {
     }
 
     @Override
+    protected void setViews(Bundle savedInstanceState) {
+        transactFragment(OfferListFragment.class, R.id.content_holder, null);
+    }
+
+    @Override
     protected void setActionBar() {
+        setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
             actionBar.setTitle(getResources().getString(R.string.app_name));
             actionBar.setElevation(0);
             actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setHomeButtonEnabled(true);
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.fragment_offer_list_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -113,8 +124,20 @@ public class OffersListActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.view_list:
+                transactFragment(OfferListFragment.class, R.id.content_holder, null);
+                return true;
+            case R.id.view_grid:
+                //transactFragment(OfferListFragment.class, R.id.content_holder, null);
+                return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(menuItem);
+        }
     }
 
     @Override
@@ -150,18 +173,6 @@ public class OffersListActivity extends BaseActivity {
         }
     }
 
-    @SuppressWarnings("")
-    @OnClick(R.id.fam_menu)
-    void onMenuToggle() {
-        mMenu.toggle(true);
-    }
-
-    @SuppressWarnings("")
-    @OnClick(R.id.fab_offer)
-    void onViewOffers() {
-        transactFragment(OfferListFragment.class, R.id.content_holder, null);
-    }
-
     private class GetGAIDTask extends AsyncTask<String, Integer, String> {
 
         @Override
@@ -182,7 +193,7 @@ public class OffersListActivity extends BaseActivity {
                 e.printStackTrace();
             }
 
-            return adInfo.getId();
+            return adInfo != null ? adInfo.getId() : null;
         }
 
         @Override

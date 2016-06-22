@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fyber_Challenge_Android</string>
+    <string name="app_name">Fyber</string>
     <string name="not_connected_internet">Internet connection not available.</string>
     <string name="toast_process_error">This app is going to exit due to an error of data processing.</string>
     <string name="loading">Loading on&#8230;</string>
@@ -22,4 +22,11 @@
     <string name="time_to_payout">Time to payout</string>
     <string name="amount">Amount : </string>
     <string name="readable">Readable : </string>
+    <string name="drawer_item_home">Home</string>
+    <string name="offer_list_view_list_menu">List View</string>
+    <string name="offer_list_view_grid_menu">Grid View</string>
+    <string name="offer_info_view_back_menu">Back</string>
+    <string name="offer_info_view_star_menu">Bookmark</string>
+    <string name="drawer_item_settings">Settings</string>
+    <string name="drawer_item_help">Help</string>
 </resources>

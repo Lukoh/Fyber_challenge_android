@@ -1,25 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/content_inner_holder"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
-    <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swipe_layout"
+    <FrameLayout
+        android:id="@+id/content_inner_holder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/swipyrefreshlayout_bg"
-        android:orientation="vertical" >
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipe_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:clipToPadding="false"
-            android:clipChildren="false" />
+            android:background="@color/swipyrefreshlayout_bg"
+            android:orientation="vertical" >
 
-    </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:clipToPadding="false"
+                android:clipChildren="false" />
+
+        </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/fam_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            fab:menu_labels_style="@style/MenuLabelsStyle"
+            fab:menu_labels_showAnimation="@anim/jump_from_down"
+            fab:menu_labels_hideAnimation="@anim/jump_to_down"
+            fab:menu_icon="@drawable/ic_menu"
+            fab:menu_animationDelayPerItem="0"
+            fab:menu_fab_size="mini"
+            fab:menu_colorNormal="@color/fab_color_normal"
+            fab:menu_colorPressed="@color/fab_color_pressed"
+            fab:menu_colorRipple="@color/fab_color_ripple"
+            fab:menu_labels_singleLine="true"
+            fab:menu_labels_ellipsize="end" >
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_offer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_fab_offer"
+                fab:fab_label="@string/fab_menu_offer"
+                style="@style/MenuButtonsSmall.OfferList" />
+
+
+        </com.github.clans.fab.FloatingActionMenu>
+
+    </FrameLayout>
 
 </FrameLayout>

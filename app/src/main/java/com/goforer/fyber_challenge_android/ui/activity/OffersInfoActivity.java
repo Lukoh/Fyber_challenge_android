@@ -18,20 +18,26 @@ package com.goforer.fyber_challenge_android.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.goforer.base.ui.activity.BaseActivity;
 import com.goforer.base.ui.view.SwipeViewPager;
 import com.goforer.fyber_challenge_android.R;
 import com.goforer.fyber_challenge_android.model.data.Offers;
 import com.goforer.fyber_challenge_android.ui.adapter.OffersInfoAdapter;
+import com.goforer.fyber_challenge_android.ui.view.SlidingDrawer;
 import com.goforer.fyber_challenge_android.utility.ActivityCaller;
-import com.sembozdemir.viewpagerarrowindicator.library.ViewPagerArrowIndicator;
 
 import java.util.List;
 
@@ -46,13 +52,24 @@ public class OffersInfoActivity extends BaseActivity {
     private Offers mOffers;
     private List<Offers> mOffersItems;
     private ActionBar mActionBar;
+    private SlidingDrawer mSlidingDrawer;
 
     private int mItemPosition;
 
+    @BindView(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
+    @BindView(R.id.backdrop)
+    ImageView mBackDrop;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     @BindView(R.id.pager_flip)
     SwipeViewPager mSwipePager;
-    @BindView(R.id.viewPagerArrowIndicator)
-    ViewPagerArrowIndicator mViewPagerArrowIndicator;
+    @BindView(R.id.tv_title)
+    TextView mTitleView;
+    @BindView(R.id.tv_offer_id)
+    TextView mOfferIdView;
+    @BindView(R.id.tv_payout)
+    TextView mPayoutView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +121,7 @@ public class OffersInfoActivity extends BaseActivity {
     }
 
     @Override
-    protected void setViews() {
+    protected void setViews(Bundle savedInstanceState) {
         if (mOffersItems != null && mItemPosition != -1) {
             OffersInfoAdapter adapter = new OffersInfoAdapter(getSupportFragmentManager(), mOffersItems);
             mSwipePager.setAdapter(adapter);
@@ -112,31 +129,57 @@ public class OffersInfoActivity extends BaseActivity {
             mSwipePager.setPageMargin(PAGE_MARGIN_VALUE);
 
             handleSwipePager();
+
+            mSlidingDrawer = new SlidingDrawer(this, SlidingDrawer.DRAWER_INFO_TYPE,
+                    R.id.content_holder, savedInstanceState);
+            Glide.with(this).load(mOffersItems.get(mItemPosition).getThumbnail().getHires())
+                    .centerCrop().into(mBackDrop);
         }
     }
 
     @Override
     protected void setActionBar() {
-        super.setActionBar();
-
+        setSupportActionBar(mToolbar);
         mActionBar = getSupportActionBar();
+        mCollapsingToolbarLayout.setTitle(mOffersItems.get(mItemPosition).getTitle());
         if (mActionBar != null) {
             mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
-            mActionBar.setTitle(mOffers.getTitle());
+            mActionBar.setTitle(getResources().getString(R.string.app_name));
             mActionBar.setElevation(0);
             mActionBar.setDisplayShowTitleEnabled(true);
-            mActionBar.setDisplayHomeAsUpEnabled(true);
+            mActionBar.setDisplayHomeAsUpEnabled(false);
+            mActionBar.setHomeButtonEnabled(true);
         }
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.fragment_offer_info_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        if (menuItem.getItemId() == android.R.id.home) {
-            Intent intent = new Intent();
-            intent.putExtra(ActivityCaller.EXTRA_SELECTED_ITEM_POSITION, mItemPosition);
-            this.setResult(RESULT_OK, intent);
+        switch (menuItem.getItemId()) {
+            case R.id.back:
+                onBackPressed();
+                return true;
+            case R.id.star:
+                if (menuItem.isChecked()) {
+                    menuItem.setChecked(false);
+                    menuItem.setIcon(R.drawable.ic_menu_star);
+                } else {
+                    menuItem.setChecked(true);
+                    menuItem.setIcon(R.drawable.ic_menu_starred);
+                }
+
+                return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(menuItem);
         }
-        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override
@@ -177,11 +220,15 @@ public class OffersInfoActivity extends BaseActivity {
         super.onStop();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        //add the values which need to be saved from the drawer to the bundle
+        outState = mSlidingDrawer.getDrawer().saveInstanceState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
     private void handleSwipePager() {
         mSwipePager.setCurrentItem(mItemPosition, false);
-        mViewPagerArrowIndicator.bind(mSwipePager);
-        mViewPagerArrowIndicator.setArrowIndicatorRes(R.drawable.arrowleft,
-                R.drawable.arrowright);
         mSwipePager.setOnSwipeOutListener(new SwipeViewPager.OnSwipeOutListener() {
             @Override
             public void onSwipeOutAtStart() {
@@ -193,6 +240,7 @@ public class OffersInfoActivity extends BaseActivity {
         });
 
         mActionBar.setTitle(mOffersItems.get(mItemPosition).getTitle());
+        mTitleView.setText(mOffersItems.get(mItemPosition).getTitle());
 
         mSwipePager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -202,7 +250,13 @@ public class OffersInfoActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 mItemPosition = position;
-                mActionBar.setTitle(mOffersItems.get(position).getTitle());
+                mActionBar.setTitle(mOffersItems.get(mItemPosition).getTitle());
+                mCollapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.gray));
+                Glide.with(mCurrentActivity).load(mOffersItems.get(mItemPosition).getThumbnail().getLowres())
+                        .centerCrop().into(mBackDrop);
+                mTitleView.setText(mOffersItems.get(mItemPosition).getTitle());
+                mOfferIdView.setText(String.valueOf(mOffersItems.get(mItemPosition).getOfferId()));
+                mPayoutView.setText(String.valueOf(mOffersItems.get(mItemPosition).getPayout()));
                 Log.d(TAG, "called onPageSelected");
             }
 

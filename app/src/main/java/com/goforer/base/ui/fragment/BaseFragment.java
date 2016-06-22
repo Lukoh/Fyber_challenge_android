@@ -50,4 +50,8 @@ public class BaseFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
     }
+
+    public BaseActivity getBaseActivity() {
+        return mActivity;
+    }
 }

@@ -22,18 +22,6 @@
 
             <com.goforer.base.ui.view.SquircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/iv_lowres"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                app:riv_border_color="@color/list_divider"
-                app:riv_border_width="1dp"
-                app:riv_corner_radius="15dp"
-                app:riv_mutate_background="true"
-                app:riv_oval="false"
-                app:riv_tile_mode="clamp" />
-
-            <com.goforer.base.ui.view.SquircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/iv_hires"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
@@ -54,34 +42,6 @@
             android:id="@+id/container_info"
             android:layout_toEndOf="@+id/container_thumbnail"
             android:layout_marginStart="6dp" >
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/container_offer_id">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/offer_id"
-                    android:id="@+id/tv_offer_id_name"
-                    android:textSize="17sp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/black_alpha_35" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="144454"
-                    android:id="@+id/tv_offer_id"
-                    android:textSize="17sp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/custom_dialog_text" />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
@@ -106,34 +66,6 @@
                     android:id="@+id/tv_teaser"
                     android:textSize="17sp"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/custom_dialog_text" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/container_payout">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/payout"
-                    android:id="@+id/tv_payout_name"
-                    android:textSize="17sp"
-                    android:layout_marginBottom="14dp"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/black_alpha_35" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="120"
-                    android:id="@+id/tv_payout"
-                    android:textSize="17sp"
-                    android:layout_marginBottom="14dp"
                     android:layout_marginStart="8dp"
                     android:textColor="@color/custom_dialog_text" />
 
@@ -342,7 +274,7 @@
                         android:id="@+id/tv_offer_type_readable2"
                         android:textSize="17sp"
                         android:layout_marginBottom="4dp"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="4dp"
                         android:textColor="@color/custom_dialog_text" />
 
                 </LinearLayout>
@@ -386,7 +318,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/container_amount"
                 android:layout_marginTop="2dp"
-                android:layout_marginStart="8dp">
+                android:layout_marginStart="4dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -395,7 +327,7 @@
                     android:id="@+id/tv_amount_name"
                     android:textSize="17sp"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="4dp"
                     android:textColor="@color/black_alpha_35" />
 
                 <TextView
@@ -405,7 +337,7 @@
                     android:id="@+id/tv_amount"
                     android:textSize="17sp"
                     android:layout_marginBottom="4dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="4dp"
                     android:textColor="@color/custom_dialog_text" />
 
             </LinearLayout>
@@ -416,7 +348,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/container_readable"
                 android:layout_marginTop="2dp"
-                android:layout_marginStart="8dp">
+                android:layout_marginStart="4dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -425,7 +357,7 @@
                     android:id="@+id/tv_readable_name"
                     android:textSize="17sp"
                     android:layout_marginBottom="14dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="4dp"
                     android:textColor="@color/black_alpha_35" />
 
                 <TextView
@@ -435,7 +367,7 @@
                     android:id="@+id/tv_readable"
                     android:textSize="17sp"
                     android:layout_marginBottom="4dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="4dp"
                     android:textColor="@color/custom_dialog_text" />
 
             </LinearLayout>
