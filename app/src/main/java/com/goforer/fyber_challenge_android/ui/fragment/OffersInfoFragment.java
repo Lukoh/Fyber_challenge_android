@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2016 Lukoh Nam, goForer
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.goforer.fyber_challenge_android.ui.fragment;
 
 import android.os.Bundle;
@@ -13,26 +29,16 @@ import com.goforer.fyber_challenge_android.R;
 import com.goforer.fyber_challenge_android.model.data.Offers;
 import com.goforer.fyber_challenge_android.utility.ActivityCaller;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class OffersInfoFragment extends BaseFragment {
-    private List<Offers> mItems;
-
-    private int mItemPosition;
+    private Offers mOffers;
 
     @BindView(R.id.iv_hires)
     SquircleImageView mHiresView;
-    @BindView(R.id.iv_lowres)
-    SquircleImageView mLowresView;
-    @BindView(R.id.tv_offer_id)
-    TextView mOfferIdView;
     @BindView(R.id.tv_teaser)
     TextView mTeaserView;
-    @BindView(R.id.tv_payout)
-    TextView mPayoutView;
     @BindView(R.id.tv_link)
     TextView mLinkView;
     @BindView(R.id.tv_offer_type_id)
@@ -55,10 +61,9 @@ public class OffersInfoFragment extends BaseFragment {
     /**
      * Create a new instance of OffersInfoFragment
      */
-    static public OffersInfoFragment newInstance(List<Offers> offersItems, int position) {
+    static public OffersInfoFragment newInstance(Offers offers) {
         OffersInfoFragment fragment = new OffersInfoFragment();
-        fragment.mItems = offersItems;
-        fragment.mItemPosition = position;
+        fragment.mOffers = offers;
 
         return fragment;
     }
@@ -87,36 +92,31 @@ public class OffersInfoFragment extends BaseFragment {
     }
 
     private void fillView() {
-        setThumbnail(mItems.get(mItemPosition).getThumbnail().getHires(),
-                mItems.get(mItemPosition).getThumbnail().getLowres());
-
-        mOfferIdView.setText(String.valueOf(mItems.get(mItemPosition).getOfferId()));
-        mTeaserView.setText(mItems.get(mItemPosition).getTeaser());
-        mPayoutView.setText(String.valueOf(mItems.get(mItemPosition).getPayout()));
-        mLinkView.setText(mItems.get(mItemPosition).getLink());
+        setThumbnail(mOffers.getThumbnail().getHires());
+        mTeaserView.setText(mOffers.getTeaser());
+        mLinkView.setText(mOffers.getLink());
         mOfferTypeIdView.setText(String.valueOf(
-                mItems.get(mItemPosition).getOfferTypes().get(0).getOfferTypeId()));
-        mOfferTypeReadableView.setText(mItems.get(mItemPosition).getOfferTypes().get(0).getReadable());
-        if (mItems.get(mItemPosition).getOfferTypes().size() > 1)  {
+                mOffers.getOfferTypes().get(0).getOfferTypeId()));
+        mOfferTypeReadableView.setText(mOffers.getOfferTypes().get(0).getReadable());
+        if (mOffers.getOfferTypes().size() > 1)  {
             mOfferTypeId2View.setText(String.valueOf(
-                    mItems.get(mItemPosition).getOfferTypes().get(1).getOfferTypeId()));
+                    mOffers.getOfferTypes().get(1).getOfferTypeId()));
             mOfferTypeReadable2View.setText(
-                    mItems.get(mItemPosition).getOfferTypes().get(1).getReadable());
+                    mOffers.getOfferTypes().get(1).getReadable());
         }
 
-        mAmountView.setText(String.valueOf(mItems.get(mItemPosition).getTimeToPayout().getAmount()));
-        mReadableView.setText(mItems.get(mItemPosition).getTimeToPayout().getReadable());
+        mAmountView.setText(String.valueOf(mOffers.getTimeToPayout().getAmount()));
+        mReadableView.setText(mOffers.getTimeToPayout().getReadable());
     }
 
-    private void setThumbnail(String hiresUrl, String lowresUrl) {
+    private void setThumbnail(String hiresUrl) {
         mHiresView.setImage(hiresUrl);
-        mLowresView.setImage(lowresUrl);
     }
 
     @SuppressWarnings("")
     @OnClick(R.id.tv_link)
     void onGoToLink() {
-        ActivityCaller.INSTANCE.callLink(mContext, mItems.get(mItemPosition).getLink());
+        ActivityCaller.INSTANCE.callLink(mContext, mOffers.getLink());
     }
 
 }

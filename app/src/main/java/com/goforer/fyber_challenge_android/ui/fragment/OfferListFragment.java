@@ -26,13 +26,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionMenu;
 import com.goforer.base.model.ListModel;
 import com.goforer.base.ui.fragment.RecyclerFragment;
 import com.goforer.fyber_challenge_android.R;
+import com.goforer.fyber_challenge_android.model.action.BookmarkChangeAction;
 import com.goforer.fyber_challenge_android.model.action.MoveItemAction;
+import com.goforer.fyber_challenge_android.model.action.SubscriptionChangeAction;
 import com.goforer.fyber_challenge_android.model.data.Offers;
 import com.goforer.fyber_challenge_android.model.event.OfferListEvent;
+import com.goforer.fyber_challenge_android.ui.activity.OffersListActivity;
 import com.goforer.fyber_challenge_android.ui.adapter.OfferListAdapter;
+import com.goforer.fyber_challenge_android.ui.view.drawer.SlidingDrawer;
 import com.goforer.fyber_challenge_android.utility.CommonUtils;
 import com.goforer.fyber_challenge_android.web.Intermediary;
 import com.goforer.fyber_challenge_android.web.communicator.ResponseClient;
@@ -45,6 +50,9 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 public class OfferListFragment extends RecyclerFragment<Offers> {
     private static final String TAG = "OfferListFragment";
 
@@ -56,8 +64,12 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     private static final int OFFER_TYPES = 112;
 
     private OfferListAdapter mAdapter;
+    private SlidingDrawer mSlidingDrawer;
 
     private int mTotalPageNum;
+
+    @BindView(R.id.fam_menu)
+    FloatingActionMenu mMenu;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -69,11 +81,25 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mMenu.hideMenu(false);
         mTotalPageNum = 1;
 
         setItemHasFixedSize(true);
 
         refresh();
+
+        mSlidingDrawer = new SlidingDrawer(getBaseActivity(), SlidingDrawer.DRAWER_PROFILE_TYPE,
+                R.id.drawer_container,
+                savedInstanceState);
+        mSlidingDrawer.setDrawerInfo(((OffersListActivity)mActivity).getProfile());
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        //add the values which need to be saved from the drawer to the bundle
+        outState = mSlidingDrawer.getDrawer().saveInstanceState(outState);
+        outState = mSlidingDrawer.getDrawerHeader().saveInstanceState(outState);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -95,22 +121,29 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
                     Toast.makeText(mContext, R.string.toast_process_error,
                             Toast.LENGTH_SHORT).show();
                 }
+
+                mMenu.showMenuButton(true);
+                mMenu.setClosedOnTouchOutside(true);
+                mMenu.showMenu(true);
             }
 
             @Override
             public void onScrolledToLast(RecyclerView recyclerView, int dx, int dy) {
-                requestData(false);
                 Log.i(TAG, "onScrolledToLast");
             }
 
             @Override
             public void onScrolling() {
                 Log.i(TAG, "onScrolling");
+
+                mMenu.showMenu(false);
             }
 
             @Override
             public void onScrolled() {
                 Log.i(TAG, "onScrolled");
+
+                mMenu.hideMenu(true);
             }
         });
 
@@ -150,13 +183,13 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
         return new ListModel<>(Offers.class).fromJson(json);
     }
 
-    private void requestOfferList(boolean isNew) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        if (mCurrentPage > mTotalPageNum && mTotalPageNum > 1) {
-            doneRefreshing();
-            mAdapter.setReachedToLastPage(true);
-            return;
-        }
+    @Override
+    protected boolean isLastPage(int pageNum) {
+        return (mTotalPageNum == pageNum) && (mTotalPageNum > 1);
 
+    }
+
+    private void requestOfferList(boolean isNew) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         OfferListEvent event = new OfferListEvent(isNew);
         String advertisingId = CommonUtils.getGoogleAID();
         long timestamp = System.currentTimeMillis() / 1000L;
@@ -183,7 +216,7 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
                 break;
             case ResponseClient.SUCCESSFUL:
                 if (event.getResponseClient().getCount() == 0) {
-                    Toast.makeText(mContext, R.string.toast_no_offers, Toast.LENGTH_SHORT).show();
+                    showToastMessage(getString(R.string.toast_no_offers));
                     return;
                 }
 
@@ -192,14 +225,15 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
                 }
 
                 handleEvent(event);
+
                 break;
         }
     }
 
     @SuppressWarnings("")
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onAction(MoveItemAction action) {
-        mAdapter.moveSelectedPosition(getRecyclerView().getLayoutManager(), action.getPosition());
+    @OnClick(R.id.fam_menu)
+    void onMenuToggle() {
+        mMenu.toggle(true);
     }
 
     private void showToastMessage(String phrase) {
@@ -229,5 +263,23 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
         tmp.append(CommonUtils.API_KEY);
 
         return CommonUtils.SHA1(tmp.toString());
+    }
+
+    @SuppressWarnings("")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAction(MoveItemAction action) {
+        mAdapter.moveSelectedPosition(getRecyclerView().getLayoutManager(), action.getPosition());
+    }
+
+    @SuppressWarnings("")
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onAction(BookmarkChangeAction action) {
+        mItems.get(action.getPosition()).setBookmarked(action.isBookmarked());
+    }
+
+    @SuppressWarnings("")
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onAction(SubscriptionChangeAction action) {
+        mItems.get(action.getPosition()).setSubscribed(action.isSubscribed());
     }
 }

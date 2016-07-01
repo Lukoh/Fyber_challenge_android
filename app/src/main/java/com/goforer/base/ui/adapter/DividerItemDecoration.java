@@ -54,8 +54,10 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     /**
+     * Should the layout be a column or a row.
+     * Use "horizontal" for a row, "vertical" for a column. The default is horizontal.
      *
-     * @param orientation
+     * @param orientation Pass HORIZONTAL or VERTICAL.
      */
     public void setOrientation(int orientation) {
         if (orientation != HORIZONTAL_LIST && orientation != VERTICAL_LIST) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 016 Lukoh Nam, goForer
+ * Copyright (C) 2016 Lukoh Nam, goForer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Offers extends BaseModel implements Parcelable {
+public class Offers extends BaseModel implements Parcelable {
     @SerializedName("title")
     private String mTitle;
     @SerializedName("offer_id")
@@ -42,8 +42,20 @@ public final class Offers extends BaseModel implements Parcelable {
     private Thumbnail mThumbnail;
     @SerializedName("payout")
     private int mPayout;
+    @SerializedName("bookmarked")
+    private boolean mBookmarked;
+    @SerializedName("subscribed")
+    private boolean mSubscribed;
+    @SerializedName("bookmarked_count")
+    private int mBookmarkedCount;
+    @SerializedName("subscribed_count")
+    private int mSubscribedCount;
+    @SerializedName("gallery_count")
+    private int mGalleryCount;
     @SerializedName("time_to_payout")
     private TimeToPayout mTimeToPayout;
+    @SerializedName("events")
+    private List<Event> mEvents;
 
     public String getTitle() {
         return mTitle;
@@ -77,10 +89,57 @@ public final class Offers extends BaseModel implements Parcelable {
         return mPayout;
     }
 
+    public boolean isBookmarked() {
+        return mBookmarked;
+    }
+
+    public boolean isSubscribed() {
+        return mSubscribed;
+    }
+
+    public int getBookmarkedCount() {
+        return mBookmarkedCount;
+    }
+
+    public int getSubscribedCount() {
+        return mSubscribedCount;
+    }
+
+    public int getGalleryCount() {
+        return mGalleryCount;
+    }
+
     public TimeToPayout getTimeToPayout() {
         return mTimeToPayout;
     }
 
+    public List<Event> getEvents() {
+        return mEvents;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        mBookmarked = bookmarked;
+    }
+
+    public void setSubscribed(boolean subscribed) {
+        mSubscribed = subscribed;
+    }
+
+    public void setBookmarkedCount(int count) {
+        mBookmarkedCount = count;
+    }
+
+    public void setSubscribedCount(int count) {
+        mSubscribedCount = count;
+    }
+
+    public void setGalleryCount(int count) {
+        mGalleryCount = count;
+    }
+
+    public void setEvents(List<Event> events) {
+        mEvents = events;
+    }
 
     protected Offers(Parcel in) {
         mTitle = in.readString();
@@ -92,7 +151,14 @@ public final class Offers extends BaseModel implements Parcelable {
         in.readTypedList(mOfferTypes, OfferTypes.CREATOR);
         mThumbnail = in.readParcelable(Thumbnail.class.getClassLoader());
         mPayout = in.readInt();
+        mBookmarked = in.readByte() != 0;
+        mSubscribed = in.readByte() != 0;
+        mBookmarkedCount = in.readInt();
+        mSubscribedCount = in.readInt();
+        mGalleryCount = in.readInt();
         mTimeToPayout = in.readParcelable(TimeToPayout.class.getClassLoader());
+        mEvents = new ArrayList<>();
+        in.readTypedList(mEvents, Event.CREATOR);
     }
 
     @Override
@@ -110,7 +176,13 @@ public final class Offers extends BaseModel implements Parcelable {
         dest.writeTypedList(mOfferTypes);
         dest.writeParcelable(mThumbnail, flags);
         dest.writeInt(mPayout);
+        dest.writeByte((byte) (mBookmarked ? 1 : 0));
+        dest.writeByte((byte) (mSubscribed ? 1 : 0));
+        dest.writeInt(mBookmarkedCount);
+        dest.writeInt(mSubscribedCount);
+        dest.writeInt(mGalleryCount);
         dest.writeParcelable(mTimeToPayout, flags);
+        dest.writeTypedList(mEvents);
     }
 
     @SuppressWarnings("unused")

@@ -45,6 +45,23 @@ import retrofit2.Response;
 public enum Intermediary {
     INSTANCE;
 
+    public void getProfile(Context context, String id, String hashKey,  ResponseEvent event) {
+        Call<ResponseClient> call = RequestClient.INSTANCE.getRequestMethod(context)
+                .getProfile(id, hashKey);
+        call.enqueue(new RequestClient.RequestCallback(event) {
+            @Override
+            public void onResponse(Call<ResponseClient> call, Response<ResponseClient> response) {
+                super.onResponse(call, response);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseClient> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+
+        });
+    }
+
     public void getOffers(Context context, int appId, String device_id, String ip, String locale,
                           int offer_type, int pageNum, long timestamp, String uid, String hashKey,
                           ResponseEvent event)  {

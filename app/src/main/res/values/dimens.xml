@@ -2,4 +2,14 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="collapsible_app_bar_height">284dp</dimen>
+    <dimen name="material_drawer_item_menu_icon_width">96dp</dimen>
+    <dimen name="material_drawer_item_menu_icon_height">96dp</dimen>
+    <dimen name="material_drawer_item_menu">146dp</dimen>
+    <dimen name="material_drawer_item_menu_name">20sp</dimen>
+    <dimen name="material_drawer_item_menu_sub1">17sp</dimen>
+    <dimen name="material_drawer_item_menu_sub2">18sp</dimen>
+    <dimen name="material_drawer_item_menu_description">16sp</dimen>
+    <dimen name="material_drawer_item_menu_padding">4dp</dimen>
+    <dimen name="material_drawer_item_menu_icon_padding_right">14dp</dimen>
 </resources>

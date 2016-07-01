@@ -58,13 +58,14 @@ public abstract class BaseActivity extends AppCompatActivity {
             setEffectIn();
         }
 
-        setActionBar();
         setContentView();
         bindViews();
+        setActionBar();
 
         if (ConnectionUtils.INSTANCE.isNetworkAvailable(this)) {
-            setViews();
+            setViews(savedInstanceState);
         }
+
     }
 
     @Override
@@ -155,8 +156,12 @@ public abstract class BaseActivity extends AppCompatActivity {
      * into the activity.
      * </p>
      *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
      */
-    protected void setViews() {
+    protected void setViews(Bundle savedInstanceState) {
     }
 
     /**

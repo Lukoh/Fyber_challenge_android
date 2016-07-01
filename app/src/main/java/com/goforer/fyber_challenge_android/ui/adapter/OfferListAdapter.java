@@ -44,6 +44,8 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
 
     private static BaseActivity mActivity;
 
+    private int mViewTypeFlag = VIEW_TYPE_ITEM;
+
     public OfferListAdapter(BaseActivity activity, final List<Offers> items, int layoutResId,
                             boolean usedLoadingImage) {
         super(items, layoutResId);
@@ -55,11 +57,9 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
     @Override
     public int getItemCount() {
         int count  = super.getItemCount();
-        if (count >= 0 && isReachedToLastPage()) {
-            count++;
-            return count;
-        } else if (count >= 0 && isReachedToLastItem()) {
-            count++;
+
+        if (mViewTypeFlag == VIEW_TYPE_LOADING || mViewTypeFlag == VIEW_TYPE_FOOTER) {
+            return count + 1;
         }
 
         return count;
@@ -67,12 +67,17 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
 
     @Override
     public int getItemViewType(int position) {
-        if (isReachedToLastPage() && position == getItemCount() - 1) {
+        int itemCount = getItemCount() - 1;
+
+        if (isReachedToLastPage() && position == itemCount) {
+            mViewTypeFlag = VIEW_TYPE_FOOTER;
             return VIEW_TYPE_FOOTER;
-        } else if (isReachedToLastItem() && position == getItemCount() - 1) {
+        } else if (position == itemCount) {
+            mViewTypeFlag = VIEW_TYPE_LOADING;
             return VIEW_TYPE_LOADING;
         }
 
+        mViewTypeFlag = VIEW_TYPE_ITEM;
         return VIEW_TYPE_ITEM;
     }
 
@@ -104,6 +109,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
         switch (getItemViewType(position)){
             case VIEW_TYPE_FOOTER:
             case VIEW_TYPE_LOADING:
+                return;
             default:
                 super.onBindViewHolder(viewHolder, position);
         }

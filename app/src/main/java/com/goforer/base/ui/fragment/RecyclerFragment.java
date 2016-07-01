@@ -132,6 +132,13 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
     }
 
     private void request(boolean isRefreshed) {
+        if (isLastPage(mCurrentPage)) {
+            doneRefreshing();
+            if (mBaseArrayAdapter != null) {
+                mBaseArrayAdapter.setReachedToLastPage(true);
+            }
+        }
+
         if (!mIsLoading) {
             mIsLoading = true;
             if (mBaseArrayAdapter != null) {
@@ -182,7 +189,15 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
                     int totalItemCount = recyclerView.getLayoutManager().getItemCount();
                     if (lastVisibleItemPosition >= totalItemCount - 1) {
                         mBaseArrayAdapter.setReachedToLastItem(true);
+                        if (isLastPage(mCurrentPage)) {
+                            doneRefreshing();
+                            mBaseArrayAdapter.setReachedToLastPage(true);
+
+                            return;
+                        }
+
                         scrolledReachToLast();
+                        requestData(false);
                         mListener.onScrolledToLast(recyclerView, dx, dy);
                     } else {
                         mBaseArrayAdapter.setReachedToLastItem(false);
@@ -366,12 +381,31 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
     protected abstract void updateData();
 
     /**
-     * The information should be refreshed whenever the user refresh the contents of a view via
-     * a vertical swipe gesture.
+     * Check if the given page is the last page.
+     * Return true if the given page is the last page
      * <p>
-     * Be refreshed as a result of the gesture.
+     * To check if the given page is the last page, you must override
+     * This method is called whenever the swipe gesture triggers a refresh.
+     * </p>
+     *
+     * @param pageNum the current page number to check if given page is the last page
+     *
+     */
+    protected abstract boolean isLastPage(int pageNum);
+
+    /**
+     * The information should be refreshed whenever the RecyclerFragment is created or
+     * the user refresh the contents of a view via a vertical swipe gesture.
+     *
+     * <P> Must.
+     * This method have to be called in override onViewCreated{@link #onViewCreated} method
+     * to get the information from server.
+     * </P>
+     *
+     * <p>
+     * Be refreshed as a result of the gesture in case a vertical swipe gesture.
      * The information must be provided to allow refresh of the content wherever this gesture
-     * is used.
+     * is used in case of a vertical swipe gesture.
      * </p>
      */
     protected void refresh() {
@@ -424,15 +458,6 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
         if (mSwipeLayout != null) {
             mSwipeLayout.setRefreshing(false);
         }
-    }
-
-    /**
-     * Notify that page is reached to last page(item) in the List.
-     *
-     * @param isReachedToLast set true if the page(item) is reached to last page(item)
-     */
-    protected void setReachedToLast(boolean isReachedToLast) {
-        mIsReachToLast = isReachedToLast;
     }
 
     /**
@@ -532,7 +557,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
     }
 
     /**
-     * Classes that wish to be notified when a process is completed should implement this interface.
+     * Classes that wish to be notified when a process is completed should implement this interfaces.
      * An OnProcessListener allows the application to intercept the process events.
      *
      * <p>This can be useful for applications that wish to implement some module

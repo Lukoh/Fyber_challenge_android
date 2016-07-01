@@ -10,336 +10,123 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:padding="10dp" >
-
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/container_thumbnail"
-            android:layout_marginStart="2dp" >
-
-            <com.goforer.base.ui.view.SquircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/iv_lowres"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                app:riv_border_color="@color/list_divider"
-                app:riv_border_width="1dp"
-                app:riv_corner_radius="15dp"
-                app:riv_mutate_background="true"
-                app:riv_oval="false"
-                app:riv_tile_mode="clamp" />
-
-            <com.goforer.base.ui.view.SquircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/iv_hires"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                app:riv_border_color="@color/list_divider"
-                app:riv_border_width="1dp"
-                app:riv_corner_radius="15dp"
-                app:riv_mutate_background="true"
-                app:riv_oval="false"
-                app:riv_tile_mode="clamp"
-                android:layout_marginTop="2dp" />
-
-        </LinearLayout>
+        android:padding="2dp" >
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/container_info"
-            android:layout_toEndOf="@+id/container_thumbnail"
-            android:layout_marginStart="6dp" >
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/container_offer_id">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/offer_id"
-                    android:id="@+id/tv_offer_id_name"
-                    android:textSize="17sp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/black_alpha_35" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="144454"
-                    android:id="@+id/tv_offer_id"
-                    android:textSize="17sp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/custom_dialog_text" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/container_teaser">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/teaser"
-                    android:id="@+id/tv_teaser_name"
-                    android:textSize="17sp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/black_alpha_35" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Download and START"
-                    android:id="@+id/tv_teaser"
-                    android:textSize="17sp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/custom_dialog_text" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/container_payout">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/payout"
-                    android:id="@+id/tv_payout_name"
-                    android:textSize="17sp"
-                    android:layout_marginBottom="14dp"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/black_alpha_35" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="120"
-                    android:id="@+id/tv_payout"
-                    android:textSize="17sp"
-                    android:layout_marginBottom="14dp"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/custom_dialog_text" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:id="@+id/divider_bar"
-            android:background="@color/divider_bar"
-            android:layout_marginTop="14dp"
-            android:layout_marginBottom="6dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_below="@+id/container_thumbnail" />
-
-        <LinearLayout
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/container_link"
-            android:layout_marginTop="4dp"
-            android:layout_below="@+id/divider_bar" >
+            android:paddingTop="4dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/link"
-                android:id="@+id/tv_link_name"
-                android:textSize="17sp"
-                android:layout_marginBottom="14dp"
-                android:layout_marginStart="8dp"
-                android:textColor="@color/black_alpha_35" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="http://iframe.gofoer.com/browser?appid=32323"
-                android:id="@+id/tv_link"
-                android:textSize="17sp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginStart="8dp"
-                android:textColor="@color/custom_dialog_text" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:id="@+id/divider_bar2"
-            android:background="@color/divider_bar"
-            android:layout_marginTop="14dp"
-            android:layout_marginBottom="6dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_below="@+id/container_link" />
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/container_offer_types"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="false"
-            android:layout_below="@+id/divider_bar2"
-            android:layout_marginTop="4dp" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/offer_types"
-                android:id="@+id/tv_offer_types"
-                android:textColor="@color/black_alpha_35"
-                android:textSize="17sp"
-                android:layout_marginTop="2dp"
-                android:layout_marginStart="6dp" />
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/container_offer_type1"
-                android:layout_marginTop="6dp" >
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp">
 
                 <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/container_offer_type_id"
-                    android:layout_marginTop="6dp" >
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal" >
 
-                    <TextView
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/offer_type_id"
-                        android:id="@+id/tv_offer_type_id_name"
-                        android:textSize="17sp"
-                        android:layout_marginBottom="14dp"
-                        android:layout_marginStart="4dp"
-                        android:textColor="@color/black_alpha_35" />
+                        android:id="@+id/container_thumbnail"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginBottom="2dp">
 
-                    <TextView
+                        <com.goforer.base.ui.view.SquircleImageView
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/iv_hires"
+                            android:layout_width="96dp"
+                            android:layout_height="96dp"
+                            app:riv_border_color="@color/list_divider"
+                            app:riv_border_width="1dp"
+                            app:riv_corner_radius="15dp"
+                            app:riv_mutate_background="true"
+                            app:riv_oval="false"
+                            app:riv_tile_mode="clamp"
+                            android:layout_marginTop="2dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="101"
-                        android:id="@+id/tv_offer_type_id"
-                        android:textSize="17sp"
-                        android:layout_marginBottom="4dp"
-                        android:layout_marginStart="4dp"
-                        android:textColor="@color/custom_dialog_text" />
+                        android:id="@+id/container_info"
+                        android:layout_toEndOf="@+id/container_thumbnail"
+                        android:layout_marginStart="6dp" >
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/container_teaser">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/teaser"
+                                android:id="@+id/tv_teaser_name"
+                                android:textSize="17sp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginStart="8dp"
+                                android:textColor="@color/black_alpha_35" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Download and START"
+                                android:id="@+id/tv_teaser"
+                                android:textSize="17sp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginStart="8dp"
+                                android:textColor="@color/custom_dialog_text" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/container_offer_type_readable"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginStart="10dp">
+            </android.support.v7.widget.CardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/offer_type_readable"
-                        android:id="@+id/tv_offer_type_id_readable_name"
-                        android:textSize="17sp"
-                        android:layout_marginBottom="14dp"
-                        android:layout_marginStart="4dp"
-                        android:textColor="@color/black_alpha_35" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Free"
-                        android:id="@+id/tv_offer_type_readable"
-                        android:textSize="17sp"
-                        android:layout_marginBottom="4dp"
-                        android:layout_marginStart="4dp"
-                        android:textColor="@color/custom_dialog_text" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/container_offer_type2"
-                android:layout_marginTop="2dp" >
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp">
 
                 <LinearLayout
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/container_offer_type_id2"
-                    android:layout_marginTop="6dp" >
+                    android:id="@+id/container_link"
+                    android:layout_marginTop="4dp" >
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/offer_type_id"
-                        android:id="@+id/tv_offer_type_id_name2"
+                        android:text="@string/link"
+                        android:id="@+id/tv_link_name"
                         android:textSize="17sp"
                         android:layout_marginBottom="14dp"
-                        android:layout_marginStart="4dp"
+                        android:layout_marginStart="8dp"
                         android:textColor="@color/black_alpha_35" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="101"
-                        android:id="@+id/tv_offer_type_id2"
-                        android:textSize="17sp"
-                        android:layout_marginBottom="4dp"
-                        android:layout_marginStart="4dp"
-                        android:textColor="@color/custom_dialog_text" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/container_offer_type_readable2"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginStart="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/offer_type_readable"
-                        android:id="@+id/tv_offer_type_id_readable_name2"
-                        android:textSize="17sp"
-                        android:layout_marginBottom="14dp"
-                        android:layout_marginStart="4dp"
-                        android:textColor="@color/black_alpha_35" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Free"
-                        android:id="@+id/tv_offer_type_readable2"
+                        android:text="http://iframe.gofoer.com/browser?appid=32323"
+                        android:id="@+id/tv_link"
                         android:textSize="17sp"
                         android:layout_marginBottom="4dp"
                         android:layout_marginStart="8dp"
@@ -347,98 +134,263 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:id="@+id/divider_bar3"
-            android:background="@color/divider_bar"
-            android:layout_marginTop="14dp"
-            android:layout_marginBottom="6dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_below="@+id/container_offer_types" />
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/container_time_to_payout"
-            android:layout_marginTop="4dp"
-            android:layout_below="@+id/divider_bar3" >
-
-            <TextView
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/time_to_payout"
-                android:id="@+id/tv_time_to_payout"
-                android:textSize="17sp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginStart="8dp"
-                android:textColor="@color/black_alpha_35" />
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp">
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/container_offer_types"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="false"
+                    android:layout_marginTop="4dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/offer_types"
+                        android:id="@+id/tv_offer_types"
+                        android:textColor="@color/black_alpha_35"
+                        android:textSize="17sp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginStart="6dp" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/container_offer_type1"
+                        android:layout_marginTop="6dp" >
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/container_offer_type_id"
+                            android:layout_marginTop="6dp" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/offer_type_id"
+                                android:id="@+id/tv_offer_type_id_name"
+                                android:textSize="17sp"
+                                android:layout_marginBottom="14dp"
+                                android:layout_marginStart="4dp"
+                                android:textColor="@color/black_alpha_35" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="101"
+                                android:id="@+id/tv_offer_type_id"
+                                android:textSize="17sp"
+                                android:layout_marginBottom="4dp"
+                                android:layout_marginStart="4dp"
+                                android:textColor="@color/custom_dialog_text" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/container_offer_type_readable"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginStart="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/offer_type_readable"
+                                android:id="@+id/tv_offer_type_id_readable_name"
+                                android:textSize="17sp"
+                                android:layout_marginBottom="14dp"
+                                android:layout_marginStart="4dp"
+                                android:textColor="@color/black_alpha_35" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Free"
+                                android:id="@+id/tv_offer_type_readable"
+                                android:textSize="17sp"
+                                android:layout_marginBottom="4dp"
+                                android:layout_marginStart="4dp"
+                                android:textColor="@color/custom_dialog_text" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/container_offer_type2"
+                        android:layout_marginTop="2dp" >
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/container_offer_type_id2"
+                            android:layout_marginTop="6dp" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/offer_type_id"
+                                android:id="@+id/tv_offer_type_id_name2"
+                                android:textSize="17sp"
+                                android:layout_marginBottom="14dp"
+                                android:layout_marginStart="4dp"
+                                android:textColor="@color/black_alpha_35" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="101"
+                                android:id="@+id/tv_offer_type_id2"
+                                android:textSize="17sp"
+                                android:layout_marginBottom="4dp"
+                                android:layout_marginStart="4dp"
+                                android:textColor="@color/custom_dialog_text" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/container_offer_type_readable2"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginStart="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/offer_type_readable"
+                                android:id="@+id/tv_offer_type_id_readable_name2"
+                                android:textSize="17sp"
+                                android:layout_marginBottom="14dp"
+                                android:layout_marginStart="4dp"
+                                android:textColor="@color/black_alpha_35" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Free"
+                                android:id="@+id/tv_offer_type_readable2"
+                                android:textSize="17sp"
+                                android:layout_marginBottom="4dp"
+                                android:layout_marginStart="4dp"
+                                android:textColor="@color/custom_dialog_text" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/container_amount"
-                android:layout_marginTop="2dp"
-                android:layout_marginStart="8dp">
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp">
 
-                <TextView
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/amount"
-                    android:id="@+id/tv_amount_name"
-                    android:textSize="17sp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/black_alpha_35" />
+                    android:id="@+id/container_time_to_payout"
+                    android:layout_marginTop="4dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1800"
-                    android:id="@+id/tv_amount"
-                    android:textSize="17sp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/custom_dialog_text" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/time_to_payout"
+                        android:id="@+id/tv_time_to_payout"
+                        android:textSize="17sp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginStart="8dp"
+                        android:textColor="@color/black_alpha_35" />
 
-            </LinearLayout>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/container_amount"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginStart="4dp">
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/container_readable"
-                android:layout_marginTop="2dp"
-                android:layout_marginStart="8dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/amount"
+                            android:id="@+id/tv_amount_name"
+                            android:textSize="17sp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginStart="4dp"
+                            android:textColor="@color/black_alpha_35" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/readable"
-                    android:id="@+id/tv_readable_name"
-                    android:textSize="17sp"
-                    android:layout_marginBottom="14dp"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/black_alpha_35" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1800"
+                            android:id="@+id/tv_amount"
+                            android:textSize="17sp"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginStart="4dp"
+                            android:textColor="@color/custom_dialog_text" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="30 minutes"
-                    android:id="@+id/tv_readable"
-                    android:textSize="17sp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/custom_dialog_text" />
+                    </LinearLayout>
 
-            </LinearLayout>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/container_readable"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginStart="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/readable"
+                            android:id="@+id/tv_readable_name"
+                            android:textSize="17sp"
+                            android:layout_marginBottom="14dp"
+                            android:layout_marginStart="4dp"
+                            android:textColor="@color/black_alpha_35" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="30 minutes"
+                            android:id="@+id/tv_readable"
+                            android:textSize="17sp"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginStart="4dp"
+                            android:textColor="@color/custom_dialog_text" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 

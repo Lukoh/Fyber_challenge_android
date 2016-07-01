@@ -137,7 +137,9 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
      *
      * @return true if the item or page is reached to the last
      */
-    public boolean isReachedToLastItem() { return mIsReachedToLastItem; }
+    public boolean isReachedToLastItem() {
+        return mIsReachedToLastItem;
+    }
 
     /**
      * Check if the page is reached to the last.
@@ -145,6 +147,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
      * @return true if the item or page is reached to the last
      */
     public boolean isReachedToLastPage() {
+
         return mIsReachedToLastPage;
     }
 
@@ -153,19 +156,25 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
      *
      * @return true if the items is empty
      */
-    public boolean isEmptyItems() { return mIsEmptyItems; }
+    public boolean isEmptyItems() {
+        return mIsEmptyItems;
+    }
 
     /**
      * Check if the items is loading.
      *
      * @return true if the items is loading
      */
-    public boolean isLoadingItems() { return mIsLoadingItems; }
+    public boolean isLoadingItems() {
+        return mIsLoadingItems;
+    }
 
     /**
      * Check if the loading image is used to the list as an item.
      *
      * @return true if the loading image is used
      */
-    public boolean usedLoadImage() { return mUsedLoadingImage; }
+    public boolean usedLoadImage() {
+        return mUsedLoadingImage;
+    }
 }

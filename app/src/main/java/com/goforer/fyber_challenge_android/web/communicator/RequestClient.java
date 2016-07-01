@@ -237,6 +237,12 @@ public enum RequestClient {
     }
 
     public interface RequestMethod {
+        @GET("")
+        Call<ResponseClient> getProfile(
+                @Query("id") String id,
+                @Query("hashkey") String hashkey
+        );
+
         @GET("offers.json")
         Call<ResponseClient> getOffers(
                 @Query("appid") long appid,
@@ -249,6 +255,5 @@ public enum RequestClient {
                 @Query("uid") String uid,
                 @Query("hashkey") String hashkey
         );
-
     }
 }
