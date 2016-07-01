@@ -241,15 +241,15 @@ public class SlidingDrawer {
         Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
 
         /**
-         *  In case this project, I put events data into the list of event, List<Event> mEvents
-         *  in Offers class, programmatically at this time because there was no provided events data
-         *  from Fyber server.
-         *  And I also put the bookmarked count and subscribed count into the list of Offers.
+         *  In case this project, I put the data of {@link Event} into the list, List<Event> mEvents
+         *  in {@link Offers} class, programmatically at this time because there was no provided
+         *  the data of {@link Event} from Fyber server.
+         *  And I also put the bookmarked count and subscribed count into the list of {@link Offers}.
          *
-         *  In real project, Offers and Events data should be put into to the list of event,
-         *  List<Event> mEvents in Offers class, automatically.
+         *  In real project, the data of {@link Event} should be put into to the list,
+         *  List<Event> mEvents in {@link Offers} class, automatically.
          *  It means the server have to provide events data to App as the client.
-         *  It's very important to display events data on the list of Drawer's events.
+         *  It's very important to display the data of Events on the list of Drawer's events.
          */
         if (mOffers.getEvents() == null || mOffers.getEvents().size() == 0) {
             List<Event> events = new ArrayList<>();
