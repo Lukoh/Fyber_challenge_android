@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2016 Lukoh Nam, goForer
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.goforer.fyber_challenge_android.ui.fragment;
 
 import android.graphics.Rect;
@@ -21,7 +37,7 @@ import com.goforer.fyber_challenge_android.model.action.BookmarkChangeAction;
 import com.goforer.fyber_challenge_android.model.action.MoveItemAction;
 import com.goforer.fyber_challenge_android.model.action.SubscriptionChangeAction;
 import com.goforer.fyber_challenge_android.model.data.Offers;
-import com.goforer.fyber_challenge_android.model.event.OfferListEvent;
+import com.goforer.fyber_challenge_android.model.event.OffersDataEvent;
 import com.goforer.fyber_challenge_android.ui.activity.OffersListActivity;
 import com.goforer.fyber_challenge_android.ui.adapter.OfferGridAdapter;
 import com.goforer.fyber_challenge_android.ui.view.drawer.SlidingDrawer;
@@ -223,7 +239,7 @@ public class OfferGridFragment extends RecyclerFragment<Offers> {
     }
 
     private void requestOfferList(boolean isNew) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        OfferListEvent event = new OfferListEvent(isNew);
+        OffersDataEvent event = new OffersDataEvent(isNew);
         String advertisingId = CommonUtils.getGoogleAID();
         long timestamp = System.currentTimeMillis() / 1000L;
 
@@ -236,7 +252,7 @@ public class OfferGridFragment extends RecyclerFragment<Offers> {
 
     @SuppressWarnings("")
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEvent(OfferListEvent event) {
+    public void onEvent(OffersDataEvent event) {
         switch(event.getResponseClient().getStatus()) {
             case ResponseClient.GENERAL_ERROR:
                 showToastMessage(getString(R.string.toast_server_error_phrase));

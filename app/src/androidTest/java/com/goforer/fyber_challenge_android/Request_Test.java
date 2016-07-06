@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import com.goforer.fyber_challenge_android.model.event.OfferListEvent;
+import com.goforer.fyber_challenge_android.model.event.OffersDataEvent;
 import com.goforer.fyber_challenge_android.ui.activity.OffersListActivity;
 import com.goforer.fyber_challenge_android.utility.CommonUtils;
 import com.goforer.fyber_challenge_android.web.communicator.RequestClient;
@@ -66,7 +66,7 @@ public class Request_Test extends ActivityInstrumentationTestCase2<OffersListAct
 
         long timestamp = System.currentTimeMillis() / 1000L;
 
-        OfferListEvent event = new OfferListEvent(true);
+        OffersDataEvent event = new OffersDataEvent(true);
         String hashKey = null;
         try {
             hashKey = getHashKey(GAID, timestamp, 1);

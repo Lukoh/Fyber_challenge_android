@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -98,8 +97,6 @@ public class OffersGalleryAdapter extends BaseListAdapter<Gallery> {
 
         @BindView(R.id.iv_content)
         ImageView mContentImageView;
-        @BindView(R.id.tv_title)
-        TextView mTitleView;
 
         public GalleryContentViewHolder(View itemView) {
             super(itemView);
@@ -116,8 +113,6 @@ public class OffersGalleryAdapter extends BaseListAdapter<Gallery> {
                     mContentImageView.setImageBitmap(resource);
                 }
             });
-
-            mTitleView.setText(mGallery.getTitle());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

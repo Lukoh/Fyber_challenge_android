@@ -34,7 +34,7 @@ import com.goforer.fyber_challenge_android.model.action.BookmarkChangeAction;
 import com.goforer.fyber_challenge_android.model.action.MoveItemAction;
 import com.goforer.fyber_challenge_android.model.action.SubscriptionChangeAction;
 import com.goforer.fyber_challenge_android.model.data.Offers;
-import com.goforer.fyber_challenge_android.model.event.OfferListEvent;
+import com.goforer.fyber_challenge_android.model.event.OffersDataEvent;
 import com.goforer.fyber_challenge_android.ui.activity.OffersListActivity;
 import com.goforer.fyber_challenge_android.ui.adapter.OfferListAdapter;
 import com.goforer.fyber_challenge_android.ui.view.drawer.SlidingDrawer;
@@ -197,7 +197,7 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     }
 
     private void requestOfferList(boolean isNew) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        OfferListEvent event = new OfferListEvent(isNew);
+        OffersDataEvent event = new OffersDataEvent(isNew);
         String advertisingId = CommonUtils.getGoogleAID();
         long timestamp = System.currentTimeMillis() / 1000L;
 
@@ -210,7 +210,7 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
 
     @SuppressWarnings("")
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEvent(OfferListEvent event) {
+    public void onEvent(OffersDataEvent event) {
         switch(event.getResponseClient().getStatus()) {
             case ResponseClient.GENERAL_ERROR:
                 showToastMessage(getString(R.string.toast_server_error_phrase));

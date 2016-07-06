@@ -18,8 +18,8 @@ package com.goforer.fyber_challenge_android.model.event;
 
 import com.goforer.base.model.event.ResponseListEvent;
 
-public class OfferListEvent extends ResponseListEvent {
-    public OfferListEvent(boolean isNew) {
+public class OffersDataEvent extends ResponseListEvent {
+    public OffersDataEvent(boolean isNew) {
         super(isNew);
     }
 }
