@@ -43,4 +43,5 @@
     <string name="drawer_item_event">Event</string>
     <string name="drawer_item_bookmarked_count">Bookmarked</string>
     <string name="drawer_item_subscribed_count">Subscribed</string>
+    <string name="gallery">Gallery</string>
 </resources>

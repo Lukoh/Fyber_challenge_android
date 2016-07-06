@@ -66,7 +66,6 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
 
     protected int mCurrentPage = 0;
 
-
     @BindView(R.id.swipe_layout)
     protected SwipyRefreshLayout mSwipeLayout;
     @BindView(R.id.recycler_view)
@@ -525,7 +524,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
                 if (mCurrentPage == 1) {
                     mRecyclerView.setAdapter(mBaseArrayAdapter);
                 } else {
-                    mBaseArrayAdapter.notifyItemRangeChanged(startIndex, items.size());
+                    mBaseArrayAdapter.notifyItemRangeChanged(startIndex, items.size() + 1);
                 }
             }
         } else {

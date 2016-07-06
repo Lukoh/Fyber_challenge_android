@@ -24,6 +24,8 @@ import android.net.Uri;
 import com.goforer.fyber_challenge_android.model.data.Event;
 import com.goforer.fyber_challenge_android.model.data.Offers;
 import com.goforer.fyber_challenge_android.model.data.Profile;
+import com.goforer.fyber_challenge_android.ui.activity.ImageViewActivity;
+import com.goforer.fyber_challenge_android.ui.activity.OffersGalleryActivity;
 import com.goforer.fyber_challenge_android.ui.activity.OffersInfoActivity;
 import com.goforer.fyber_challenge_android.ui.activity.OffersListActivity;
 
@@ -37,6 +39,14 @@ public enum  ActivityCaller {
     public static final String EXTRA_OFFERS_ITEM_POSITION = "fyber:offers_items_position";
     public static final String EXTRA_SELECTED_ITEM_POSITION = "fyber:selected_item_position";
     public static final String EXTRA_PROFILE = "fyber:profile";
+    public static final String EXTRA_FROM = "fyber:from";
+    public static final String EXTRA_OFFERS_ID = "fyber:offers_id";
+    public static final String EXTRA_OFFERS_TITLE = "fyber:offers_title";
+    public static final String EXTRA_OFFERS_IMAGE = "fyber:offers_image";
+
+    public static final int FROM_OFFERS_LIST = 0;
+    public static final int FROM_PROFILE_BOOKMARK = 1;
+    public static final int FROM_PROFILE_SUBSCRIPTION = 2;
 
     public static final int SELECTED_ITEM_POSITION = 1000;
 
@@ -66,20 +76,17 @@ public enum  ActivityCaller {
         activity.startActivity(intent);
     }
 
-    public void callItemInfo(Activity activity, List<Offers> items, int position,
+    public void callInfo(Activity activity, List<Offers> items, int position, int from,
                              int requestCode) {
         Intent intent = createIntent(activity, OffersInfoActivity.class, true);
+        intent.putExtra(EXTRA_FROM, from);
         intent.putParcelableArrayListExtra(EXTRA_OFFERS_LIST, (ArrayList<Offers>)items);
         intent.putExtra(EXTRA_OFFERS_ITEM_POSITION, position);
         activity.startActivityForResult(intent, requestCode);
     }
 
-    public void callBookmarkItem(Activity activity, List<Offers> items, int position) {
-        callItemInfo(activity, items, position, ActivityCaller.SELECTED_ITEM_POSITION);
-    }
-
-    public void callSubscriptionItem(Activity activity, List<Offers> items, int position) {
-        callItemInfo(activity, items, position, ActivityCaller.SELECTED_ITEM_POSITION);
+    public void callItem(Activity activity, List<Offers> items, int position, int from) {
+        callInfo(activity, items, position, from, ActivityCaller.SELECTED_ITEM_POSITION);
     }
 
     public void callEvents(Activity activity, Event event) {
@@ -93,6 +100,20 @@ public enum  ActivityCaller {
         Intent intent = createIntent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
 
+        context.startActivity(intent);
+    }
+
+    public void callOffersGallery(Context context, long offersId, String offersTitle) {
+        Intent intent = createIntent(context, OffersGalleryActivity.class, true);
+        intent.putExtra(EXTRA_OFFERS_ID, offersId);
+        intent.putExtra(EXTRA_OFFERS_TITLE, offersTitle);
+
+        context.startActivity(intent);
+    }
+
+    public void callImageView(Context context, String url) {
+        Intent intent = createIntent(context, ImageViewActivity.class, true);
+        intent.putExtra(EXTRA_OFFERS_IMAGE, url);
         context.startActivity(intent);
     }
 }

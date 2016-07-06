@@ -103,6 +103,13 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        mSlidingDrawer.setDrawerInfo(((OffersListActivity)mActivity).getProfile());
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
     }
@@ -274,12 +281,22 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     @SuppressWarnings("")
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onAction(BookmarkChangeAction action) {
+        if (!action.isBookmarked()) {
+            ((OffersListActivity)mActivity).getProfile().getBookmarks()
+                    .remove(action.getPosition());
+        }
+
         mItems.get(action.getPosition()).setBookmarked(action.isBookmarked());
     }
 
     @SuppressWarnings("")
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onAction(SubscriptionChangeAction action) {
+        if (!action.isSubscribed()) {
+            ((OffersListActivity)mActivity).getProfile().getSubscriptions()
+                    .remove(action.getPosition());
+        }
+
         mItems.get(action.getPosition()).setSubscribed(action.isSubscribed());
     }
 }

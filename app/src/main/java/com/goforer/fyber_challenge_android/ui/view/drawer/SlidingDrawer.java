@@ -147,14 +147,17 @@ public class SlidingDrawer {
     private Drawer createProfileDrawer(final BaseActivity activity, @IdRes int rootViewRes,
                                        @Nullable Bundle savedInstanceState) {
         Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
+        IProfile profile = null;
 
-        IProfile profile = new ProfileDrawerItem()
-                .withName(mProfile.getName())
-                .withEmail(mProfile.getEmail())
-                .withIcon(mProfile.getPictureURL())
-                .withIdentifier(DRAWER_PROFILE_ITEM_IDENTIFIER_ID);
+        if (mHeader == null) {
+            profile = new ProfileDrawerItem()
+                    .withName(mProfile.getName())
+                    .withEmail(mProfile.getEmail())
+                    .withIcon(mProfile.getPictureURL())
+                    .withIdentifier(DRAWER_PROFILE_ITEM_IDENTIFIER_ID);
 
-        buildHeader(activity, profile, savedInstanceState);
+            buildHeader(activity, profile, savedInstanceState);
+        }
 
         assert toolbar != null;
         mDrawer = new DrawerBuilder()
@@ -163,7 +166,6 @@ public class SlidingDrawer {
                 .withToolbar(toolbar)
                 .withHasStableIds(true)
                 .withActionBarDrawerToggleAnimated(true)
-                .withSavedInstance(savedInstanceState)
                 .withAccountHeader(mHeader) //set the AccountHeader we created earlier for the header
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(R.string.drawer_item_point)
@@ -346,9 +348,17 @@ public class SlidingDrawer {
                                 .withIdentifier(DRAWER_INFO_ITEM_FIRST_GALLERY_ID)
                                 .withArrowVisible(false)
                                 .withSelectable(true)
+                                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                                    @Override
+                                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                                        if (drawerItem != null) {
+                                            ActivityCaller.INSTANCE.callOffersGallery(
+                                                mActivity, mOffers.getOfferId(), mOffers.getTitle());
+                                        }
 
-                        //here we use a customPrimaryDrawerItem we defined in our sample app
-                        //this custom DrawerItem extends the PrimaryDrawerItem so it just overwrites some methods
+                                        return false;
+                                    }
+                            })
                 ) // add the items we want to use with our Drawer
                 .withOnDrawerNavigationListener(new Drawer.OnDrawerNavigationListener() {
                     @Override
@@ -464,9 +474,10 @@ public class SlidingDrawer {
                                 @Override
                                 public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                                     if (drawerItem != null) {
-                                        ActivityCaller.INSTANCE.callBookmarkItem(
+                                        ActivityCaller.INSTANCE.callItem(
                                                 mActivity, itemsForBookmark,
-                                                itemsForBookmark.indexOf(offers));
+                                                itemsForBookmark.indexOf(offers),
+                                                ActivityCaller.FROM_PROFILE_BOOKMARK);
                                     }
 
                                     return false;
@@ -492,9 +503,10 @@ public class SlidingDrawer {
                                 @Override
                                 public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                                     if (drawerItem != null) {
-                                        ActivityCaller.INSTANCE.callBookmarkItem(
+                                        ActivityCaller.INSTANCE.callItem(
                                                 mActivity, itemsForSubscription,
-                                                itemsForSubscription.indexOf(offers));
+                                                itemsForSubscription.indexOf(offers),
+                                                ActivityCaller.FROM_PROFILE_SUBSCRIPTION);
                                     }
 
                                     return false;

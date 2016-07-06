@@ -31,6 +31,7 @@ import com.goforer.fyber_challenge_android.R;
 import com.goforer.fyber_challenge_android.model.action.MoveItemAction;
 import com.goforer.fyber_challenge_android.model.action.SelectAction;
 import com.goforer.fyber_challenge_android.model.data.Profile;
+import com.goforer.fyber_challenge_android.ui.fragment.OfferGridFragment;
 import com.goforer.fyber_challenge_android.ui.fragment.OfferListFragment;
 import com.goforer.fyber_challenge_android.utility.ActivityCaller;
 import com.goforer.fyber_challenge_android.utility.CommonUtils;
@@ -49,8 +50,6 @@ import butterknife.BindView;
 
 public class OffersListActivity extends BaseActivity {
     private static final String TAG = "OffersListActivity";
-
-    public static final String HOME_URL = "https://github.com/Lukoh";
 
     private Profile mProfile;
 
@@ -134,7 +133,7 @@ public class OffersListActivity extends BaseActivity {
                 transactFragment(OfferListFragment.class, R.id.content_holder, null);
                 return true;
             case R.id.view_grid:
-                //transactFragment(OfferListFragment.class, R.id.content_holder, null);
+                transactFragment(OfferGridFragment.class, R.id.content_holder, null);
                 return true;
             case android.R.id.home:
                 onBackPressed();
@@ -213,7 +212,7 @@ public class OffersListActivity extends BaseActivity {
     @SuppressWarnings("")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAction(SelectAction action) {
-        ActivityCaller.INSTANCE.callItemInfo(this, action.getOffersList(), action.getPosition(),
-                ActivityCaller.SELECTED_ITEM_POSITION);
+        ActivityCaller.INSTANCE.callInfo(this, action.getOffersList(), action.getPosition(),
+                ActivityCaller.FROM_OFFERS_LIST, ActivityCaller.SELECTED_ITEM_POSITION);
     }
 }

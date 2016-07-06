@@ -66,8 +66,7 @@ public class OffersInfoActivity extends BaseActivity {
     private Menu mMenu;
 
     private int mItemPosition;
-
-    private boolean mStarred;
+    private int mFrom;
 
     @BindView(R.id.pager_flip)
     SwipeViewPager mSwipePager;
@@ -88,6 +87,7 @@ public class OffersInfoActivity extends BaseActivity {
          * It means that I'm going to put ViewPager and implement some module to allow a user to see
          * each Offers's information by flipping left and right through pages of data.
          */
+        mFrom = getIntent().getIntExtra(ActivityCaller.EXTRA_FROM, -1);
         mItemPosition = getIntent().getIntExtra(ActivityCaller.EXTRA_OFFERS_ITEM_POSITION, -1);
         mOffersItems = getIntent().getExtras().getParcelableArrayList(
                 ActivityCaller.EXTRA_OFFERS_LIST);
@@ -106,7 +106,6 @@ public class OffersInfoActivity extends BaseActivity {
 
         mSlidingDrawer = new SlidingDrawer(this, SlidingDrawer.DRAWER_INFO_TYPE,
                 R.id.container_info, savedInstanceState);
-        mStarred = false;
 
         super.onCreate(savedInstanceState);
     }
@@ -136,15 +135,14 @@ public class OffersInfoActivity extends BaseActivity {
     @Override
     protected void setViews(Bundle savedInstanceState) {
         if (mOffersItems != null && mItemPosition != -1) {
-            OffersInfoAdapter adapter = new OffersInfoAdapter(getSupportFragmentManager(),
-                    mOffersItems);
-            mSwipePager.setAdapter(adapter);
+            OffersInfoAdapter mAdapter = new OffersInfoAdapter(getSupportFragmentManager(), mOffersItems);
+            mSwipePager.setAdapter(mAdapter);
             ViewCompat.setTransitionName(mSwipePager, TRANSITION_IMAGE);
             mSwipePager.setPageMargin(PAGE_MARGIN_VALUE);
 
             handleSwipePager();
             Glide.with(mCurrentActivity).load(mOffersItems.get(mItemPosition).getThumbnail()
-                    .getLowres()).asBitmap().into(new SimpleTarget<Bitmap>() {
+                    .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                     mBackdrop.setImageBitmap(resource);
@@ -256,47 +254,68 @@ public class OffersInfoActivity extends BaseActivity {
         super.onSaveInstanceState(outState);
     }
 
+
     private void showSubscription() {
-        if (mOffersItems.get(mItemPosition).isSubscribed()) {
-            mMenu.getItem(1).setChecked(true);
-            mMenu.getItem(1).setIcon(R.drawable.ic_menu_subscribed) ;
+        if ((mFrom == ActivityCaller.FROM_OFFERS_LIST)
+            || (mFrom == ActivityCaller.FROM_PROFILE_SUBSCRIPTION)) {
+            mMenu.getItem(1).setVisible(true);
+            if (mOffersItems.get(mItemPosition).isSubscribed()) {
+                mMenu.getItem(1).setChecked(true);
+                mMenu.getItem(1).setIcon(R.drawable.ic_menu_subscribed) ;
+            } else {
+                mMenu.getItem(1).setChecked(false);
+                mMenu.getItem(1).setIcon(R.drawable.ic_menu_subscribe) ;
+            }
         } else {
-            mMenu.getItem(1).setChecked(false);
-            mMenu.getItem(1).setIcon(R.drawable.ic_menu_subscribe) ;
+            mMenu.getItem(1).setVisible(false);
         }
     }
 
-    private void handleSwipePager() {
-        if (mOffersItems.get(mItemPosition).isBookmarked()) {
-            mFabStar.setImageDrawable(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_favorite)
-                    .actionBar().color(Color.RED));
-        } else {
-            mFabStar.setImageDrawable(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_favorite)
-                    .actionBar().color(Color.WHITE));
-        }
-
-        mFabStar.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                BookmarkChangeAction action = new BookmarkChangeAction();
-                if (!mStarred) {
-                    mStarred = true;
-                    mOffersItems.get(mItemPosition).setBookmarked(true);
-                    action.setBookmarked(true);
-                    action.setPosition(mItemPosition);
-                    mFabStar.setImageDrawable(new IconicsDrawable(v.getContext(),
-                            GoogleMaterial.Icon.gmd_favorite).actionBar().color(Color.RED));
-                } else {
-                    mStarred = false;
-                    mOffersItems.get(mItemPosition).setBookmarked(false);
-                    action.setBookmarked(false);
-                    action.setPosition(mItemPosition);
-                    mFabStar.setImageDrawable(new IconicsDrawable(v.getContext(),
-                            GoogleMaterial.Icon.gmd_favorite).actionBar().color(Color.WHITE));
-                }
-
-                EventBus.getDefault().post(action);
+    private void setImage(int position) {
+        Glide.with(getBaseContext()).load(mOffersItems.get(position).getThumbnail()
+                .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                mBackdrop.setImageBitmap(resource);
             }
         });
+    }
+
+    private void handleSwipePager() {
+        if ((mFrom == ActivityCaller.FROM_OFFERS_LIST)
+                || (mFrom == ActivityCaller.FROM_PROFILE_BOOKMARK)) {
+            mFabStar.setVisibility(View.VISIBLE);
+            if (mOffersItems.get(mItemPosition).isBookmarked()) {
+                mFabStar.setImageDrawable(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_favorite)
+                        .actionBar().color(Color.RED));
+            } else {
+                mFabStar.setImageDrawable(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_favorite)
+                        .actionBar().color(Color.WHITE));
+            }
+
+            mFabStar.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    BookmarkChangeAction action = new BookmarkChangeAction();
+                    if (mOffersItems.get(mItemPosition).isBookmarked()) {
+                        mOffersItems.get(mItemPosition).setBookmarked(false);
+                        action.setBookmarked(false);
+                        action.setPosition(mItemPosition);
+                        mFabStar.setImageDrawable(new IconicsDrawable(v.getContext(),
+                                GoogleMaterial.Icon.gmd_favorite).actionBar().color(Color.WHITE));
+                    } else {
+                        mOffersItems.get(mItemPosition).setBookmarked(true);
+                        action.setBookmarked(true);
+                        action.setPosition(mItemPosition);
+                        mFabStar.setImageDrawable(new IconicsDrawable(v.getContext(),
+                                GoogleMaterial.Icon.gmd_favorite).actionBar().color(Color.RED));
+                    }
+
+                    EventBus.getDefault().post(action);
+                }
+            });
+        } else {
+            mFabStar.setVisibility(View.GONE);
+        }
 
         mSwipePager.setCurrentItem(mItemPosition, false);
         mSwipePager.setOnSwipeOutListener(new SwipeViewPager.OnSwipeOutListener() {
@@ -313,6 +332,27 @@ public class OffersInfoActivity extends BaseActivity {
         mSwipePager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (position == mItemPosition) {
+                    if (positionOffset > 0.6) {
+                        mBackdrop.setX(0);
+                        setImage(position + 1);
+                    } else {
+                        int displace = -positionOffsetPixels;
+
+                        mBackdrop.setX(displace);
+                        setImage(position);
+                    }
+                } else {
+                    if (positionOffset < 0.6) {
+                        int displace = -positionOffsetPixels;
+
+                        mBackdrop.setX(displace);
+                        setImage(position);
+                    } else {
+                        mBackdrop.setX(0);
+                        setImage(position + 1);
+                    }
+                }
             }
 
             @Override
@@ -329,14 +369,6 @@ public class OffersInfoActivity extends BaseActivity {
                     mFabStar.setImageDrawable(new IconicsDrawable(getBaseContext(),
                             GoogleMaterial.Icon.gmd_favorite).actionBar().color(Color.WHITE));
                 }
-
-                Glide.with(getBaseContext()).load(mOffersItems.get(mItemPosition).getThumbnail()
-                        .getLowres()).asBitmap().into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        mBackdrop.setImageBitmap(resource);
-                    }
-                });
 
                 mSlidingDrawer.setDrawerInfo(mOffersItems.get(mItemPosition));
 
