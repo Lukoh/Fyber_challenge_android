@@ -7,6 +7,7 @@
     <color name="black">#000000</color>
     <color name="black_alpha_35">#000000</color>
     <color name="black_transparent_30">#10000000</color>
+    <color name="black_transparent_20">#30000000</color>
     <color name="gray">#868686</color>
     <color name="colorPrimaryDark_transparent_30">#A0303F9F</color>
     <color name="swipyrefreshlayout_bg">#F2F2F2</color>

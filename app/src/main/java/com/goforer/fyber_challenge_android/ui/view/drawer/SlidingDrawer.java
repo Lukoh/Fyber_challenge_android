@@ -354,6 +354,7 @@ public class SlidingDrawer {
                                         if (drawerItem != null) {
                                             ActivityCaller.INSTANCE.callOffersGallery(
                                                 mActivity, mOffers.getOfferId(), mOffers.getTitle());
+                                            mDrawer.closeDrawer();
                                         }
 
                                         return false;

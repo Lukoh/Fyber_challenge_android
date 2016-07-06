@@ -1,10 +1,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content_holder"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/topLevelLayout">
+    android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/iv_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray"/>
+
+    <ImageView
+        android:id="@+id/iv_image"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:scaleType="fitCenter"

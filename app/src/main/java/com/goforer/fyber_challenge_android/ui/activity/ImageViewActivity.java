@@ -17,74 +17,74 @@
 package com.goforer.fyber_challenge_android.ui.activity;
 
 import android.animation.ObjectAnimator;
-import android.animation.TimeInterpolator;
-import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.goforer.base.ui.activity.BaseActivity;
 import com.goforer.fyber_challenge_android.R;
 import com.goforer.fyber_challenge_android.utility.ActivityCaller;
 
-public class  ImageViewActivity extends Activity {
+import butterknife.BindView;
 
-    private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
+public class  ImageViewActivity extends BaseActivity {
     private static final int ANIM_DURATION = 500;
 
-    ColorDrawable mBackground;
-    private ImageView mImageView;
-
     private String mImageUrl;
+
+    @BindView(R.id.content_holder)
+    RelativeLayout mHolder;
+    @BindView(R.id.iv_bg)
+    ImageView mBg;
+    @BindView(R.id.iv_image)
+    ImageView mImage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mImageUrl = getIntent().getStringExtra(ActivityCaller.EXTRA_OFFERS_IMAGE);
 
         super.onCreate(savedInstanceState);
+    }
 
+    @Override
+    public void setContentView() {
         setContentView(R.layout.activity_image_view);
-        mImageView = (ImageView) findViewById(R.id.imageView);
+    }
 
-        Animation animationFadeIn = AnimationUtils.loadAnimation(this, R.anim.scale_up_gallery);
-        mImageView.startAnimation(animationFadeIn);
-
+    @Override
+    public void setViews(Bundle onSavedInstanceState) {
+        Animation animationImage = AnimationUtils.loadAnimation(this, R.anim.scale_up_gallery);
+        mImage.startAnimation(animationImage);
+        Animation animationHolder = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        mBg.startAnimation(animationHolder);
 
         Glide.with(this).load(mImageUrl).asBitmap().into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                mImageView.setImageBitmap(resource);
+                mImage.setImageBitmap(resource);
             }
         });
 
         runEnterAnimation();
-
     }
 
-    /**
-     * The enter animation scales the picture in from its previous imageUrl
-     * size/location, colorizing it in parallel. In parallel, the background of the
-     * activity is fading in. When the pictue is in place, the text description
-     * drops down.
-     */
     public void runEnterAnimation() {
         final long duration = (long) (ANIM_DURATION );
 
         // Fade in the black background
-        ObjectAnimator bgAnim = ObjectAnimator.ofInt(mBackground, "alpha", 0, 150);
+        ObjectAnimator bgAnim = ObjectAnimator.ofInt(mHolder, "alpha", 0, 255);
         bgAnim.setDuration(duration);
         bgAnim.start();
 
         // Animate a color filter to take the image from grayscale to full color.
         // This happens in parallel with the image scaling and moving into place.
-        ObjectAnimator colorizer = ObjectAnimator.ofFloat(ImageViewActivity.this,
-                "saturation", 0, 1);
+        ObjectAnimator colorizer = ObjectAnimator.ofFloat(mHolder, "saturation", 0, 1);
         colorizer.setDuration(duration);
         colorizer.start();
     }
