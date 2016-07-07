@@ -22,10 +22,11 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.goforer.fyber_challenge_android.model.data.Event;
+import com.goforer.fyber_challenge_android.model.data.Gallery;
 import com.goforer.fyber_challenge_android.model.data.Offers;
 import com.goforer.fyber_challenge_android.model.data.Profile;
-import com.goforer.fyber_challenge_android.ui.activity.ImageViewActivity;
 import com.goforer.fyber_challenge_android.ui.activity.OffersGalleryActivity;
+import com.goforer.fyber_challenge_android.ui.activity.OffersImageBrowseActivity;
 import com.goforer.fyber_challenge_android.ui.activity.OffersInfoActivity;
 import com.goforer.fyber_challenge_android.ui.activity.OffersListActivity;
 
@@ -42,7 +43,8 @@ public enum  ActivityCaller {
     public static final String EXTRA_FROM = "fyber:from";
     public static final String EXTRA_OFFERS_ID = "fyber:offers_id";
     public static final String EXTRA_OFFERS_TITLE = "fyber:offers_title";
-    public static final String EXTRA_OFFERS_IMAGE = "fyber:offers_image";
+    public static final String EXTRA_GALLERY_IMAGE_LIST = "fyber:gallery_images";
+    public static final String EXTRA_GALLERY_IMAGE_POSITION= "fyber:gallery_image_position";
 
     public static final int FROM_OFFERS_LIST = 0;
     public static final int FROM_PROFILE_BOOKMARK = 1;
@@ -111,10 +113,13 @@ public enum  ActivityCaller {
         context.startActivity(intent);
     }
 
-    public void callImageView(Context context, String url) {
-        Intent intent = createIntent(context, ImageViewActivity.class, true);
-        intent.putExtra(EXTRA_OFFERS_IMAGE, url);
-        context.startActivity(intent);
+    public void callImageBrowse(Activity activity, List<Gallery> items, int position,
+                                int requestCode) {
+        Intent intent = createIntent(activity, OffersImageBrowseActivity.class, true);
+        intent.putExtra(EXTRA_GALLERY_IMAGE_POSITION, position);
+        intent.putParcelableArrayListExtra(EXTRA_GALLERY_IMAGE_LIST, (ArrayList<Gallery>) items);
+
+        activity.startActivityForResult(intent, requestCode);
     }
 }
 

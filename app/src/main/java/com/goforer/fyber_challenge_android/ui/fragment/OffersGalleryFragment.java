@@ -32,6 +32,7 @@ import com.goforer.base.ui.adapter.GapItemDecoration;
 import com.goforer.base.ui.fragment.RecyclerFragment;
 import com.goforer.fyber_challenge_android.FyberChallenge;
 import com.goforer.fyber_challenge_android.R;
+import com.goforer.fyber_challenge_android.model.action.MoveImageAction;
 import com.goforer.fyber_challenge_android.model.data.Gallery;
 import com.goforer.fyber_challenge_android.model.event.OffersGalleryEvent;
 import com.goforer.fyber_challenge_android.ui.adapter.OffersGalleryAdapter;
@@ -61,7 +62,11 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
     private static final int APP_ID = 2070;
     private static final int OFFER_TYPES = 112;
 
+    private OffersGalleryAdapter mAdapter;
+
     private int mTotalPageNum;
+
+    private boolean mIsImageBrowserClosed = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -74,12 +79,17 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
         super.onViewCreated(view, savedInstanceState);
 
         setItemHasFixedSize(true);
-        refresh();
+        if (!mIsImageBrowserClosed) {
+            refresh();
+        }
+
+        mIsImageBrowserClosed = false;
+
     }
 
     @Override
     protected RecyclerView.Adapter createAdapter() {
-        return new OffersGalleryAdapter(mActivity, mItems, R.layout.grid_gallery_item, true);
+        return mAdapter = new OffersGalleryAdapter(mActivity, mItems, R.layout.grid_gallery_item, true);
     }
 
     @Override
@@ -247,5 +257,11 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
 
                 break;
         }
+    }
+
+    @SuppressWarnings("")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAction(MoveImageAction action) {
+        mAdapter.moveSelectedPosition(getRecyclerView().getLayoutManager(), action.getPosition());
     }
 }

@@ -61,7 +61,7 @@ public class OffersInfoFragment extends BaseFragment {
     /**
      * Create a new instance of OffersInfoFragment
      */
-    static public OffersInfoFragment newInstance(Offers offers) {
+    public static OffersInfoFragment newInstance(Offers offers) {
         OffersInfoFragment fragment = new OffersInfoFragment();
         fragment.mOffers = offers;
 

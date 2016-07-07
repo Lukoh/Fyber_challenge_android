@@ -16,13 +16,17 @@
 
 package com.goforer.fyber_challenge_android.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 
 import com.goforer.base.ui.activity.BaseActivity;
 import com.goforer.fyber_challenge_android.R;
+import com.goforer.fyber_challenge_android.model.action.MoveImageAction;
 import com.goforer.fyber_challenge_android.ui.fragment.OffersGalleryFragment;
 import com.goforer.fyber_challenge_android.utility.ActivityCaller;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class OffersGalleryActivity extends BaseActivity {
     private long mOffersId;
@@ -49,6 +53,24 @@ public class OffersGalleryActivity extends BaseActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(requestCode) {
+            case ActivityCaller.SELECTED_ITEM_POSITION:
+                if (resultCode == RESULT_OK) {
+                    int position = data.getIntExtra(
+                            ActivityCaller.EXTRA_SELECTED_ITEM_POSITION, -1);
+                    if (position != -1) {
+                        MoveImageAction action = new MoveImageAction();
+                        action.setPosition(position);
+                        EventBus.getDefault().post(action);
+                    }
+                }
+                break;
+            default:
+        }
+    }
+
+    @Override
     protected void setActionBar() {
         super.setActionBar();
         ActionBar actionBar = getSupportActionBar();
@@ -60,9 +82,5 @@ public class OffersGalleryActivity extends BaseActivity {
             actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-    }
-
-    public long getOffersId() {
-        return mOffersId;
     }
 }

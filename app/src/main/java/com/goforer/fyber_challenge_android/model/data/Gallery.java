@@ -65,15 +65,15 @@ public class Gallery extends BaseModel implements Parcelable {
     }
 
     @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Offers> CREATOR = new Parcelable.Creator<Offers>() {
+    public static final Parcelable.Creator<Gallery> CREATOR = new Parcelable.Creator<Gallery>() {
         @Override
-        public Offers createFromParcel(Parcel in) {
-            return new Offers(in);
+        public Gallery createFromParcel(Parcel in) {
+            return new Gallery(in);
         }
 
         @Override
-        public Offers[] newArray(int size) {
-            return new Offers[size];
+        public Gallery[] newArray(int size) {
+            return new Gallery[size];
         }
     };
 

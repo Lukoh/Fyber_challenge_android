@@ -25,13 +25,13 @@ import com.goforer.fyber_challenge_android.R;
 import com.mikepenz.materialdrawer.model.BaseViewHolder;
 
 public class CountPanelViewHolder extends BaseViewHolder {
-    protected TextView count;
+    protected TextView mCount;
     protected LinearLayout arrowContainer;
 
     public CountPanelViewHolder(View view) {
         super(view);
 
-        this.count = (TextView) view.findViewById(R.id.material_drawer_count);
+        this.mCount = (TextView) view.findViewById(R.id.material_drawer_count);
         this.arrowContainer = (LinearLayout) view.findViewById(R.id.material_drawer_arrow_container);
     }
 
@@ -52,7 +52,7 @@ public class CountPanelViewHolder extends BaseViewHolder {
     }
 
     public TextView getCount() {
-        return count;
+        return mCount;
     }
 
     public LinearLayout getArrowContainer() {

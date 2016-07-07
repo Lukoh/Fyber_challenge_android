@@ -69,7 +69,7 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.ImageViewActivity"
+            android:name=".ui.activity.OffersImageBrowseActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">

@@ -16,13 +16,13 @@
 
 package com.goforer.fyber_challenge_android.model.action;
 
-import android.support.v7.widget.RecyclerView.LayoutManager;
+import android.support.v7.widget.RecyclerView;
 
-public class MoveItemAction {
-    private LayoutManager mLayoutManager;
+public class MoveImageAction {
+    private RecyclerView.LayoutManager mLayoutManager;
     private int mPosition;
 
-    public LayoutManager getLayoutManager() {
+    public RecyclerView.LayoutManager getLayoutManager() {
         return mLayoutManager;
     }
 
@@ -30,7 +30,7 @@ public class MoveItemAction {
         return mPosition;
     }
 
-    public void setLayoutManager(LayoutManager layoutManager) {
+    public void setLayoutManager(RecyclerView.LayoutManager layoutManager) {
         mLayoutManager = layoutManager;
     }
 
