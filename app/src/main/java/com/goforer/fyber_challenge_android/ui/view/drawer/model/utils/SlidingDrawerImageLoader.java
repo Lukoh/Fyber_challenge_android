@@ -91,7 +91,7 @@ public class SlidingDrawerImageLoader {
 
         void cancel(ImageView imageView);
 
-        Drawable placeholder(Context ctx);
+        Drawable placeholder(Context context);
 
         /**
          * @param ctx

@@ -38,6 +38,7 @@ import com.goforer.fyber_challenge_android.model.event.OffersDataEvent;
 import com.goforer.fyber_challenge_android.ui.activity.OffersListActivity;
 import com.goforer.fyber_challenge_android.ui.adapter.OfferListAdapter;
 import com.goforer.fyber_challenge_android.ui.view.drawer.SlidingDrawer;
+import com.goforer.fyber_challenge_android.utility.ActivityCaller;
 import com.goforer.fyber_challenge_android.utility.CommonUtils;
 import com.goforer.fyber_challenge_android.web.Intermediary;
 import com.goforer.fyber_challenge_android.web.communicator.ResponseClient;
@@ -70,6 +71,9 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
 
     @BindView(R.id.fam_menu)
     FloatingActionMenu mMenu;
+    @BindView(R.id.fab_help)
+    View mHelp;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -159,7 +163,12 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
 
     @Override
     protected RecyclerView.Adapter createAdapter() {
-        return mAdapter = new OfferListAdapter(mActivity, mItems, R.layout.list_offer_item, true);
+        return mAdapter = new OfferListAdapter(mContext, mItems, R.layout.list_offer_item, true);
+    }
+
+    @Override
+    protected boolean isItemDecorationVisible() {
+        return false;
     }
 
     @Override
@@ -204,8 +213,8 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
         String hashKey = getHashKey(advertisingId, timestamp, mCurrentPage);
         hashKey = hashKey.toLowerCase();
 
-        Intermediary.INSTANCE.getOffers(mContext, APP_ID, advertisingId, IP, LOCALE, OFFER_TYPES,
-                mCurrentPage, timestamp, UID, hashKey, event);
+        Intermediary.INSTANCE.getOffers(mContext.getApplicationContext(), APP_ID, advertisingId,
+                IP, LOCALE, OFFER_TYPES, mCurrentPage, timestamp, UID, hashKey, event);
     }
 
     @SuppressWarnings("")
@@ -243,8 +252,14 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
         mMenu.toggle(true);
     }
 
+    @SuppressWarnings("")
+    @OnClick(R.id.fab_help)
+    void onCallHelp() {
+        ActivityCaller.INSTANCE.callLink(mContext, ActivityCaller.HELP_URL);
+    }
+
     private void showToastMessage(String phrase) {
-        Toast.makeText(mContext, phrase, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext.getApplicationContext(), phrase, Toast.LENGTH_SHORT).show();
     }
 
     private String getHashKey(String advertisingId, long timestamp, int pageNum)

@@ -17,6 +17,7 @@
 package com.goforer.fyber_challenge_android.ui.view.drawer;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -73,22 +74,19 @@ public class SlidingDrawer {
 
     private static final int SECONDARY_DRAWER_LEVEL = 2;
 
-    private static final String HELP_URL = "https://github.com/Lukoh/Fyber_challenge_android";
-
-
     private AccountHeader mHeader = null;
     private Drawer mDrawer = null;
     private Profile mProfile;
     private Offers mOffers;
-    private BaseActivity mActivity;
+    private Context mContext;
     private Bundle mBundle;
 
     private int mType;
     private int mRootViewRes;
 
-    public SlidingDrawer(final BaseActivity activity, final int type, int rootViewRes,
+    public SlidingDrawer(final Context context, final int type, int rootViewRes,
                          @Nullable Bundle savedInstanceState) {
-        mActivity = activity;
+        mContext = context;
         mType = type;
         mRootViewRes = rootViewRes;
         mBundle = savedInstanceState;
@@ -115,10 +113,10 @@ public class SlidingDrawer {
     private void setDrawer(int type) {
         switch(type) {
             case DRAWER_PROFILE_TYPE:
-                mDrawer = createProfileDrawer(mActivity, mRootViewRes, mBundle);
+                mDrawer = createProfileDrawer((BaseActivity)mContext, mRootViewRes, mBundle);
                 break;
             case DRAWER_INFO_TYPE:
-                mDrawer = createInfoDrawer(mActivity, mRootViewRes, mBundle);
+                mDrawer = createInfoDrawer((BaseActivity)mContext, mBundle);
                 break;
             default:
         }
@@ -238,7 +236,7 @@ public class SlidingDrawer {
         return mDrawer;
     }
 
-    private Drawer createInfoDrawer(final BaseActivity activity, @IdRes int rootViewRes,
+    private Drawer createInfoDrawer(final BaseActivity activity,
                                     @Nullable Bundle savedInstanceState) {
         Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
 
@@ -302,18 +300,20 @@ public class SlidingDrawer {
                         new PrimaryDrawerItem().withName(R.string.drawer_item_offer_id)
                                 .withDescription(String.valueOf(mOffers.getOfferId()))
                                 .withIcon(R.drawable.ic_drawer_id)
-                                .withTextColor(mActivity.getResources()
+                                .withTextColor(mContext.getApplicationContext().getResources()
                                         .getColor(R.color.colorPrimaryDark))
-                                .withDescriptionTextColor(mActivity.getResources()
+                                .withDescriptionTextColor(mContext.getApplicationContext()
+                                        .getResources()
                                         .getColor(R.color.material_drawable_offer_id_text))
 
                                 .withSelectable(false),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_payout)
                                 .withDescription(String.valueOf(mOffers.getPayout()))
                                 .withIcon(R.drawable.ic_drawer_payout)
-                                .withTextColor(mActivity.getResources()
+                                .withTextColor(mContext.getApplicationContext().getResources()
                                         .getColor(R.color.colorPrimaryDark))
-                                .withDescriptionTextColor(mActivity.getResources()
+                                .withDescriptionTextColor(mContext.getApplicationContext()
+                                        .getResources()
                                         .getColor(R.color.material_drawable_offer_id_text))
                                 .withSelectable(false),
                         createExpandableDrawerItem(R.drawable.ic_drawer_event,
@@ -324,7 +324,7 @@ public class SlidingDrawer {
                                 .withName(activity.getResources().getString(
                                         R.string.drawer_item_bookmarked_count))
                                 .withCount(String.valueOf(mOffers.getBookmarkedCount()))
-                                .withCountTextColor(mActivity.getResources()
+                                .withCountTextColor(mContext.getApplicationContext().getResources()
                                         .getColor(R.color.material_drawable_bookmark_count_text))
                                 .withIcon(R.drawable.ic_drawer_star)
                                 .withArrowVisible(false)
@@ -333,7 +333,7 @@ public class SlidingDrawer {
                                 .withName(activity.getResources().getString(
                                         R.string.drawer_item_subscribed_count))
                                 .withCount(String.valueOf(mOffers.getSubscribedCount()))
-                                .withCountTextColor(mActivity.getResources()
+                                .withCountTextColor(mContext.getApplicationContext().getResources()
                                         .getColor(R.color.material_drawable_bookmark_count_text))
                                 .withIcon(R.drawable.ic_drawer_subscription)
                                 .withArrowVisible(false)
@@ -342,7 +342,7 @@ public class SlidingDrawer {
                                 .withName(activity.getResources().getString(
                                         R.string.drawer_item_gallery))
                                 .withCount(String.valueOf(mOffers.getGalleryCount()))
-                                .withCountTextColor(mActivity.getResources()
+                                .withCountTextColor(mContext.getApplicationContext().getResources()
                                         .getColor(R.color.material_drawable_bookmark_count_text))
                                 .withIcon(R.drawable.ic_drawer_gallery)
                                 .withIdentifier(DRAWER_INFO_ITEM_FIRST_GALLERY_ID)
@@ -353,7 +353,8 @@ public class SlidingDrawer {
                                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                                         if (drawerItem != null) {
                                             ActivityCaller.INSTANCE.callOffersGallery(
-                                                mActivity, mOffers.getOfferId(), mOffers.getTitle());
+                                                    mContext, mOffers.getOfferId(),
+                                                    mOffers.getTitle());
                                             mDrawer.closeDrawer();
                                         }
 
@@ -389,9 +390,9 @@ public class SlidingDrawer {
                         //those items don't contain a drawerItem
                         if (drawerItem != null) {
                             if (drawerItem.getIdentifier() == DRAWER_INFO_STICKY_LINK_ID) {
-                                ActivityCaller.INSTANCE.callLink(mActivity, mOffers.getLink());
+                                ActivityCaller.INSTANCE.callLink(mContext, mOffers.getLink());
                             } else if (drawerItem.getIdentifier() == DRAWER_INFO_STICKY_HELP_ID) {
-                                ActivityCaller.INSTANCE.callLink(mActivity, HELP_URL);
+                                ActivityCaller.INSTANCE.callLink(mContext, ActivityCaller.HELP_URL);
                             }
                         }
 
@@ -411,11 +412,11 @@ public class SlidingDrawer {
         CustomCountPanelDrawableItem drawableItem = new CustomCountPanelDrawableItem();
         switch (type) {
             case CUSTOM_ITEM_BOOKMARK_TYPE:
-                drawable = mActivity.getResources()
+                drawable = mContext.getApplicationContext().getResources()
                         .getDrawable(R.drawable.ic_drawer_bookmark);
                 drawableItem.withName(itemName)
                         .withCount(String.valueOf(items.size()))
-                        .withCountTextColor(mActivity.getResources()
+                        .withCountTextColor(mContext.getApplicationContext().getResources()
                                 .getColor(R.color.material_drawable_bookmark_count_text))
                         .withIcon(iconRes)
                         .withIdentifier(DRAWER_PROFILE_ITEM_BOOKMARK_ID)
@@ -425,11 +426,11 @@ public class SlidingDrawer {
                         );
                 break;
             case CUSTOM_ITEM_SUBSCRIPTION_TYPE:
-                drawable = mActivity.getResources()
+                drawable = mContext.getApplicationContext().getResources()
                         .getDrawable(R.drawable.ic_drawer_subscription);
                 drawableItem.withName(itemName)
                         .withCount(String.valueOf(items.size()))
-                        .withCountTextColor(mActivity.getResources()
+                        .withCountTextColor(mContext.getApplicationContext().getResources()
                                 .getColor(R.color.material_drawable_subscription_count_text))
                         .withIcon(iconRes)
                         .withIdentifier(DRAWER_PROFILE_ITEM_SUBSCRIPTION_ID)
@@ -439,11 +440,11 @@ public class SlidingDrawer {
                         );
                 break;
             case CUSTOM_ITEM_EVENT_TYPE:
-                drawable = mActivity.getResources()
+                drawable = mContext.getApplicationContext().getResources()
                         .getDrawable(R.drawable.ic_drawer_events);
                 drawableItem.withName(itemName)
                         .withCount(String.valueOf(items.size()))
-                        .withCountTextColor(mActivity.getResources()
+                        .withCountTextColor(mContext.getApplicationContext().getResources()
                                 .getColor(R.color.material_drawable_events_count_text))
                         .withIcon(iconRes)
                         .withIdentifier(DRAWER_INFO_ITEM_FIRST_EVENT_ID)
@@ -475,8 +476,7 @@ public class SlidingDrawer {
                                 @Override
                                 public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                                     if (drawerItem != null) {
-                                        ActivityCaller.INSTANCE.callItem(
-                                                mActivity, itemsForBookmark,
+                                        ActivityCaller.INSTANCE.callItem(mContext, itemsForBookmark,
                                                 itemsForBookmark.indexOf(offers),
                                                 ActivityCaller.FROM_PROFILE_BOOKMARK);
                                     }
@@ -504,8 +504,8 @@ public class SlidingDrawer {
                                 @Override
                                 public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                                     if (drawerItem != null) {
-                                        ActivityCaller.INSTANCE.callItem(
-                                                mActivity, itemsForSubscription,
+                                        ActivityCaller.INSTANCE.callItem(mContext,
+                                                itemsForSubscription,
                                                 itemsForSubscription.indexOf(offers),
                                                 ActivityCaller.FROM_PROFILE_SUBSCRIPTION);
                                     }

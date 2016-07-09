@@ -22,6 +22,7 @@
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@android:color/white"
                 android:scrollbars="vertical"
                 android:clipToPadding="false"
                 android:clipChildren="false" />
@@ -50,11 +51,11 @@
             fab:menu_labels_ellipsize="end" >
 
             <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fab_offer"
+                android:id="@+id/fab_help"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_fab_offer"
-                fab:fab_label="@string/fab_menu_offer"
+                fab:fab_label="@string/fab_menu_help"
                 style="@style/MenuButtonsSmall.OfferList" />
 
 

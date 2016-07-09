@@ -118,7 +118,7 @@ public class CustomCountPanelDrawableItem extends CountPanelDrawerItem<CustomCou
 
     @Override
     public void bindView(ViewHolder viewHolder) {
-        Context ctx = viewHolder.itemView.getContext();
+        Context context = viewHolder.itemView.getContext();
         //bind the basic view parts
         bindViewHelper(viewHolder);
 
@@ -130,10 +130,10 @@ public class CustomCountPanelDrawableItem extends CountPanelDrawerItem<CustomCou
         }
 
         if (this.arrowColor != null) {
-            viewHolder.arrow.setColor(this.arrowColor.color(ctx));
+            viewHolder.arrow.setColor(this.arrowColor.color(context));
         }
         else {
-            viewHolder.arrow.setColor(getIconColor(ctx));
+            viewHolder.arrow.setColor(getIconColor(context));
         }
         viewHolder.arrow.clearAnimation();
         if (!isExpanded()) {

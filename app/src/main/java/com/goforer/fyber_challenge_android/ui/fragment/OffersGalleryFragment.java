@@ -89,7 +89,12 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
 
     @Override
     protected RecyclerView.Adapter createAdapter() {
-        return mAdapter = new OffersGalleryAdapter(mActivity, mItems, R.layout.grid_gallery_item, true);
+        return mAdapter = new OffersGalleryAdapter(mContext, mItems, R.layout.grid_gallery_item, true);
+    }
+
+    @Override
+    protected boolean isItemDecorationVisible() {
+        return true;
     }
 
     @Override
@@ -123,7 +128,9 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
                 Log.i(TAG, "onCompleted");
 
                 if (result == OnProcessListener.RESULT_ERROR) {
-                    Toast.makeText(mContext, R.string.toast_process_error, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext.getApplicationContext(),
+                            R.string.toast_process_error,
+                            Toast.LENGTH_SHORT).show();
                     FyberChallenge.closeApplication();
                 }
             }
@@ -197,8 +204,8 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
         String hashKey = getHashKey(advertisingId, timestamp, mCurrentPage);
         hashKey = hashKey.toLowerCase();
 
-        Intermediary.INSTANCE.getOffers(mContext, APP_ID, advertisingId, IP, LOCALE, OFFER_TYPES,
-                mCurrentPage, timestamp, UID, hashKey, event);
+        Intermediary.INSTANCE.getOffers(mContext.getApplicationContext(), APP_ID, advertisingId,
+                IP, LOCALE, OFFER_TYPES, mCurrentPage, timestamp, UID, hashKey, event);
     }
 
     private String getHashKey(String advertisingId, long timestamp, int pageNum)
@@ -227,7 +234,7 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
     }
 
     private void showToastMessage(String phrase) {
-        Toast.makeText(mContext, phrase, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext.getApplicationContext(), phrase, Toast.LENGTH_SHORT).show();
     }
 
     @SuppressWarnings("")

@@ -53,10 +53,6 @@ public class OffersInfoFragment extends BaseFragment {
     TextView mAmountView;
     @BindView(R.id.tv_readable)
     TextView mReadableView;
-    @BindView(R.id.comment_bar)
-    View mCommentBar;
-    @BindView(R.id.comment_holder)
-    View mCommentHolder;
 
     /**
      * Create a new instance of OffersInfoFragment
@@ -116,7 +112,7 @@ public class OffersInfoFragment extends BaseFragment {
     @SuppressWarnings("")
     @OnClick(R.id.tv_link)
     void onGoToLink() {
-        ActivityCaller.INSTANCE.callLink(mContext, mOffers.getLink());
+        ActivityCaller.INSTANCE.callLink(mContext.getApplicationContext(), mOffers.getLink());
     }
 
 }

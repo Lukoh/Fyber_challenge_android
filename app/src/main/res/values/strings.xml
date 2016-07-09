@@ -3,7 +3,7 @@
     <string name="not_connected_internet">Internet connection not available.</string>
     <string name="toast_process_error">This app is going to exit due to an error of data processing.</string>
     <string name="loading">Loading on&#8230;</string>
-    <string name="fab_menu_offer">Offer</string>
+    <string name="fab_menu_help">Help</string>
     <string name="toast_last_page">Last page.</string>
     <string name="toast_no_offers">No Offers.</string>
     <string name="toast_disconnect_phrase">Can not access the internet.</string>

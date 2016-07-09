@@ -87,7 +87,7 @@ public abstract class BasePrimaryIconDrawerItem <T, VH extends BaseViewHolder>
      * @param viewHolder
      */
     protected void bindViewHelper(IconBaseViewHolder viewHolder) {
-        Context ctx = viewHolder.itemView.getContext();
+        Context context = viewHolder.itemView.getContext();
 
         //set the identifier from the drawerItem here. It can be used to run tests
         viewHolder.itemView.setId(hashCode());
@@ -102,16 +102,18 @@ public abstract class BasePrimaryIconDrawerItem <T, VH extends BaseViewHolder>
         viewHolder.itemView.setTag(this);
 
         //get the correct color for the background
-        int selectedColor = getSelectedColor(ctx);
+        int selectedColor = getSelectedColor(context);
         //get the correct color for the text
-        int color = getColor(ctx);
-        ColorStateList selectedTextColor = getTextColorStateList(color, getSelectedTextColor(ctx));
+        int color = getColor(context);
+        ColorStateList selectedTextColor = getTextColorStateList(color,
+                getSelectedTextColor(context));
         //get the correct color for the icon
-        int iconColor = getIconColor(ctx);
-        int selectedIconColor = getSelectedIconColor(ctx);
+        int iconColor = getIconColor(context);
+        int selectedIconColor = getSelectedIconColor(context);
 
         //set the background for the item
-        UIUtils.setBackground(viewHolder.getView(), UIUtils.getSelectableBackground(ctx, selectedColor, true));
+        UIUtils.setBackground(viewHolder.getView(), UIUtils.getSelectableBackground(context,
+                selectedColor, true));
         //set the text for the name
         StringHolder.applyTo(this.getName(), viewHolder.getName());
         //set the text for the description or hide
@@ -120,7 +122,8 @@ public abstract class BasePrimaryIconDrawerItem <T, VH extends BaseViewHolder>
         //set the colors for textViews
         viewHolder.getName().setTextColor(selectedTextColor);
         //set the description text color
-        ColorHolder.applyToOr(getDescriptionTextColor(), viewHolder.getDescription(), selectedTextColor);
+        ColorHolder.applyToOr(getDescriptionTextColor(), viewHolder.getDescription(),
+                selectedTextColor);
 
         //define the typeface for our textViews
         if (getTypeface() != null) {

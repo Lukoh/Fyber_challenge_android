@@ -16,6 +16,7 @@
 
 package com.goforer.fyber_challenge_android.ui.adapter;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -43,14 +44,15 @@ import java.util.List;
 import butterknife.BindView;
 
 public class OfferGridAdapter extends BaseListAdapter<Offers> {
-    private BaseActivity mActivity;
+    private Context mContext;
 
-    public OfferGridAdapter(BaseActivity activity, List<Offers> items, int layoutResId,
+    public OfferGridAdapter(Context context, List<Offers> items, int layoutResId,
                             boolean usedLoadingImage) {
         super(items, layoutResId);
 
+        mContext = context;
+
         setUsedLoadingImage(usedLoadingImage);
-        mActivity = activity;
     }
 
     @Override
@@ -97,7 +99,7 @@ public class OfferGridAdapter extends BaseListAdapter<Offers> {
 
     @Override
     protected RecyclerView.ViewHolder createViewHolder(View view, int type) {
-        return new OffersGridViewHolder(view, mItems);
+        return new OffersGridViewHolder(view, mItems, ((BaseActivity)mContext).resumed());
     }
 
     @Override
@@ -111,26 +113,29 @@ public class OfferGridAdapter extends BaseListAdapter<Offers> {
         }
     }
 
-    public class OffersGridViewHolder extends BaseViewHolder<Offers> {
+    public static class OffersGridViewHolder extends BaseViewHolder<Offers> {
         private Offers mOffers;
         private List<Offers> mOffersItems;
+
+        private boolean mIsResumed;
 
         @BindView(R.id.iv_content)
         ImageView mContentImageView;
         @BindView(R.id.tv_title)
         TextView mTitleView;
 
-        public OffersGridViewHolder(View itemView, List<Offers> items) {
+        public OffersGridViewHolder(View itemView, List<Offers> items, boolean isResumed) {
             super(itemView);
 
             mOffersItems = items;
+            mIsResumed = isResumed;
         }
 
         @Override
         public void bindItemHolder(@NonNull final Offers offers, final int position) {
             mOffers = offers;
 
-            Glide.with(mActivity).load(mOffers.getThumbnail()
+            Glide.with(mContext.getApplicationContext()).load(mOffers.getThumbnail()
                     .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -143,7 +148,7 @@ public class OfferGridAdapter extends BaseListAdapter<Offers> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (mActivity.resumed()) {
+                    if (mIsResumed) {
                         SelectAction action = new SelectAction();
                         /**
                          * For using ViewPager in OffersInfoActivity, the list of Offers and

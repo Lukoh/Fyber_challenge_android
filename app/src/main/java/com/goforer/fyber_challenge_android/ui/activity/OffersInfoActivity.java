@@ -141,7 +141,7 @@ public class OffersInfoActivity extends BaseActivity {
             mSwipePager.setPageMargin(PAGE_MARGIN_VALUE);
 
             handleSwipePager();
-            Glide.with(mCurrentActivity).load(mOffersItems.get(mItemPosition).getThumbnail()
+            Glide.with(getApplicationContext()).load(mOffersItems.get(mItemPosition).getThumbnail()
                     .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -272,7 +272,7 @@ public class OffersInfoActivity extends BaseActivity {
     }
 
     private void setImage(int position) {
-        Glide.with(getBaseContext()).load(mOffersItems.get(position).getThumbnail()
+        Glide.with(getApplicationContext()).load(mOffersItems.get(position).getThumbnail()
                 .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {

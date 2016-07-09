@@ -29,14 +29,11 @@ import com.goforer.fyber_challenge_android.utility.ActivityCaller;
 import org.greenrobot.eventbus.EventBus;
 
 public class OffersGalleryActivity extends BaseActivity {
-    private long mOffersId;
-
     private String mOffersTitle;
 
 
     @Override
     public void onCreate(Bundle onSavedInstanceState) {
-        mOffersId = getIntent().getLongExtra(ActivityCaller.EXTRA_OFFERS_ID, -1);
         mOffersTitle = getIntent().getStringExtra(ActivityCaller.EXTRA_OFFERS_TITLE);
 
         super.onCreate(onSavedInstanceState);

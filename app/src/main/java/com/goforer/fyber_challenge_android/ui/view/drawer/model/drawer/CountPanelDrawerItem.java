@@ -72,7 +72,7 @@ public abstract class CountPanelDrawerItem<T, VH extends CountPanelViewHolder>
      * @param viewHolder
      */
     protected void bindViewHelper(CountPanelViewHolder viewHolder) {
-        Context ctx = viewHolder.itemView.getContext();
+        Context context = viewHolder.itemView.getContext();
 
         //set the identifier from the drawerItem here. It can be used to run tests
         viewHolder.itemView.setId(hashCode());
@@ -87,17 +87,18 @@ public abstract class CountPanelDrawerItem<T, VH extends CountPanelViewHolder>
         viewHolder.itemView.setTag(this);
 
         //get the correct color for the background
-        int selectedColor = getSelectedColor(ctx);
+        int selectedColor = getSelectedColor(context);
         //get the correct color for the text
-        int color = getColor(ctx);
-        ColorStateList selectedTextColor = getTextColorStateList(color, getSelectedTextColor(ctx));
+        int color = getColor(context);
+        ColorStateList selectedTextColor = getTextColorStateList(color,
+                getSelectedTextColor(context));
         //get the correct color for the icon
-        int iconColor = getIconColor(ctx);
-        int selectedIconColor = getSelectedIconColor(ctx);
+        int iconColor = getIconColor(context);
+        int selectedIconColor = getSelectedIconColor(context);
 
         //set the background for the item
         UIUtils.setBackground(viewHolder.getView(), UIUtils.getSelectableBackground(
-                ctx, selectedColor, true));
+                context, selectedColor, true));
         //set the text for the name
         StringHolder.applyTo(this.getName(), viewHolder.getName());
         //set the text for the count or hide
@@ -116,8 +117,8 @@ public abstract class CountPanelDrawerItem<T, VH extends CountPanelViewHolder>
         }
 
         //get the drawables for our icon and set it
-        Drawable icon = ImageHolder.decideIcon(getIcon(), ctx, iconColor, isIconTinted(), 1);
-        Drawable selectedIcon = ImageHolder.decideIcon(getSelectedIcon(), ctx, selectedIconColor,
+        Drawable icon = ImageHolder.decideIcon(getIcon(), context, iconColor, isIconTinted(), 1);
+        Drawable selectedIcon = ImageHolder.decideIcon(getSelectedIcon(), context, selectedIconColor,
                 isIconTinted(), 1);
         ImageHolder.applyMultiIconTo(icon, iconColor, selectedIcon, selectedIconColor,
                 isIconTinted(), viewHolder.getIcon());

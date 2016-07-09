@@ -38,12 +38,12 @@ public class AbstractSlidingDrawerImageLoader implements
     }
 
     @Override
-    public Drawable placeholder(Context ctx) {
-        return DrawerUIUtils.getPlaceHolder(ctx);
+    public Drawable placeholder(Context context) {
+        return DrawerUIUtils.getPlaceHolder(context);
     }
 
     @Override
-    public Drawable placeholder(Context ctx, String tag) {
-        return placeholder(ctx);
+    public Drawable placeholder(Context context, String tag) {
+        return placeholder(context);
     }
 }

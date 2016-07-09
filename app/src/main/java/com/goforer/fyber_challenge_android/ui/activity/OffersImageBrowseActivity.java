@@ -38,6 +38,8 @@ import java.util.List;
 import butterknife.BindView;
 
 public class OffersImageBrowseActivity extends BaseActivity {
+    private static final int ALPHA_ANIMATION_DURATION = 700;
+
     private int mImagePosition;
 
     private List<Gallery> mImageList;
@@ -50,7 +52,6 @@ public class OffersImageBrowseActivity extends BaseActivity {
     View mBgMask;
     @BindView(R.id.iv_image)
     ImageView mImage;
-
 
     @Override
     public void onCreate(Bundle onSavedInstanceState) {
@@ -72,7 +73,7 @@ public class OffersImageBrowseActivity extends BaseActivity {
 
         mNumber.setText((mImagePosition + 1) + "/" + mImageList.size());
 
-        OffersImageBrowseAdapter adapter = new OffersImageBrowseAdapter(this, mImageList);
+        final OffersImageBrowseAdapter adapter = new OffersImageBrowseAdapter(this, mImageList);
 
         mSwipePager.setAdapter(adapter);
 
@@ -111,14 +112,14 @@ public class OffersImageBrowseActivity extends BaseActivity {
 
     private void runEnterAnimation() {
         AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
-        alphaAnimation.setDuration(700);
+        alphaAnimation.setDuration(ALPHA_ANIMATION_DURATION);
         alphaAnimation.setInterpolator(new AccelerateInterpolator());
         mBgMask.startAnimation(alphaAnimation);
     }
 
     public void runExitAnimation(final View view) {
         AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0);
-        alphaAnimation.setDuration(700);
+        alphaAnimation.setDuration(ALPHA_ANIMATION_DURATION);
         alphaAnimation.setInterpolator(new AccelerateInterpolator());
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override

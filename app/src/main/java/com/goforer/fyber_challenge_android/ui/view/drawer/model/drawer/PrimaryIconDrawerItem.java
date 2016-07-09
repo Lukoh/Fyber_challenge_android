@@ -77,7 +77,7 @@ public class PrimaryIconDrawerItem extends BasePrimaryIconDrawerItem<PrimaryIcon
 
     @Override
     public void bindView(ViewHolder viewHolder) {
-        Context ctx = viewHolder.itemView.getContext();
+        Context context = viewHolder.itemView.getContext();
         //bind the basic view parts
         bindViewHelper(viewHolder);
 
@@ -85,7 +85,8 @@ public class PrimaryIconDrawerItem extends BasePrimaryIconDrawerItem<PrimaryIcon
         boolean badgeVisible = StringHolder.applyToOrHide(mBadge, viewHolder.badge);
         //style the badge if it is visible
         if (badgeVisible) {
-            mBadgeStyle.style(viewHolder.badge, getTextColorStateList(getColor(ctx), getSelectedTextColor(ctx)));
+            mBadgeStyle.style(viewHolder.badge, getTextColorStateList(getColor(context),
+                    getSelectedTextColor(context)));
             viewHolder.badgeContainer.setVisibility(View.VISIBLE);
         } else {
             viewHolder.badgeContainer.setVisibility(View.GONE);
@@ -96,7 +97,8 @@ public class PrimaryIconDrawerItem extends BasePrimaryIconDrawerItem<PrimaryIcon
             viewHolder.badge.setTypeface(getTypeface());
         }
 
-        //call the onPostBindView method to trigger post bind view actions (like the listener to modify the item if required)
+        //call the onPostBindView method to trigger post bind view actions
+        // (like the listener to modify the item if required)
         onPostBindView(this, viewHolder.itemView);
     }
 
@@ -117,8 +119,10 @@ public class PrimaryIconDrawerItem extends BasePrimaryIconDrawerItem<PrimaryIcon
 
         public ViewHolder(View view) {
             super(view);
-            this.badgeContainer = view.findViewById(com.mikepenz.materialdrawer.R.id.material_drawer_badge_container);
-            this.badge = (TextView) view.findViewById(com.mikepenz.materialdrawer.R.id.material_drawer_badge);
+            this.badgeContainer = view.findViewById(
+                    com.mikepenz.materialdrawer.R.id.material_drawer_badge_container);
+            this.badge = (TextView) view.findViewById(
+                    com.mikepenz.materialdrawer.R.id.material_drawer_badge);
         }
     }
 }

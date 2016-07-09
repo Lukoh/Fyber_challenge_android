@@ -45,12 +45,11 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 
 public class OffersListActivity extends BaseActivity {
-    private static final String TAG = "OffersListActivity";
-
     private Profile mProfile;
 
     @BindView(R.id.toolbar)
@@ -60,13 +59,13 @@ public class OffersListActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        new GetGAIDTask().execute();
+        new GetGAIDTask(this).execute();
 
         mProfile = getIntent().getExtras().getParcelable(ActivityCaller.EXTRA_PROFILE);
 
         super.onCreate(savedInstanceState);
 
-        if (!ConnectionUtils.INSTANCE.isNetworkAvailable(this)) {
+        if (!ConnectionUtils.INSTANCE.isNetworkAvailable(getApplicationContext())) {
             mNoticeText.setVisibility(View.VISIBLE);
         }
     }
@@ -180,7 +179,14 @@ public class OffersListActivity extends BaseActivity {
         return mProfile;
     }
 
-    private class GetGAIDTask extends AsyncTask<String, Integer, String> {
+    private static class GetGAIDTask extends AsyncTask<String, Integer, String> {
+        private OffersListActivity mActivity;
+        private WeakReference<OffersListActivity> mFragmentWeakRef;
+
+        public GetGAIDTask(OffersListActivity activity) {
+            mActivity = activity;
+            mFragmentWeakRef = new WeakReference<>(activity);
+        }
 
         @Override
         protected String doInBackground(String... strings) {
@@ -188,7 +194,7 @@ public class OffersListActivity extends BaseActivity {
             adInfo = null;
             try {
                 adInfo = AdvertisingIdClient.getAdvertisingIdInfo(
-                        OffersListActivity.this.getApplicationContext());
+                        mActivity.getApplicationContext());
                 if (adInfo.isLimitAdTrackingEnabled()) {
                     CommonUtils.setLimitAdTrackingEnabled(true);
                     return "Not found GAID";
@@ -205,7 +211,10 @@ public class OffersListActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(String id) {
-            CommonUtils.setGoogleAID(id.trim().replaceAll("-", ""));
+            OffersListActivity activity = mFragmentWeakRef.get();
+            if (activity != null) {
+                CommonUtils.setGoogleAID(id.trim().replaceAll("-", ""));
+            }
         }
     }
 

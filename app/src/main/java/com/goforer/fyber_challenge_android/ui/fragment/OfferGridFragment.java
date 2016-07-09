@@ -41,6 +41,7 @@ import com.goforer.fyber_challenge_android.model.event.OffersDataEvent;
 import com.goforer.fyber_challenge_android.ui.activity.OffersListActivity;
 import com.goforer.fyber_challenge_android.ui.adapter.OfferGridAdapter;
 import com.goforer.fyber_challenge_android.ui.view.drawer.SlidingDrawer;
+import com.goforer.fyber_challenge_android.utility.ActivityCaller;
 import com.goforer.fyber_challenge_android.utility.CommonUtils;
 import com.goforer.fyber_challenge_android.utility.DisplayUtils;
 import com.goforer.fyber_challenge_android.web.Intermediary;
@@ -77,6 +78,8 @@ public class OfferGridFragment extends RecyclerFragment<Offers> {
 
     @BindView(R.id.fam_menu)
     FloatingActionMenu mMenu;
+    @BindView(R.id.fab_help)
+    View mHelp;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -195,7 +198,13 @@ public class OfferGridFragment extends RecyclerFragment<Offers> {
 
     @Override
     protected RecyclerView.Adapter createAdapter() {
-        return mAdapter = new OfferGridAdapter(mActivity, mItems, R.layout.grid_offer_item, true);
+        return mAdapter = new OfferGridAdapter(mContext, mItems,
+                R.layout.grid_offer_item, true);
+    }
+
+    @Override
+    protected boolean isItemDecorationVisible() {
+        return true;
     }
 
     @Override
@@ -238,6 +247,12 @@ public class OfferGridFragment extends RecyclerFragment<Offers> {
         mMenu.toggle(true);
     }
 
+    @SuppressWarnings("")
+    @OnClick(R.id.fab_help)
+    void onCallHelp() {
+        ActivityCaller.INSTANCE.callLink(mContext, ActivityCaller.HELP_URL);
+    }
+
     private void requestOfferList(boolean isNew) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         OffersDataEvent event = new OffersDataEvent(isNew);
         String advertisingId = CommonUtils.getGoogleAID();
@@ -246,8 +261,8 @@ public class OfferGridFragment extends RecyclerFragment<Offers> {
         String hashKey = getHashKey(advertisingId, timestamp, mCurrentPage);
         hashKey = hashKey.toLowerCase();
 
-        Intermediary.INSTANCE.getOffers(mContext, APP_ID, advertisingId, IP, LOCALE, OFFER_TYPES,
-                mCurrentPage, timestamp, UID, hashKey, event);
+        Intermediary.INSTANCE.getOffers(mContext.getApplicationContext(), APP_ID, advertisingId,
+                IP, LOCALE, OFFER_TYPES, mCurrentPage, timestamp, UID, hashKey, event);
     }
 
     @SuppressWarnings("")

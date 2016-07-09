@@ -38,16 +38,20 @@ public class SecondaryIconDrawerItem extends PrimaryIconDrawerItem {
      * helper method to decide for the correct color
      * OVERWRITE to get the correct secondary color
      *
-     * @param ctx
+     * @param context
      * @return
      */
     @Override
-    protected int getColor(Context ctx) {
+    protected int getColor(Context context) {
         int color;
         if (this.isEnabled()) {
-            color = ColorHolder.color(getTextColor(), ctx, com.mikepenz.materialdrawer.R.attr.material_drawer_secondary_text, com.mikepenz.materialdrawer.R.color.material_drawer_secondary_text);
+            color = ColorHolder.color(getTextColor(), context,
+                    com.mikepenz.materialdrawer.R.attr.material_drawer_secondary_text,
+                    com.mikepenz.materialdrawer.R.color.material_drawer_secondary_text);
         } else {
-            color = ColorHolder.color(getDisabledTextColor(), ctx, com.mikepenz.materialdrawer.R.attr.material_drawer_hint_text, com.mikepenz.materialdrawer.R.color.material_drawer_hint_text);
+            color = ColorHolder.color(getDisabledTextColor(),
+                    context, com.mikepenz.materialdrawer.R.attr.material_drawer_hint_text,
+                    com.mikepenz.materialdrawer.R.color.material_drawer_hint_text);
         }
         return color;
     }

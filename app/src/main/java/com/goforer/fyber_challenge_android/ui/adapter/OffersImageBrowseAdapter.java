@@ -16,6 +16,7 @@
 
 package com.goforer.fyber_challenge_android.ui.adapter;
 
+import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.goforer.fyber_challenge_android.R;
 import com.goforer.fyber_challenge_android.model.data.Gallery;
-import com.goforer.fyber_challenge_android.ui.activity.OffersImageBrowseActivity;
 
 import java.util.List;
 
@@ -35,14 +35,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class OffersImageBrowseAdapter extends PagerAdapter {
-    private OffersImageBrowseActivity mActivity;
+    private static final int ANIMATION_DURATION = 600;
+
+    private Context mContext;
     private List<Gallery> mImageList;
 
     @BindView(R.id.iv_image)
     ImageView mImage;
 
-    public OffersImageBrowseAdapter(OffersImageBrowseActivity activity, List<Gallery> imageList) {
-        mActivity = activity;
+    public OffersImageBrowseAdapter(Context context, List<Gallery> imageList) {
+        mContext = context;
         mImageList = imageList;
     }
 
@@ -58,22 +60,29 @@ public class OffersImageBrowseAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int pos) {
-        View view = LayoutInflater.from(mActivity).inflate(R.layout.view_gallery_image,
-                container, false);
+        View view = LayoutInflater.from(mContext.getApplicationContext())
+                .inflate(R.layout.view_gallery_image, container, false);
         ButterKnife.bind(this, view);
-
-        Glide.with(mActivity).load(mImageList.get(pos).getThumbnail().getHires())
-                .asBitmap().thumbnail(0.1f).into(mImage);
-
-        Animation animationImage = AnimationUtils.loadAnimation(mActivity, R.anim.scale_up_gallery);
-        mImage.startAnimation(animationImage);
-
+        Glide.with(mContext.getApplicationContext()).load(mImageList.get(pos).getThumbnail()
+                .getHires()).asBitmap().thumbnail(0.1f).dontAnimate().into(mImage);
         container.addView(view);
+
+        startAnimation();
+
         return view;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
+    }
+
+    public void startAnimation() {
+        if (mImage != null) {
+            Animation animationImage = AnimationUtils.loadAnimation(mContext.getApplicationContext(),
+                    R.anim.scale_up_gallery);
+            animationImage.setDuration(ANIMATION_DURATION);
+            mImage.startAnimation(animationImage);
+        }
     }
 }

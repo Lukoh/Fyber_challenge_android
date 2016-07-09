@@ -16,6 +16,7 @@
 
 package com.goforer.fyber_challenge_android.ui.adapter;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -40,14 +41,14 @@ import java.util.List;
 import butterknife.BindView;
 
 public class OffersGalleryAdapter extends BaseListAdapter<Gallery> {
-    private BaseActivity mActivity;
+    private Context mContext;
 
-    public OffersGalleryAdapter(BaseActivity activity, List<Gallery> items, int layoutResId,
+    public OffersGalleryAdapter(Context context, List<Gallery> items, int layoutResId,
                                 boolean usedLoadingImage) {
         super(items, layoutResId);
 
         setUsedLoadingImage(usedLoadingImage);
-        mActivity = activity;
+        mContext = context;
     }
 
     @Override
@@ -94,7 +95,7 @@ public class OffersGalleryAdapter extends BaseListAdapter<Gallery> {
 
     @Override
     protected RecyclerView.ViewHolder createViewHolder(View view, int type) {
-        return new GalleryContentViewHolder(view, mItems);
+        return new GalleryContentViewHolder(view, mItems, ((BaseActivity)mContext).resumed());
     }
 
     @Override
@@ -108,24 +109,27 @@ public class OffersGalleryAdapter extends BaseListAdapter<Gallery> {
         }
     }
 
-    public class GalleryContentViewHolder extends BaseViewHolder<Gallery> {
+    public static class GalleryContentViewHolder extends BaseViewHolder<Gallery> {
         private Gallery mGallery;
         private List<Gallery> mGalleryItems;
+
+        private boolean mIsResumed;
 
         @BindView(R.id.iv_content)
         ImageView mContentImageView;
 
-        public GalleryContentViewHolder(View itemView, List<Gallery> items) {
+        public GalleryContentViewHolder(View itemView, List<Gallery> items, boolean isResumed) {
             super(itemView);
 
             mGalleryItems = items;
+            mIsResumed = isResumed;
         }
 
         @Override
         public void bindItemHolder(@NonNull final Gallery gallery, final int position) {
             mGallery = gallery;
 
-            Glide.with(mActivity).load(mGallery.getThumbnail()
+            Glide.with(mContext.getApplicationContext()).load(mGallery.getThumbnail()
                     .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -136,7 +140,7 @@ public class OffersGalleryAdapter extends BaseListAdapter<Gallery> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ActivityCaller.INSTANCE.callImageBrowse(mActivity, mGalleryItems, position,
+                    ActivityCaller.INSTANCE.callImageBrowse(mContext, mGalleryItems, position,
                             ActivityCaller.SELECTED_ITEM_POSITION);
                 }
             });

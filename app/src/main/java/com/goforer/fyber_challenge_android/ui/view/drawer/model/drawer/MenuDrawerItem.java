@@ -337,44 +337,49 @@ public class MenuDrawerItem extends AbstractDrawerItem<MenuDrawerItem, MenuViewH
         return typeface;
     }
 
-    protected int getSelectedColor(Context ctx) {
-        return ColorHolder.color(getSelectedColor(), ctx, R.attr.material_drawer_selected,
+    protected int getSelectedColor(Context context) {
+        return ColorHolder.color(getSelectedColor(), context, R.attr.material_drawer_selected,
                 R.color.material_drawer_selected);
     }
 
-    protected int getColor(Context ctx) {
+    protected int getColor(Context context) {
         int color;
         if (this.isEnabled()) {
-            color = ColorHolder.color(getTextColor(), ctx, R.attr.material_drawer_primary_text,
+            color = ColorHolder.color(getTextColor(), context, R.attr.material_drawer_primary_text,
                     R.color.material_drawer_primary_text);
         } else {
-            color = ColorHolder.color(getDisabledTextColor(), ctx, R.attr.material_drawer_hint_text,
+            color = ColorHolder.color(getDisabledTextColor(), context, R.attr.material_drawer_hint_text,
                     R.color.material_drawer_hint_text);
         }
         return color;
     }
 
-    protected int getSelectedTextColor(Context ctx) {
-        return ColorHolder.color(getSelectedTextColor(), ctx, R.attr.material_drawer_selected_text, R.color.material_drawer_selected_text);
+    protected int getSelectedTextColor(Context context) {
+        return ColorHolder.color(getSelectedTextColor(), context, R.attr.material_drawer_selected_text, R.color.material_drawer_selected_text);
     }
 
-    public int getIconColor(Context ctx) {
+    public int getIconColor(Context context) {
         int iconColor;
         if (this.isEnabled()) {
-            iconColor = ColorHolder.color(getIconColor(), ctx, R.attr.material_drawer_primary_icon, R.color.material_drawer_primary_icon);
+            iconColor = ColorHolder.color(getIconColor(), context,
+                    R.attr.material_drawer_primary_icon, R.color.material_drawer_primary_icon);
         } else {
-            iconColor = ColorHolder.color(getDisabledIconColor(), ctx, R.attr.material_drawer_hint_icon, R.color.material_drawer_hint_icon);
+            iconColor = ColorHolder.color(getDisabledIconColor(), context,
+                    R.attr.material_drawer_hint_icon, R.color.material_drawer_hint_icon);
         }
         return iconColor;
     }
 
-    protected int getSelectedIconColor(Context ctx) {
-        return ColorHolder.color(getSelectedIconColor(), ctx, R.attr.material_drawer_selected_text, R.color.material_drawer_selected_text);
+    protected int getSelectedIconColor(Context context) {
+        return ColorHolder.color(getSelectedIconColor(), context,
+                R.attr.material_drawer_selected_text, R.color.material_drawer_selected_text);
     }
 
-    protected ColorStateList getTextColorStateList(@ColorInt int color, @ColorInt int selectedTextColor) {
+    protected ColorStateList getTextColorStateList(@ColorInt int color,
+                                                   @ColorInt int selectedTextColor) {
         if (colorStateList == null || color + selectedTextColor != colorStateList.first) {
-            colorStateList = new Pair<>(color + selectedTextColor, DrawerUIUtils.getTextColorStateList(color, selectedTextColor));
+            colorStateList = new Pair<>(color + selectedTextColor,
+                    DrawerUIUtils.getTextColorStateList(color, selectedTextColor));
         }
 
         return colorStateList.second;
