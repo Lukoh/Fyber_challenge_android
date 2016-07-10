@@ -191,12 +191,16 @@ public class OffersInfoActivity extends BaseActivity {
                     menuItem.setIcon(R.drawable.ic_menu_subscribe);
                     action.setSubscribed(false);
                     action.setPosition(mItemPosition);
+                    Toast.makeText(this, getString(R.string.toast_unsubscribed),
+                            Toast.LENGTH_SHORT).show();
                 } else {
                     menuItem.setChecked(true);
                     mOffersItems.get(mItemPosition).setSubscribed(true);
                     action.setSubscribed(true);
                     action.setPosition(mItemPosition);
                     menuItem.setIcon(R.drawable.ic_menu_subscribed);
+                    Toast.makeText(this, getString(R.string.toast_subscribed),
+                            Toast.LENGTH_SHORT).show();
                 }
 
                 EventBus.getDefault().post(action);
@@ -302,12 +306,18 @@ public class OffersInfoActivity extends BaseActivity {
                         action.setPosition(mItemPosition);
                         mFabStar.setImageDrawable(new IconicsDrawable(v.getContext(),
                                 GoogleMaterial.Icon.gmd_favorite).actionBar().color(Color.WHITE));
+                        Toast.makeText(getApplicationContext(),
+                                getString(R.string.toast_bookmark_removed),
+                                Toast.LENGTH_SHORT).show();
+
                     } else {
                         mOffersItems.get(mItemPosition).setBookmarked(true);
                         action.setBookmarked(true);
                         action.setPosition(mItemPosition);
                         mFabStar.setImageDrawable(new IconicsDrawable(v.getContext(),
                                 GoogleMaterial.Icon.gmd_favorite).actionBar().color(Color.RED));
+                        Toast.makeText(getApplicationContext(), getString(R.string.toast_bookmarked),
+                                Toast.LENGTH_SHORT).show();
                     }
 
                     EventBus.getDefault().post(action);

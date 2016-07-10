@@ -44,4 +44,8 @@
     <string name="drawer_item_bookmarked_count">Bookmarked</string>
     <string name="drawer_item_subscribed_count">Subscribed</string>
     <string name="gallery">Gallery</string>
+    <string name="toast_bookmark_removed">This bookmark have been released.</string>
+    <string name="toast_bookmarked">This Offers have been bookmarked.</string>
+    <string name="toast_subscribed">This Offers have been subscribed.</string>
+    <string name="toast_unsubscribed">This Offers have been unsubscribed.</string>
 </resources>
