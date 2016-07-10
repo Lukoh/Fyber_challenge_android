@@ -1,11 +1,6 @@
 # Fyber_challenge_android
-Android Challenge
 
-Step to run FyberAndroidChallenge App.
-
-1. Click on Flatting button on FyberAndroidChallenge App.
-2. Click on Offer button to get Fyber Offers list
-3. To go to next page(2, 3, 4 page), please flick from down to up on the bottom of list(on the last item of list).
+This is an Android application for reference to make some SNS or O2O service on Android. All Android App developer can see how to make some SNS or O2O service on Android via the BEatery source code. The BEatery App does not currently work because the BEatery Server does not set up yet. But I bet the BEatery App will runs well if the BEatery Server would be developed. (I have repeated the tests with some json data several times.) I'd welcome all server engineer who is so interested in BEatery open source project. (Please feel free to contact me if you have a litte bit interest in BEatery project.)
 
 My RecyclerFragment is imporved more smooth and more great. Please refer to [RecyclerFragment.java](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/fragment/RecyclerFragment.java).
 
