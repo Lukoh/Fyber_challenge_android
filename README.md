@@ -6,7 +6,6 @@ RecyclerFragment was imporved more smooth and more great. Please refer to [Recyc
 
 ###A quick overview what's in
 - **the easiest structure**
-- refer possible in less than **1 hours**
 - quick and simple code
 - **applied Retrofit, EventBus and ButterKnife library**
 - appied Google Material Design
