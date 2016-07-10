@@ -396,6 +396,16 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
      */
     protected abstract boolean isLastPage(int pageNum);
 
+    /**
+     * Check if the ItemDecoration is visible.
+     *
+     * <p>
+     * To check if the given page is the last page, you must override
+     * This method is called in {@link #onViewCreated}.
+     * </p>
+     *
+     * @return true if the ItemDecoration in {@link RecyclerView} must be visible
+     */
     protected abstract boolean isItemDecorationVisible();
 
     /**
