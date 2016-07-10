@@ -40,3 +40,4 @@ This app leverages third-party libraries:
  * [Glide](https://github.com/bumptech/glide) - For an image loading and caching library for Android focused on smooth scrolling
  * [SwipyRefreshLayout](https://github.com/OrangeGangsters/SwipyRefreshLayout) - For swiping in both direction
  * [FloatingActionButton](https://github.com/Clans/FloatingActionButton) - For using floating action button
+ * [MaterialDrawer](https://github.com/mikepenz/MaterialDrawer) - For using drawer menu
