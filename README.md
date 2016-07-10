@@ -4,6 +4,29 @@ This is an Android application for reference to make some SNS or O2O service on 
 
 RecyclerFragment was imporved more smooth and more great. Please refer to [RecyclerFragment.java](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/fragment/RecyclerFragment.java).
 
+###A quick overview what's in
+- **the easiest possible integration**
+- integrate in less than **5 minutes**
+- compatible down to **API Level 10**
+- includes an **AccountSwitcher**
+- quick and simple api
+- follows the **Google Material Design Guidelines**
+- use **vector** (.svg) icons and **icon fonts** via the [Android-Iconics](https://github.com/mikepenz/Android-Iconics) integration
+ - **Google Material Design Icons**, Google **Material Community** Design Icons, FontAwesome and more
+- comes with various **themes** which help to get your own themes clean
+- modify the colors on the go
+- **uses the AppCompat support library**
+- comes with multiple default drawer items
+- based on a **RecyclerView**
+- **RTL** support
+- Gmail like **MiniDrawer**
+- expandable items
+- **badge** support
+- define custom drawer items
+- tested and **stable**
+- sticky footer or headers
+- **absolutely NO limits**
+
 <img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164240.png" alt="Log-in Demo" width="350" />
 &nbsp;
 <img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164300.png" alt="Log-in Demo" width="350" />
