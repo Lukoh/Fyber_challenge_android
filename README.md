@@ -7,3 +7,5 @@ My RecyclerFragment is imporved more smooth and more great. Please refer to [Rec
 My FyberAndroidChallenge App runs well now.
 
 <img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164240.png" alt="Log-in Demo" width="350" />
+
+<img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164240.png" alt="Log-in Demo" width="350" />
