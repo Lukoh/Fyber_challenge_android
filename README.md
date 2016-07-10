@@ -10,4 +10,24 @@ My FyberAndroidChallenge App runs well now.
 &nbsp;
 <img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164300.png" alt="Log-in Demo" width="350" />
 &nbsp;
-<img src="https://github.com/Lukoh/beateries/blob/master/BEatery.jpg" alt="Screen Demo" width="350" />
+<img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164335.png" alt="Screen Demo" width="350" />
+&nbsp;
+<img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164502.png" alt="Screen Demo" width="350" />
+&nbsp;
+<img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164515.png" alt="Screen Demo" width="350" />
+&nbsp;
+<img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164556.png" alt="Screen Demo" width="350" />
+&nbsp;
+<img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164603.png" alt="Screen Demo" width="350" />
+&nbsp;
+<img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164624.png" alt="Screen Demo" width="350" />
+&nbsp;
+<img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164631.png" alt="Screen Demo" width="350" />
+&nbsp;
+<img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164708.png" alt="Screen Demo" width="350" />
+&nbsp;
+<img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164712.png" alt="Screen Demo" width="350" />
+&nbsp;
+<img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164730.png" alt="Screen Demo" width="350" />
+&nbsp;
+<img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164744.png" alt="Screen Demo" width="350" />
