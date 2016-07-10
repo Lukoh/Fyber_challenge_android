@@ -15,6 +15,13 @@ RecyclerFragment was imporved more smooth and more great. Please refer to [Recyc
 - **RTL** support
 - expandable fragments
 
+#Preview
+##Demo
+You can try it out here [Google Play](https://play.google.com/store/apps/) (wall:splash an open source application which uses this drawer implementation). Or you try the [Sample Application](https://play.google.com/store/apps/)
+
+##Screenshots
+![Image](https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164240.png)
+![Image](https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164300.png)
 <img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164240.png" alt="Log-in Demo" width="350" />
 &nbsp;
 <img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164300.png" alt="Log-in Demo" width="350" />
