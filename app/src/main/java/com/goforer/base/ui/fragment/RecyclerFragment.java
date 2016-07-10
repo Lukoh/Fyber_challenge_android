@@ -548,7 +548,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
     }
 
     /**
-     * This class carry out the parsing job to put some data rom the server to the list.
+     * This class carry out the parsing job to put some data, which be got from the server, to the list.
      *
      * <p>
      * Declared this class as inner static class to prevent the memory leak and use a
