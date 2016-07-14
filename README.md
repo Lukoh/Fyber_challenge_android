@@ -3,7 +3,7 @@
 This is an Android application for reference to make some SNS or O2O service on Android. New drawer and awesome funtionalaties were applied into Fyber App. All Android App developer can see how to make some SNS or O2O service on Android via the Fyber source code. The Fyber App currently works well now. 
 All technical things/stuffs to make SNS or 020 service on Android are provided in this open-source project.
 If you want to make the food delivery service, shopping or O2O service App on Android, please refer to my open-source project and you cam make awesome those App very easily. If you want to learn more technical knowledge of Web-Communication, which is related Web APIs, please visit my [BEatery](https://github.com/Lukoh/beateries) open-source project and [BEatery APIs](https://github.com/Lukoh/beateries/blob/master/BEatery%20REST%20APIs.pdf).  You can get more details you need. Also you can know the way how to communicate with Server. if you want to get this technical knowledge, plese visit here below:
-[Fyber Web Communicator](https://github.com/Lukoh/Fyber_challenge_android/tree/master/app/src/main/java/com/goforer/fyber_challenge_android/web)
+[Fyber Web Communicator](https://github.com/Lukoh/Fyber_challenge_android/tree/master/app/src/main/java/com/goforer/fyber_challenge_android/web) &nbsp;
 [BEeatery Web Communicator](https://github.com/Lukoh/beateries/tree/master/app/src/main/java/com/goforer/beatery/web)
 
 Let me know If you want to input some menu list in SlidingDrawer. I can help you to make some menu lsit, you need, in SlidingDrawer, which is based on [MaterialDrawer](https://github.com/mikepenz/MaterialDrawer). It's easy to make any menu list. Please visit here below if you want to get more.
