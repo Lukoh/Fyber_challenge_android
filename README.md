@@ -29,7 +29,7 @@ RecyclerFragment was imporved more smooth and more great. Please refer to [Recyc
 ##Demo
 You can try it out here [Google Play](https://play.google.com/store/apps/) (an open source application). Or you try the [Sample Application](https://play.google.com/store/apps/)
 
-Here is [demo video](https://youtu.be/_2mx8v8lqLo). Please watch this demo video if you'd like to know how Fyber App runs. 
+Here is [demo video](https://www.youtube.com/watch?v=tSzpKYzz8hM). Please watch this demo video if you'd like to know how Fyber App runs. 
 
 ##Screenshots
 <img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164240.png" alt="Log-in Demo" width="350" />
