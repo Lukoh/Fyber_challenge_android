@@ -76,6 +76,8 @@ public class OffersInfoActivity extends BaseActivity {
     Toolbar mToolbar;
     @BindView(R.id.backdrop)
     ImageView mBackdrop;
+    @BindView(R.id.backdrop_new)
+    ImageView mNewBackdrop;
     @BindView(R.id.fab_star)
     FloatingActionButton mFabStar;
 
@@ -283,6 +285,14 @@ public class OffersInfoActivity extends BaseActivity {
                 mBackdrop.setImageBitmap(resource);
             }
         });
+
+        Glide.with(getApplicationContext()).load(mOffersItems.get(position + 1).getThumbnail()
+                .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                mNewBackdrop.setImageBitmap(resource);
+            }
+        });
     }
 
     private void handleSwipePager() {
@@ -342,27 +352,12 @@ public class OffersInfoActivity extends BaseActivity {
         mSwipePager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (position == mItemPosition) {
-                    if (positionOffset > 0.6) {
-                        mBackdrop.setX(0);
-                        setImage(position + 1);
-                    } else {
-                        int displace = -positionOffsetPixels;
+                int displace = -positionOffsetPixels;
+                int displaceNew = -positionOffsetPixels + mSwipePager.getWidth();
 
-                        mBackdrop.setX(displace);
-                        setImage(position);
-                    }
-                } else {
-                    if (positionOffset < 0.6) {
-                        int displace = -positionOffsetPixels;
-
-                        mBackdrop.setX(displace);
-                        setImage(position);
-                    } else {
-                        mBackdrop.setX(0);
-                        setImage(position + 1);
-                    }
-                }
+                mBackdrop.setX(displace);
+                mNewBackdrop.setX(displaceNew);
+                setImage(position);
             }
 
             @Override
