@@ -355,8 +355,15 @@ public class OffersInfoActivity extends BaseActivity {
                 int displace = -positionOffsetPixels;
                 int displaceNew = -positionOffsetPixels + mSwipePager.getWidth();
 
-                mBackdrop.setX(displace);
-                mNewBackdrop.setX(displaceNew);
+                if (positionOffset > 0.99) {
+                    mBackdrop.setX(0);
+                    mNewBackdrop.setX(0);
+                } else {
+                    mBackdrop.setX(displace);
+                    mNewBackdrop.setX(displaceNew);
+
+                }
+
                 setImage(position);
             }
 
