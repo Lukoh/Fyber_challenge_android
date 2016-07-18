@@ -24,6 +24,7 @@ import android.os.Build;
 
 import com.goforer.base.model.event.ResponseEvent;
 import com.goforer.fyber_challenge_android.model.action.FinishAction;
+import com.goforer.fyber_challenge_android.model.data.ResponseError;
 import com.goforer.fyber_challenge_android.utility.CommonUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -31,6 +32,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -47,8 +49,14 @@ import retrofit2.http.Query;
 public enum RequestClient {
     INSTANCE;
 
+    private static final long READ_TIME_OUT = 5;
+    private static final long WRITE_TIME_OUT = 5;
+    private static final long CONNECT_TIME_OUT = 5;
+
     private Context mContext;
     private RequestMethod mRequestor;
+
+    private static ResponseError mErrorResponse = null;
 
     private String mRawResponseBody;
 
@@ -56,7 +64,10 @@ public enum RequestClient {
         mContext = context;
 
         if (mRequestor == null) {
-            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+           final OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
+                    .readTimeout(READ_TIME_OUT, TimeUnit.SECONDS)
+                    .writeTimeout(WRITE_TIME_OUT, TimeUnit.SECONDS)
+                    .connectTimeout(CONNECT_TIME_OUT, TimeUnit.SECONDS);
             httpClient.addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
@@ -113,8 +124,9 @@ public enum RequestClient {
         @Override
         public void onResponse(Call<ResponseClient> call,
                                retrofit2.Response<ResponseClient> response) {
-            if (!response.isSuccessful()) {
+            if (isResponseError(response)) {
                 try {
+                    showErrorMessage(response.errorBody().string());
                     System.out.println(response.errorBody().string());
                 } catch (IOException e) {
                     // do nothing
@@ -122,10 +134,7 @@ public enum RequestClient {
 
                 return;
             }
-
-            if (isResponseError(response.body().getCode())) {
-                showErrorMessage(response);
-            } else if (mEvent != null) {
+            if (mEvent != null) {
                 String headerSignature = response.headers().get(SIGNATURE_HEADER);
                 String hashkey = null;
                 try {
@@ -168,15 +177,24 @@ public enum RequestClient {
             }
         }
 
-        private void showErrorMessage(retrofit2.Response<ResponseClient> response) {
-            FinishAction action = new FinishAction();
-            action.setCode(response.body().getCode());
-            action.setMessage(response.message());
-            EventBus.getDefault().post(action);
-        }
+        private boolean isResponseError(retrofit2.Response<ResponseClient> response) {
+            if (!response.isSuccessful()) {
+                return true;
+            }
 
-        private boolean isResponseError(String code) {
-            switch(code) {
+            try {
+                if (response.errorBody() != null) {
+                    mErrorResponse = ResponseError.gson()
+                            .fromJson(response.errorBody().string(), ResponseError.class);
+                } else {
+                    return false;
+                }
+            } catch (IOException e) {
+                // do nothing
+            }
+
+            assert (mErrorResponse != null ? mErrorResponse.getErrorCode() : null) != null;
+            switch(mErrorResponse.getErrorCode()) {
                 case ResponseClient.ERROR_INVALID_PAGE:
                 case ResponseClient.ERROR_INVALID_APPID:
                 case ResponseClient.ERROR_INVALID_UID:
@@ -197,6 +215,18 @@ public enum RequestClient {
                 default:
                     return false;
             }
+        }
+
+        private void showErrorMessage(String error) {
+            FinishAction action = new FinishAction();
+
+            if (mErrorResponse == null) {
+                mErrorResponse= ResponseError.gson().fromJson(error, ResponseError.class);
+            }
+
+            action.setCode(mErrorResponse.getErrorCode());
+            action.setMessage(mErrorResponse.getErrorMessage());
+            EventBus.getDefault().post(action);
         }
 
         private String getResponseSignature(String body)

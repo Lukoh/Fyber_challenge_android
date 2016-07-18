@@ -48,4 +48,5 @@
     <string name="toast_bookmarked">This Offers have been bookmarked.</string>
     <string name="toast_subscribed">This Offers have been subscribed.</string>
     <string name="toast_unsubscribed">This Offers have been unsubscribed.</string>
+    <string name="restart_phase">&#10;Please restarts Fyber Challenge App.</string>
 </resources>

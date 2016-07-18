@@ -10,7 +10,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import com.goforer.fyber_challenge_android.model.event.OffersDataEvent;
-import com.goforer.fyber_challenge_android.ui.activity.OffersListActivity;
+import com.goforer.fyber_challenge_android.ui.activity.OffersActivity;
 import com.goforer.fyber_challenge_android.utility.CommonUtils;
 import com.goforer.fyber_challenge_android.web.communicator.RequestClient;
 import com.goforer.fyber_challenge_android.web.communicator.ResponseClient;
@@ -20,7 +20,7 @@ import retrofit2.Response;
 /**
  * Created by lukohnam on 16. 5. 25..
  */
-public class Request_Test extends ActivityInstrumentationTestCase2<OffersListActivity> {
+public class Request_Test extends ActivityInstrumentationTestCase2<OffersActivity> {
     private static final String IP = "109.235.143.113";
     private static final String LOCALE = "DE";
     private static final String UID = "spiderman";
@@ -32,7 +32,7 @@ public class Request_Test extends ActivityInstrumentationTestCase2<OffersListAct
     private static boolean mIsCalled;
 
     public Request_Test(){
-        super(OffersListActivity.class);
+        super(OffersActivity.class);
     }
 
     private String getHashKey(String advertisingId, long timestamp, int pageNum)

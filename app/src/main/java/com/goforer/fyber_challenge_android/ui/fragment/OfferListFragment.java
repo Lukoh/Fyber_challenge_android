@@ -31,11 +31,12 @@ import com.goforer.base.model.ListModel;
 import com.goforer.base.ui.fragment.RecyclerFragment;
 import com.goforer.fyber_challenge_android.R;
 import com.goforer.fyber_challenge_android.model.action.BookmarkChangeAction;
+import com.goforer.fyber_challenge_android.model.action.FinishAction;
 import com.goforer.fyber_challenge_android.model.action.MoveItemAction;
 import com.goforer.fyber_challenge_android.model.action.SubscriptionChangeAction;
 import com.goforer.fyber_challenge_android.model.data.Offers;
 import com.goforer.fyber_challenge_android.model.event.OffersDataEvent;
-import com.goforer.fyber_challenge_android.ui.activity.OffersListActivity;
+import com.goforer.fyber_challenge_android.ui.activity.OffersActivity;
 import com.goforer.fyber_challenge_android.ui.adapter.OfferListAdapter;
 import com.goforer.fyber_challenge_android.ui.view.drawer.SlidingDrawer;
 import com.goforer.fyber_challenge_android.utility.ActivityCaller;
@@ -71,9 +72,6 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
 
     @BindView(R.id.fam_menu)
     FloatingActionMenu mMenu;
-    @BindView(R.id.fab_help)
-    View mHelp;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -95,7 +93,7 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
         mSlidingDrawer = new SlidingDrawer(getBaseActivity(), SlidingDrawer.DRAWER_PROFILE_TYPE,
                 R.id.drawer_container,
                 savedInstanceState);
-        mSlidingDrawer.setDrawerInfo(((OffersListActivity)mActivity).getProfile());
+        mSlidingDrawer.setDrawerInfo(((OffersActivity)mActivity).getProfile());
     }
 
     @Override
@@ -110,7 +108,7 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     public void onResume() {
         super.onResume();
 
-        mSlidingDrawer.setDrawerInfo(((OffersListActivity)mActivity).getProfile());
+        mSlidingDrawer.setDrawerInfo(((OffersActivity)mActivity).getProfile());
     }
 
     @Override
@@ -297,7 +295,7 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onAction(BookmarkChangeAction action) {
         if (!action.isBookmarked()) {
-            ((OffersListActivity)mActivity).getProfile().getBookmarks()
+            ((OffersActivity)mActivity).getProfile().getBookmarks()
                     .remove(action.getPosition());
         }
 
@@ -308,10 +306,16 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onAction(SubscriptionChangeAction action) {
         if (!action.isSubscribed()) {
-            ((OffersListActivity)mActivity).getProfile().getSubscriptions()
+            ((OffersActivity)mActivity).getProfile().getSubscriptions()
                     .remove(action.getPosition());
         }
 
         mItems.get(action.getPosition()).setSubscribed(action.isSubscribed());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAction(FinishAction action){
+        doneRefreshing();
+        ((OffersActivity)mActivity).showDialog(action);
     }
 }

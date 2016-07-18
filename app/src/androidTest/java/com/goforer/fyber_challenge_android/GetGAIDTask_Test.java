@@ -3,6 +3,7 @@ package com.goforer.fyber_challenge_android;
 import android.os.AsyncTask;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.goforer.fyber_challenge_android.ui.activity.OffersActivity;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -13,17 +14,16 @@ import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import com.goforer.fyber_challenge_android.ui.activity.OffersListActivity;
 import com.goforer.fyber_challenge_android.utility.CommonUtils;
 
 /**
  * Created by lukohnam on 16. 5. 24..
  */
-public class GetGAIDTask_Test extends ActivityInstrumentationTestCase2<OffersListActivity> {
+public class GetGAIDTask_Test extends ActivityInstrumentationTestCase2<OffersActivity> {
     private static boolean mIsCalled;
 
     public GetGAIDTask_Test(){
-        super(OffersListActivity.class);
+        super(OffersActivity.class);
     }
 
     private class GetGAIDTask extends AsyncTask<String, Integer, String> {

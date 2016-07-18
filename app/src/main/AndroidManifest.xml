@@ -42,7 +42,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.OffersListActivity"
+            android:name=".ui.activity.OffersActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:protectionLevel="signature"

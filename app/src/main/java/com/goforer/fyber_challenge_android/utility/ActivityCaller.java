@@ -26,10 +26,10 @@ import com.goforer.fyber_challenge_android.model.data.Event;
 import com.goforer.fyber_challenge_android.model.data.Gallery;
 import com.goforer.fyber_challenge_android.model.data.Offers;
 import com.goforer.fyber_challenge_android.model.data.Profile;
+import com.goforer.fyber_challenge_android.ui.activity.OffersActivity;
 import com.goforer.fyber_challenge_android.ui.activity.OffersGalleryActivity;
 import com.goforer.fyber_challenge_android.ui.activity.OffersImageBrowseActivity;
 import com.goforer.fyber_challenge_android.ui.activity.OffersInfoActivity;
-import com.goforer.fyber_challenge_android.ui.activity.OffersListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +76,7 @@ public enum  ActivityCaller {
     }
 
     public void callOffersList(Context context, Profile profile) {
-        Intent intent = createIntent(context, OffersListActivity.class, true);
+        Intent intent = createIntent(context, OffersActivity.class, true);
         intent.putExtra(EXTRA_PROFILE, profile);
         context.startActivity(intent);
     }

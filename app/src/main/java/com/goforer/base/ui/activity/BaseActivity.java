@@ -31,7 +31,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.goforer.fyber_challenge_android.R;
-import com.goforer.fyber_challenge_android.model.action.FinishAction;
 import com.goforer.fyber_challenge_android.model.event.ActivityStackClearEvent;
 import com.goforer.fyber_challenge_android.utility.ConnectionUtils;
 
@@ -283,11 +282,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(ActivityStackClearEvent event) {
-        finish();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onAction(FinishAction action){
         finish();
     }
 }
