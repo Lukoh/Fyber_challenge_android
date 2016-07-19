@@ -25,6 +25,15 @@ RecyclerFragment was imporved more smooth and more great. Please refer to [Recyc
 - **RTL** support
 - expandable fragments
 
+#New Feature
+The sliding function have been applied into seeing Offer-Inforamtion module.
+
+A new function is applied into Fyber Challenge App. [OfferInfoActivity]() consists of two parts. The top area in [OfferInfoActivity]() is the AppBarLayout, and the bottom area is the FrameLayout which is wrapped by the [SwipeViewPager](). So I made it could works like a part not  two distinct parts. 
+Please visit [OfferInfoActivity]() 
+
+Here is [demo video](https://youtu.be/-Kjko2VJ_qU). Please watch this demo video if you'd like to know how that function works. 
+
+
 #Preview
 ##Demo
 You can try it out here [Google Play](https://play.google.com/store/apps/details?id=com.goforer.fyber_challenge_android&hl=en) (an open source application). Or you try the [Sample Application](https://play.google.com/store/apps/details?id=com.goforer.fyber_challenge_android&hl=en)
