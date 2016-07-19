@@ -47,7 +47,7 @@ Here is [demo video](https://www.youtube.com/watch?v=vbx6t3R0AnE&feature=youtu.b
 &nbsp;
 <img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164335.png" alt="Screen Demo" width="350" />
 &nbsp;
-<img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164502.png" alt="Screen Demo" width="350" />
+<img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164502.png" alt="Screen Demo" width="350" /> 
 &nbsp;
 <img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164515.png" alt="Screen Demo" width="350" />
 &nbsp;
