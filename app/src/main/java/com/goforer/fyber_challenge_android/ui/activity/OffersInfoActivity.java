@@ -286,13 +286,23 @@ public class OffersInfoActivity extends BaseActivity {
             }
         });
 
-        Glide.with(getApplicationContext()).load(mOffersItems.get(position + 1).getThumbnail()
-                .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                mNewBackdrop.setImageBitmap(resource);
-            }
-        });
+        if (position == mOffersItems.size() - 1) {
+            Glide.with(getApplicationContext()).load(mOffersItems.get(position).getThumbnail()
+                    .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    mNewBackdrop.setImageBitmap(resource);
+                }
+            });
+        } else {
+            Glide.with(getApplicationContext()).load(mOffersItems.get(position + 1).getThumbnail()
+                    .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    mNewBackdrop.setImageBitmap(resource);
+                }
+            });
+        }
     }
 
     private void handleSwipePager() {
