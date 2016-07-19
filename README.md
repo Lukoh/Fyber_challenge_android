@@ -36,7 +36,7 @@ Here is [demo video](https://youtu.be/-Kjko2VJ_qU).
 
 #Preview
 ##Demo
-You can try it out here [Google Play](https://play.google.com/store/apps/details?id=com.goforer.fyber_challenge_android&hl=en) (an open source application). Or you try the [Sample Application](https://play.google.com/store/apps/details?id=com.goforer.fyber_challenge_android&hl=en)
+You can try it out here [Google Play](https://play.google.com/store/apps/details?id=com.goforer.fyber_challenge_android&hl=en) (an open source application). Or you can download the [Fyber Challenge Application](https://play.google.com/store/apps/details?id=com.goforer.fyber_challenge_android&hl=en)
 
 Here is [demo video](https://www.youtube.com/watch?v=vbx6t3R0AnE&feature=youtu.be). Please watch this demo video if you'd like to know how Fyber App runs. 
 
