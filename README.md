@@ -28,8 +28,8 @@ RecyclerFragment was imporved more smooth and more great. Please refer to [Recyc
 #New Feature
 The sliding function have been applied into seeing Offer-Inforamtion module.
 
-A new function is applied into Fyber Challenge App. [OfferInfoActivity]() consists of two parts. The top area in [OfferInfoActivity]() is the AppBarLayout, and the bottom area is the FrameLayout which is wrapped by the [SwipeViewPager](). So I made it could works like a part not  two distinct parts. 
-Please visit [OfferInfoActivity]() 
+A new function is applied into Fyber Challenge App. [OfferInfoActivity](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/fyber_challenge_android/ui/activity/OffersInfoActivity.java) consists of two parts. The top area in [OfferInfoActivity](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/fyber_challenge_android/ui/activity/OffersInfoActivity.java) is the AppBarLayout, and the bottom area is the FrameLayout which is wrapped by the [SwipeViewPager](). So I made it could works like a part not  two distinct parts. 
+Please visit [OfferInfoActivity](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/fyber_challenge_android/ui/activity/OffersInfoActivity.java) 
 
 Here is [demo video](https://youtu.be/-Kjko2VJ_qU). Please watch this demo video if you'd like to know how that function works. 
 
