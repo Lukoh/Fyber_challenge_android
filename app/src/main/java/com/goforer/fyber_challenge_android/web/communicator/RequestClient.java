@@ -73,7 +73,6 @@ public enum RequestClient {
                 public Response intercept(Chain chain) throws IOException {
                     Request original = chain.request();
 
-                    // Customize the request
                     Request request = original.newBuilder()
                             .header("Accept", "application/json")
                             .method(original.method(), original.body())
@@ -83,7 +82,6 @@ public enum RequestClient {
 
                     mRawResponseBody = response.body().string();
 
-                    // Customize or return the response
                     return response.newBuilder()
                             .body(ResponseBody.create(response.body().contentType(),
                                     mRawResponseBody)).build();

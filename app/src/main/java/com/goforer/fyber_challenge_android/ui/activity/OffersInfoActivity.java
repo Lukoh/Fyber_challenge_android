@@ -103,7 +103,7 @@ public class OffersInfoActivity extends BaseActivity {
         */
 
         if (mOffersItems == null && mItemPosition == -1) {
-            Toast.makeText(this, getString(R.string.toast_no_offers), Toast.LENGTH_SHORT).show();
+            showToastMessage(getString(R.string.toast_no_offers));
         }
 
         mSlidingDrawer = new SlidingDrawer(this, SlidingDrawer.DRAWER_INFO_TYPE,
@@ -193,16 +193,14 @@ public class OffersInfoActivity extends BaseActivity {
                     menuItem.setIcon(R.drawable.ic_menu_subscribe);
                     action.setSubscribed(false);
                     action.setPosition(mItemPosition);
-                    Toast.makeText(this, getString(R.string.toast_unsubscribed),
-                            Toast.LENGTH_SHORT).show();
+                    showToastMessage(getString(R.string.toast_unsubscribed));
                 } else {
                     menuItem.setChecked(true);
                     mOffersItems.get(mItemPosition).setSubscribed(true);
                     action.setSubscribed(true);
                     action.setPosition(mItemPosition);
                     menuItem.setIcon(R.drawable.ic_menu_subscribed);
-                    Toast.makeText(this, getString(R.string.toast_subscribed),
-                            Toast.LENGTH_SHORT).show();
+                    showToastMessage(getString(R.string.toast_subscribed));
                 }
 
                 EventBus.getDefault().post(action);
@@ -260,7 +258,6 @@ public class OffersInfoActivity extends BaseActivity {
         super.onSaveInstanceState(outState);
     }
 
-
     private void showSubscription() {
         if ((mFrom == ActivityCaller.FROM_OFFERS_LIST)
             || (mFrom == ActivityCaller.FROM_PROFILE_SUBSCRIPTION)) {
@@ -277,6 +274,16 @@ public class OffersInfoActivity extends BaseActivity {
         }
     }
 
+    private void showNewBackDropImage(int position) {
+        Glide.with(getApplicationContext()).load(mOffersItems.get(position).getThumbnail()
+                .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                mNewBackdrop.setImageBitmap(resource);
+            }
+        });
+    }
+
     private void setImage(int position) {
         Glide.with(getApplicationContext()).load(mOffersItems.get(position).getThumbnail()
                 .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
@@ -287,22 +294,14 @@ public class OffersInfoActivity extends BaseActivity {
         });
 
         if (position == mOffersItems.size() - 1) {
-            Glide.with(getApplicationContext()).load(mOffersItems.get(position).getThumbnail()
-                    .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    mNewBackdrop.setImageBitmap(resource);
-                }
-            });
+            showNewBackDropImage(position);
         } else {
-            Glide.with(getApplicationContext()).load(mOffersItems.get(position + 1).getThumbnail()
-                    .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
-                @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    mNewBackdrop.setImageBitmap(resource);
-                }
-            });
+            showNewBackDropImage(position + 1);
         }
+    }
+
+    private void showToastMessage(String phrase) {
+        Toast.makeText(getApplicationContext(), phrase, Toast.LENGTH_SHORT).show();
     }
 
     private void handleSwipePager() {
@@ -326,9 +325,7 @@ public class OffersInfoActivity extends BaseActivity {
                         action.setPosition(mItemPosition);
                         mFabStar.setImageDrawable(new IconicsDrawable(v.getContext(),
                                 GoogleMaterial.Icon.gmd_favorite).actionBar().color(Color.WHITE));
-                        Toast.makeText(getApplicationContext(),
-                                getString(R.string.toast_bookmark_removed),
-                                Toast.LENGTH_SHORT).show();
+                        showToastMessage(getString(R.string.toast_bookmark_removed));
 
                     } else {
                         mOffersItems.get(mItemPosition).setBookmarked(true);
@@ -336,8 +333,7 @@ public class OffersInfoActivity extends BaseActivity {
                         action.setPosition(mItemPosition);
                         mFabStar.setImageDrawable(new IconicsDrawable(v.getContext(),
                                 GoogleMaterial.Icon.gmd_favorite).actionBar().color(Color.RED));
-                        Toast.makeText(getApplicationContext(), getString(R.string.toast_bookmarked),
-                                Toast.LENGTH_SHORT).show();
+                        showToastMessage(getString(R.string.toast_bookmarked));
                     }
 
                     EventBus.getDefault().post(action);

@@ -136,7 +136,7 @@ public class OfferGridFragment extends RecyclerFragment<Offers> {
                 Log.i(TAG, "onCompleted");
 
                 if (result == OnProcessListener.RESULT_ERROR) {
-                    Toast.makeText(mContext, R.string.toast_process_error, Toast.LENGTH_SHORT).show();
+                    showToastMessage(getString(R.string.toast_process_error));
                     FyberChallenge.closeApplication();
                 }
 
