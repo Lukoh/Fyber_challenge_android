@@ -1,18 +1,18 @@
 # Fyber_challenge_android
 
-This is an Android application for reference to make some SNS or O2O service on Android. New drawer and awesome funtionalaties were applied into Fyber App. All Android App developer can see how to make some SNS or O2O service on Android via the Fyber source code. The Fyber App currently works well now. 
-All technical things/stuffs to make SNS or 020 service on Android are provided in this open-source project.
-If you want to make the food delivery service, shopping or O2O service App on Android, please refer to my open-source project and you cam make awesome those App very easily. If you want to learn more technical knowledge of Web-Communication, which is related Web APIs, please visit my [BEatery](https://github.com/Lukoh/beateries) open-source project and [BEatery APIs](https://github.com/Lukoh/beateries/blob/master/BEatery%20REST%20APIs.pdf).  You can get more details you need. Also you can know the way how to communicate with Server. if you want to get this technical knowledge, plese visit here below:
+This is the reference of Android application to make some SNS or O2O service on Android. New drawer and awesome funtionalaties were applied into Fyber App. All Android App developer can see how to make some SNS or O2O service on Android via the Fyber source code. The Fyber App currently works well now. 
+All technical things/stuffs to make SNS or 020 service on Android are provided into this open-source project.
+If you want to make the food delivery service, shopping or O2O service App on Android, please refer to my open-source project and you can make awesome those App very easily. If you want to learn more technical knowledge of Web-Communication, which is related Web APIs, please visit my [BEatery](https://github.com/Lukoh/beateries) open-source project and [BEatery APIs](https://github.com/Lukoh/beateries/blob/master/BEatery%20REST%20APIs.pdf).  You can get more details you need. Also you can know the way how to communicate with Server. if you want to get this technical knowledge, plese visit here below:
 
 [Fyber Web Communicator](https://github.com/Lukoh/Fyber_challenge_android/tree/master/app/src/main/java/com/goforer/fyber_challenge_android/web) 
 
 [BEeatery Web Communicator](https://github.com/Lukoh/beateries/tree/master/app/src/main/java/com/goforer/beatery/web)
 
-Let me know If you want to input some menu list in SlidingDrawer. I can help you to make some menu lsit, you need, in SlidingDrawer, which is based on [MaterialDrawer](https://github.com/mikepenz/MaterialDrawer). It's easy to make any menu list. Please visit here below if you want to get more:
+Let me know if you want to add some menu list into SlidingDrawer. I can help you to make some menu list, you need, in SlidingDrawer, which is based on [MaterialDrawer](https://github.com/mikepenz/MaterialDrawer). It's easy to make some specific menu list. Please visit below link if you want to get more:
 
 [SlidingDrawer](https://github.com/Lukoh/Fyber_challenge_android/tree/master/app/src/main/java/com/goforer/fyber_challenge_android/ui/view/drawer)
 
-RecyclerFragment was imporved more smooth and more great. Please refer to [RecyclerFragment.java](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/fragment/RecyclerFragment.java).
+RecyclerFragment was improved to be more efficient and more great. Please refer to [RecyclerFragment.java](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/fragment/RecyclerFragment.java).
 
 ###A quick overview what's in
 - **the easiest structure**
@@ -25,11 +25,20 @@ RecyclerFragment was imporved more smooth and more great. Please refer to [Recyc
 - **RTL** support
 - expandable fragments
 
+#New Feature
+The sliding function have been applied into seeing Offer-Inforamtion module.
+
+A new function is applied into Fyber Challenge App. [OfferInfoActivity](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/fyber_challenge_android/ui/activity/OffersInfoActivity.java) consists of two parts. The top area in [OfferInfoActivity](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/fyber_challenge_android/ui/activity/OffersInfoActivity.java) is the AppBarLayout, and the bottom area is the FrameLayout which is wrapped by the [SwipeViewPager](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/view/SwipeViewPager.java). So I made it could works like a part not two distinct parts. It's very efficient. I  just used two ImageView widgets to work/look like a ViewPager and it provides more awesome function.  
+For more information, see the [OfferInfoActivity.java](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/fyber_challenge_android/ui/activity/OffersInfoActivity.java) and [activity_offers_info.xml](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/res/layout/activity_offers_info.xml) file.
+
+This technique can enable your App to have more powerful function and great UX. Please watch this demo video if you'd like to know how that function works or how to provide great UX. 
+Here is [demo video](https://youtu.be/-Kjko2VJ_qU). 
+
 #Preview
 ##Demo
-You can try it out here [Google Play](https://play.google.com/store/apps/details?id=com.goforer.fyber_challenge_android&hl=en) (an open source application). Or you try the [Sample Application](https://play.google.com/store/apps/details?id=com.goforer.fyber_challenge_android&hl=en)
+You can try it out here [Google Play](https://play.google.com/store/apps/details?id=com.goforer.fyber_challenge_android&hl=en) (an open source application). Or you can download the [Fyber Challenge Application](https://play.google.com/store/apps/details?id=com.goforer.fyber_challenge_android&hl=en)
 
-Here is [demo video](https://www.youtube.com/watch?v=tSzpKYzz8hM). Please watch this demo video if you'd like to know how Fyber App runs. 
+Here is [demo video](https://www.youtube.com/watch?v=vbx6t3R0AnE&feature=youtu.be). Please watch this demo video if you'd like to know how Fyber App runs. 
 
 ##Screenshots
 <img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164240.png" alt="Log-in Demo" width="350" />
@@ -38,7 +47,7 @@ Here is [demo video](https://www.youtube.com/watch?v=tSzpKYzz8hM). Please watch 
 &nbsp;
 <img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164335.png" alt="Screen Demo" width="350" />
 &nbsp;
-<img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164502.png" alt="Screen Demo" width="350" />
+<img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164502.png" alt="Screen Demo" width="350" /> 
 &nbsp;
 <img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164515.png" alt="Screen Demo" width="350" />
 &nbsp;
