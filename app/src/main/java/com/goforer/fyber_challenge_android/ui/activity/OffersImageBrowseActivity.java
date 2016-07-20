@@ -58,7 +58,6 @@ public class OffersImageBrowseActivity extends BaseActivity {
         mImageList = getIntent().getParcelableArrayListExtra(ActivityCaller.EXTRA_GALLERY_IMAGE_LIST);
         mImagePosition = getIntent().getIntExtra(ActivityCaller.EXTRA_GALLERY_IMAGE_POSITION, -1);
 
-
         super.onCreate(onSavedInstanceState);
     }
 
@@ -91,7 +90,6 @@ public class OffersImageBrowseActivity extends BaseActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 
@@ -124,7 +122,6 @@ public class OffersImageBrowseActivity extends BaseActivity {
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
             }
 
             @Override
@@ -135,7 +132,6 @@ public class OffersImageBrowseActivity extends BaseActivity {
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-
             }
         });
 
