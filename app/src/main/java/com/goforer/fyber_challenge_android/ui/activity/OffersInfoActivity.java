@@ -300,6 +300,18 @@ public class OffersInfoActivity extends BaseActivity {
         }
     }
 
+    private void setTitle(final int position, final float positionOffset) {
+        if (positionOffset > 0.5) {
+            if (position == mOffersItems.size() - 1) {
+                mCollapsingToolbarLayout.setTitle(mOffersItems.get(position).getTitle());
+            } else {
+                mCollapsingToolbarLayout.setTitle(mOffersItems.get(position + 1).getTitle());
+            }
+        } else {
+            mCollapsingToolbarLayout.setTitle(mOffersItems.get(position).getTitle());
+        }
+    }
+
     private void showToastMessage(String phrase) {
         Toast.makeText(getApplicationContext(), phrase, Toast.LENGTH_SHORT).show();
     }
@@ -361,13 +373,13 @@ public class OffersInfoActivity extends BaseActivity {
                 int displace = -positionOffsetPixels;
                 int displaceNew = -positionOffsetPixels + mSwipePager.getWidth();
 
-                if (positionOffset > 0.99) {
+                if (positionOffset > 0.999) {
                     mBackdrop.setX(0);
                     mNewBackdrop.setX(0);
                 } else {
+                    setTitle(position, positionOffset);
                     mBackdrop.setX(displace);
                     mNewBackdrop.setX(displaceNew);
-
                 }
 
                 setImage(position);

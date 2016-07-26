@@ -63,7 +63,7 @@ dependencies {
     compile 'com.github.bumptech.glide:okhttp-integration:1.2.1'
     compile 'org.jetbrains:annotations-java5:15.0'
     compile 'com.github.sembozdemir:ViewPagerArrowIndicator:1.0.0'
-    compile('com.mikepenz:materialdrawer:5.3.0@aar') {
+    compile('com.mikepenz:materialdrawer:5.3.4@aar') {
         transitive = true
     }
     compile 'com.mikepenz:google-material-typeface:2.2.0.1@aar'
