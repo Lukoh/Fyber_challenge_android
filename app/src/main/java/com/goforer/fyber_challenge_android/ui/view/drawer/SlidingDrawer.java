@@ -268,12 +268,11 @@ public class SlidingDrawer {
                 }
 
                 events.add(event);
-
-                mOffers.setBookmarkedCount(306);
-                mOffers.setSubscribedCount(500);
-                mOffers.setGalleryCount(30);
             }
 
+            mOffers.setBookmarkedCount(306);
+            mOffers.setSubscribedCount(500);
+            mOffers.setGalleryCount(30);
             mOffers.setEvents(events);
         }
 

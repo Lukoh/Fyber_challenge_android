@@ -68,6 +68,7 @@ public enum RequestClient {
                     .readTimeout(READ_TIME_OUT, TimeUnit.SECONDS)
                     .writeTimeout(WRITE_TIME_OUT, TimeUnit.SECONDS)
                     .connectTimeout(CONNECT_TIME_OUT, TimeUnit.SECONDS);
+
             httpClient.addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
