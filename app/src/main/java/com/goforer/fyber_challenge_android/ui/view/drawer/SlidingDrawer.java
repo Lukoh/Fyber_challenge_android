@@ -414,43 +414,43 @@ public class SlidingDrawer {
                 drawable = mContext.getApplicationContext().getResources()
                         .getDrawable(R.drawable.ic_drawer_bookmark);
                 drawableItem.withName(itemName)
-                        .withCount(String.valueOf(items.size()))
-                        .withCountTextColor(mContext.getApplicationContext().getResources()
+                            .withCount(String.valueOf(items.size()))
+                            .withCountTextColor(mContext.getApplicationContext().getResources()
                                 .getColor(R.color.material_drawable_bookmark_count_text))
-                        .withIcon(iconRes)
-                        .withIdentifier(DRAWER_PROFILE_ITEM_BOOKMARK_ID)
-                        .withSelectable(false)
-                        .withSubItems(
+                            .withIcon(iconRes)
+                            .withIdentifier(DRAWER_PROFILE_ITEM_BOOKMARK_ID)
+                            .withSelectable(false)
+                            .withSubItems(
                                 createSecondaryDrawerItem(drawable, items, type, level)
-                        );
+                            );
                 break;
             case CUSTOM_ITEM_SUBSCRIPTION_TYPE:
                 drawable = mContext.getApplicationContext().getResources()
                         .getDrawable(R.drawable.ic_drawer_subscription);
                 drawableItem.withName(itemName)
-                        .withCount(String.valueOf(items.size()))
-                        .withCountTextColor(mContext.getApplicationContext().getResources()
+                            .withCount(String.valueOf(items.size()))
+                            .withCountTextColor(mContext.getApplicationContext().getResources()
                                 .getColor(R.color.material_drawable_subscription_count_text))
-                        .withIcon(iconRes)
-                        .withIdentifier(DRAWER_PROFILE_ITEM_SUBSCRIPTION_ID)
-                        .withSelectable(false)
-                        .withSubItems(
+                            .withIcon(iconRes)
+                            .withIdentifier(DRAWER_PROFILE_ITEM_SUBSCRIPTION_ID)
+                            .withSelectable(false)
+                            .withSubItems(
                                 createSecondaryDrawerItem(drawable, items, type, level)
-                        );
+                            );
                 break;
             case CUSTOM_ITEM_EVENT_TYPE:
                 drawable = mContext.getApplicationContext().getResources()
                         .getDrawable(R.drawable.ic_drawer_events);
                 drawableItem.withName(itemName)
-                        .withCount(String.valueOf(items.size()))
-                        .withCountTextColor(mContext.getApplicationContext().getResources()
+                            .withCount(String.valueOf(items.size()))
+                            .withCountTextColor(mContext.getApplicationContext().getResources()
                                 .getColor(R.color.material_drawable_events_count_text))
-                        .withIcon(iconRes)
-                        .withIdentifier(DRAWER_INFO_ITEM_FIRST_EVENT_ID)
-                        .withSelectable(false)
-                        .withSubItems(
+                            .withIcon(iconRes)
+                            .withIdentifier(DRAWER_INFO_ITEM_FIRST_EVENT_ID)
+                            .withSelectable(false)
+                            .withSubItems(
                                 createSecondaryDrawerItem(drawable, items, type, level)
-                        );
+                            );
                 break;
             default:
         }
@@ -460,9 +460,9 @@ public class SlidingDrawer {
 
     private List<IDrawerItem> createSecondaryDrawerItem(Drawable drawable, List<?> items,
                                                         int type, int level) {
+        List<IDrawerItem> drawerItems = new ArrayList<>();
         switch (type) {
             case CUSTOM_ITEM_BOOKMARK_TYPE:
-                List<IDrawerItem> bookmarkItems = new ArrayList<>();
                 int bookmarkIdentifier = DRAWER_INFO_SECONDARY_FIRST_DRAWER_ITEM_ID;
                 final List<Offers> itemsForBookmark = (List<Offers>) items;
                 for (final Offers offers : itemsForBookmark) {
@@ -484,13 +484,12 @@ public class SlidingDrawer {
                                 }
                             });
 
-                    bookmarkItems.add(item);
+                    drawerItems.add(item);
                     bookmarkIdentifier++;
                 }
 
-                return bookmarkItems;
+                return drawerItems;
             case CUSTOM_ITEM_SUBSCRIPTION_TYPE:
-                List<IDrawerItem> subscriptionItems = new ArrayList<>();
                 int subscriptionIdentifier = DRAWER_INFO_SECONDARY_SECOND_DRAWER_ITEM_ID;
                 final List<Offers> itemsForSubscription = (List<Offers>) items;
                 for (final Offers offers : itemsForSubscription) {
@@ -513,13 +512,12 @@ public class SlidingDrawer {
                                 }
                             });
 
-                    subscriptionItems.add(item);
+                    drawerItems.add(item);
                     subscriptionIdentifier++;
                 }
 
-                return subscriptionItems;
+                return drawerItems;
             case CUSTOM_ITEM_EVENT_TYPE:
-                List<IDrawerItem> eventItems = new ArrayList<>();
                 int eventIdentifier = DRAWER_PROFILE_SECONDARY_FIRST_DRAWER_ITEM_ID;
                 List<Event> itemsForEvent = (List<Event>) items;
                 for (final Event event : itemsForEvent) {
@@ -539,15 +537,13 @@ public class SlidingDrawer {
                                 }
                             });
 
-                    eventItems.add(item);
+                    drawerItems.add(item);
                     eventIdentifier++;
                 }
 
-                return eventItems;
+                return drawerItems;
             default:
-                List<IDrawerItem> defaultItems = new ArrayList<>();
-                return defaultItems;
-
+                return drawerItems;
         }
     }
 }
