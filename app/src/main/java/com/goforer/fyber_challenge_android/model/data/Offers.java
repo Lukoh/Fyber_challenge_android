@@ -56,6 +56,8 @@ public class Offers extends BaseModel implements Parcelable {
     private TimeToPayout mTimeToPayout;
     @SerializedName("events")
     private List<Event> mEvents;
+    @SerializedName("Comments")
+    private List<Comment> mComments;
 
     public String getTitle() {
         return mTitle;
@@ -117,6 +119,10 @@ public class Offers extends BaseModel implements Parcelable {
         return mEvents;
     }
 
+    public List<Comment> getComments() {
+        return mComments;
+    }
+
     public void setBookmarked(boolean bookmarked) {
         mBookmarked = bookmarked;
     }
@@ -141,6 +147,10 @@ public class Offers extends BaseModel implements Parcelable {
         mEvents = events;
     }
 
+    public void setComments(List<Comment> comments) {
+        mComments = comments;
+    }
+
     protected Offers(Parcel in) {
         mTitle = in.readString();
         mOfferId = in.readLong();
@@ -159,6 +169,8 @@ public class Offers extends BaseModel implements Parcelable {
         mTimeToPayout = in.readParcelable(TimeToPayout.class.getClassLoader());
         mEvents = new ArrayList<>();
         in.readTypedList(mEvents, Event.CREATOR);
+        mComments = new ArrayList<>();
+        in.readTypedList(mComments, Comment.CREATOR);
     }
 
     @Override
@@ -183,6 +195,7 @@ public class Offers extends BaseModel implements Parcelable {
         dest.writeInt(mGalleryCount);
         dest.writeParcelable(mTimeToPayout, flags);
         dest.writeTypedList(mEvents);
+        dest.writeTypedList(mComments);
     }
 
     @SuppressWarnings("unused")

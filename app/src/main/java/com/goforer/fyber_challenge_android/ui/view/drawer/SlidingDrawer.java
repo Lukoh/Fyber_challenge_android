@@ -255,7 +255,8 @@ public class SlidingDrawer {
             List<Event> events = new ArrayList<>();
             for(int i = 0; i < 10; i++) {
                 Event event = new Event();
-                event.setId("Event ID " + String.valueOf(i));
+                event.setId(i);
+                event.setOfferId(mOffers.getOfferId());
                 event.setName("Event Name " + String.valueOf(i));
                 event.setTitle("Event Title " + String.valueOf(i));
                 event.setLink("Event Link " + String.valueOf(i));

@@ -24,7 +24,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Event extends BaseModel implements Parcelable {
     @SerializedName("id")
-    private String mId;
+    private long mId;
+    @SerializedName("offer_id")
+    private long mOfferId;
     @SerializedName("name")
     private String mName;
     @SerializedName("title")
@@ -39,8 +41,12 @@ public class Event extends BaseModel implements Parcelable {
     public Event() {
     }
 
-    public String getId(){
+    public long getId(){
         return mId;
+    }
+
+    public long getOfferId() {
+        return mOfferId;
     }
 
     public String getName() {
@@ -63,8 +69,12 @@ public class Event extends BaseModel implements Parcelable {
         return mImages;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         mId = id;
+    }
+
+    public void setOfferId(long id) {
+        mOfferId = id;
     }
 
     public void setName(String name) {
@@ -88,7 +98,8 @@ public class Event extends BaseModel implements Parcelable {
     }
 
     protected Event(Parcel in) {
-        mId = in.readString();
+        mId = in.readLong();
+        mOfferId = in.readLong();
         mName= in.readString();
         mTitle = in.readString();
         mContent = in.readString();
@@ -103,7 +114,8 @@ public class Event extends BaseModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mId);
+        dest.writeLong(mId);
+        dest.writeLong(mOfferId);
         dest.writeString(mName);
         dest.writeString(mTitle);
         dest.writeString(mContent);
