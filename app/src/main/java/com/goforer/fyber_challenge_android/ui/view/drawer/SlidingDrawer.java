@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
 
 import com.goforer.base.ui.activity.BaseActivity;
@@ -50,10 +51,12 @@ import java.util.List;
 public class SlidingDrawer {
     public static final int DRAWER_PROFILE_TYPE = 0;
     public static final int DRAWER_INFO_TYPE = 1;
+    public static final int DRAWER_INFO_COMMENT_TYPE = 2;
 
     private static final int CUSTOM_ITEM_BOOKMARK_TYPE = 0;
     private static final int CUSTOM_ITEM_SUBSCRIPTION_TYPE = 1;
     private static final int CUSTOM_ITEM_EVENT_TYPE = 2;
+    private static final int CUSTOM_ITEM_COMMENTS_TYPE = 3;
 
     private static final int DRAWER_PROFILE_ITEM_IDENTIFIER_ID = 1;
     private static final int DRAWER_PROFILE_ITEM_BOOKMARK_ID = DRAWER_PROFILE_ITEM_IDENTIFIER_ID;
@@ -64,6 +67,8 @@ public class SlidingDrawer {
     private static final int DRAWER_INFO_ITEM_FIRST_EVENT_ID = DRAWER_INFO_ITEM_FIRST_IDENTIFIER_ID;
     private static final int DRAWER_INFO_ITEM_FIRST_GALLERY_ID
             = DRAWER_INFO_ITEM_FIRST_IDENTIFIER_ID + 1;
+    private static final int DRAWER_INFO_ITEM_FIRST_COMMENTS_ID
+            = DRAWER_INFO_ITEM_FIRST_GALLERY_ID + 1;
 
     private static final int DRAWER_INFO_SECONDARY_FIRST_DRAWER_ITEM_ID = 2000;
     private static final int DRAWER_INFO_SECONDARY_SECOND_DRAWER_ITEM_ID = 3000;
@@ -76,6 +81,7 @@ public class SlidingDrawer {
 
     private AccountHeader mHeader = null;
     private Drawer mDrawer = null;
+    private Drawer mCommentsDrawer = null;
     private Profile mProfile;
     private Offers mOffers;
     private Context mContext;
@@ -94,6 +100,10 @@ public class SlidingDrawer {
 
     public Drawer getDrawer() {
         return mDrawer;
+    }
+
+    public Drawer getCommentsDrawer() {
+        return mCommentsDrawer;
     }
 
     public AccountHeader getDrawerHeader() {
@@ -117,6 +127,10 @@ public class SlidingDrawer {
                 break;
             case DRAWER_INFO_TYPE:
                 mDrawer = createInfoDrawer((BaseActivity)mContext, mBundle);
+                break;
+            case DRAWER_INFO_COMMENT_TYPE:
+                mDrawer = createInfoDrawer((BaseActivity)mContext, mBundle);
+                mCommentsDrawer = createCommentsDrawer((BaseActivity)mContext, mBundle);
                 break;
             default:
         }
@@ -236,6 +250,24 @@ public class SlidingDrawer {
         return mDrawer;
     }
 
+    private Drawer createCommentsDrawer(final BaseActivity activity,
+                                        @Nullable Bundle savedInstanceState) {
+        mCommentsDrawer = new DrawerBuilder()
+                .withActivity(activity)
+                .addDrawerItems(
+                        createExpandableDrawerItem(R.drawable.ic_drawer_event,
+                                CUSTOM_ITEM_COMMENTS_TYPE,
+                                activity.getResources().getString(R.string.drawer_item_comments),
+                                mOffers.getEvents(), SECONDARY_DRAWER_LEVEL)
+                )
+                .withSavedInstance(savedInstanceState)
+                .withDrawerGravity(Gravity.END)
+                .append(mDrawer);
+
+        return mCommentsDrawer;
+
+    }
+
     private Drawer createInfoDrawer(final BaseActivity activity,
                                     @Nullable Bundle savedInstanceState) {
         Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
@@ -281,9 +313,8 @@ public class SlidingDrawer {
         mDrawer = new DrawerBuilder()
                 .withActivity(activity)
                 .withToolbar(toolbar)
-                .withHasStableIds(true)
-                .withActionBarDrawerToggleAnimated(true)
-                .withSavedInstance(savedInstanceState)
+                //.withHasStableIds(true)
+                //.withActionBarDrawerToggleAnimated(true)
                 .addDrawerItems(
                         new MenuDrawerItem()
                                 .withIcon(mOffers.getThumbnail().getLowres())
@@ -452,6 +483,16 @@ public class SlidingDrawer {
                             .withSubItems(
                                 createSecondaryDrawerItem(drawable, items, type, level)
                             );
+                break;
+            case CUSTOM_ITEM_COMMENTS_TYPE:
+                drawableItem.withName(itemName)
+                        .withCount(String.valueOf(items.size()))
+                        .withCountTextColor(mContext.getApplicationContext().getResources()
+                                .getColor(R.color.material_drawable_events_count_text))
+                        .withIcon(iconRes)
+                        .withIdentifier(DRAWER_INFO_ITEM_FIRST_COMMENTS_ID)
+                        .withArrowVisible(false)
+                        .withSelectable(false);
                 break;
             default:
         }

@@ -106,7 +106,7 @@ public class OffersInfoActivity extends BaseActivity {
             showToastMessage(getString(R.string.toast_no_offers));
         }
 
-        mSlidingDrawer = new SlidingDrawer(this, SlidingDrawer.DRAWER_INFO_TYPE,
+        mSlidingDrawer = new SlidingDrawer(this, SlidingDrawer.DRAWER_INFO_COMMENT_TYPE,
                 R.id.container_info, savedInstanceState);
 
         super.onCreate(savedInstanceState);
@@ -151,7 +151,7 @@ public class OffersInfoActivity extends BaseActivity {
                 }
             });
 
-            mSlidingDrawer = new SlidingDrawer(this, SlidingDrawer.DRAWER_INFO_TYPE,
+            mSlidingDrawer = new SlidingDrawer(this, SlidingDrawer.DRAWER_INFO_COMMENT_TYPE,
                     R.id.content_holder, savedInstanceState);
         }
     }
@@ -168,6 +168,7 @@ public class OffersInfoActivity extends BaseActivity {
             mActionBar.setDisplayShowTitleEnabled(true);
             mActionBar.setDisplayHomeAsUpEnabled(false);
             mActionBar.setHomeButtonEnabled(true);
+
         }
     }
 
@@ -255,6 +256,7 @@ public class OffersInfoActivity extends BaseActivity {
     public void onSaveInstanceState(Bundle outState) {
         //add the values which need to be saved from the drawer to the bundle
         outState = mSlidingDrawer.getDrawer().saveInstanceState(outState);
+        outState =  mSlidingDrawer.getCommentsDrawer().saveInstanceState(outState);
         super.onSaveInstanceState(outState);
     }
 
