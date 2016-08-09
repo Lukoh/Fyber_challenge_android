@@ -488,7 +488,7 @@ public class SlidingDrawer {
                 drawableItem.withName(itemName)
                         .withCount(String.valueOf(items.size()))
                         .withCountTextColor(mContext.getApplicationContext().getResources()
-                                .getColor(R.color.material_drawable_events_count_text))
+                                .getColor(R.color.material_drawable_comments_count_text))
                         .withIcon(iconRes)
                         .withIdentifier(DRAWER_INFO_ITEM_FIRST_COMMENTS_ID)
                         .withArrowVisible(false)

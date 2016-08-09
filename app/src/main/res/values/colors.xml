@@ -28,6 +28,7 @@
     <color name="material_drawable_subscription_count_text">#F2F2F2</color>
     <color name="material_drawer_menu_selected">#5D7FBF</color>
     <color name="material_drawable_events_count_text">#F2F2F2</color>
+    <color name="material_drawable_comments_count_text">#F2F2F2</color>
     <color name="material_drawable_offer_id_text">#868686</color>
     <color name="floating_button_background">#42A2DF</color>
 
