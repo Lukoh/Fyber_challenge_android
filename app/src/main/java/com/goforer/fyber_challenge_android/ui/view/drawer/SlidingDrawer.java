@@ -255,7 +255,7 @@ public class SlidingDrawer {
         mCommentsDrawer = new DrawerBuilder()
                 .withActivity(activity)
                 .addDrawerItems(
-                        createExpandableDrawerItem(R.drawable.ic_drawer_event,
+                        createExpandableDrawerItem(R.drawable.ic_drawer_comment,
                                 CUSTOM_ITEM_COMMENTS_TYPE,
                                 activity.getResources().getString(R.string.drawer_item_comments),
                                 mOffers.getEvents(), SECONDARY_DRAWER_LEVEL)
