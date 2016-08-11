@@ -16,14 +16,19 @@
 
 package com.goforer.fyber_challenge_android.utility;
 
+import com.goforer.fyber_challenge_android.model.data.Profile;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class CommonUtils {
     public static final String API_KEY = "1c915e3b5d42d05136185030892fbb846c278927";
 
     private static String mGoogleAID;
     private static boolean mIsLimitAdTrackingEnabled;
+    private static Profile mProfile;
 
     public static String SHA1(String input) throws NoSuchAlgorithmException {
         MessageDigest mDigest = MessageDigest.getInstance("SHA1");
@@ -40,6 +45,10 @@ public class CommonUtils {
         mGoogleAID = googleAID;
     }
 
+    public static void setProfile(Profile profile) {
+        mProfile = profile;
+    }
+
     public static void setLimitAdTrackingEnabled(boolean isLimitAdTrackingEnabled) {
         mIsLimitAdTrackingEnabled = isLimitAdTrackingEnabled;
     }
@@ -48,7 +57,18 @@ public class CommonUtils {
         return mGoogleAID;
     }
 
+    public static Profile getProfile() {
+        return mProfile;
+    }
+
     public static boolean getLimitAdTrackingEnabled() {
         return mIsLimitAdTrackingEnabled;
+    }
+
+    public static String getCurrentDateTime() {
+        Calendar c = Calendar.getInstance();
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return df.format(c.getTime());
     }
 }

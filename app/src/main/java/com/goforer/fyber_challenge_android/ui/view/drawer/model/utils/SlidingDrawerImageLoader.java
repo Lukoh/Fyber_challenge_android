@@ -23,6 +23,7 @@ import android.widget.ImageView;
 
 public class SlidingDrawerImageLoader {
     public enum Tags {
+        COMMENT_PICTURE,
         MENU_PICTURE,
         PRIMARY_ICON
     }

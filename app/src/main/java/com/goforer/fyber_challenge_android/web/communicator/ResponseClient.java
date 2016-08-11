@@ -66,6 +66,15 @@ public class ResponseClient {
     private int mPages;
     @SerializedName("information")
     private Information mInformation;
+    /**
+     * This fit in only Fyber server, but The variable's name of JsonElement have to be the data
+     * in real project and the datas have to be parsed and put to each data class.
+     * Please refer to below.
+     *
+     * @SerializedName("datas")
+     * private JsonElement mDatas
+     *
+     */
     @SerializedName("offers")
     private JsonElement mOffers;
 

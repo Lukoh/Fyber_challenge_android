@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/container_item" >
+
+            <com.mikepenz.materialdrawer.view.BezelImageView
+                android:id="@+id/iv_picture"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:clickable="false"
+                android:elevation="1dp"
+                android:layout_marginTop="14dp" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/container_comment"
+                android:layout_toRightOf="@+id/iv_picture"
+                android:layout_marginLeft="12dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lukoh Nam"
+                    android:id="@+id/tv_commenter"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Italian Bakery's very delicious and great yummy dish dddddddddd"
+                    android:id="@+id/tv_comment"
+                    android:inputType="textMultiLine"
+                    android:maxHeight="30dp"
+                    android:maxLines="2"
+                    android:layout_marginBottom="6dp"
+                    android:textColor="@color/material_drawable_comment"
+                    android:textSize="13dp" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/container_bar"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="false"
+                    android:layout_below="@+id/container_comment"
+                    android:layout_marginTop="6dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="March 6th at 11:11 PM"
+                        android:id="@+id/tv_date"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="6dp"
+                        android:textColor="@color/custom_dialog_text"
+                        android:textSize="13dp" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/container_like_bar"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentBottom="false">
+
+                        <ImageView
+                            android:id="@+id/iv_like"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="28dp"
+                            android:layout_marginTop="10dp"
+                            android:scaleType="centerInside"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_like" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="21"
+                            android:id="@+id/tv_like_count"
+                            android:textColor="@color/black"
+                            android:textSize="16dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginLeft="14dp" />
+
+                     </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

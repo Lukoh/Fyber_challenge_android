@@ -66,6 +66,8 @@ public class OffersActivity extends BaseActivity {
 
         mProfile = getIntent().getExtras().getParcelable(ActivityCaller.EXTRA_PROFILE);
 
+        CommonUtils.setProfile(mProfile);
+
         super.onCreate(savedInstanceState);
 
         if (!ConnectionUtils.INSTANCE.isNetworkAvailable(getApplicationContext())) {
@@ -186,7 +188,7 @@ public class OffersActivity extends BaseActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(action.getCode());
         builder.setMessage(action.getMessage() + "\n"
-                + getResources().getString(R.string.restart_phase));
+                + getResources().getString(R.string.restart_phrase));
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

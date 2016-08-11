@@ -28,13 +28,16 @@ import android.view.View;
 
 import com.goforer.base.ui.activity.BaseActivity;
 import com.goforer.fyber_challenge_android.R;
+import com.goforer.fyber_challenge_android.model.data.Comment;
 import com.goforer.fyber_challenge_android.model.data.Event;
 import com.goforer.fyber_challenge_android.model.data.Offers;
 import com.goforer.fyber_challenge_android.model.data.Profile;
+import com.goforer.fyber_challenge_android.ui.view.drawer.model.drawer.CommentDrawerItem;
 import com.goforer.fyber_challenge_android.ui.view.drawer.model.drawer.CustomCountPanelDrawableItem;
 import com.goforer.fyber_challenge_android.ui.view.drawer.model.drawer.MenuDrawerItem;
 import com.goforer.fyber_challenge_android.ui.view.drawer.model.drawer.SecondaryIconDrawerItem;
 import com.goforer.fyber_challenge_android.utility.ActivityCaller;
+import com.goforer.fyber_challenge_android.utility.CommonUtils;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -120,6 +123,10 @@ public class SlidingDrawer {
         setDrawer(mType);
     }
 
+    public void setDrawerType(int type) {
+        mType = type;
+    }
+
     private void setDrawer(int type) {
         switch(type) {
             case DRAWER_PROFILE_TYPE:
@@ -130,7 +137,7 @@ public class SlidingDrawer {
                 break;
             case DRAWER_INFO_COMMENT_TYPE:
                 mDrawer = createInfoDrawer((BaseActivity)mContext, mBundle);
-                mCommentsDrawer = createCommentsDrawer((BaseActivity)mContext, mBundle);
+                mCommentsDrawer = createCommentsDrawer((BaseActivity)mContext, mBundle, false);
                 break;
             default:
         }
@@ -251,21 +258,89 @@ public class SlidingDrawer {
     }
 
     private Drawer createCommentsDrawer(final BaseActivity activity,
-                                        @Nullable Bundle savedInstanceState) {
+                                        @Nullable Bundle savedInstanceState, boolean isUpdated) {
+        /**
+         *  In case this project, I put the data of {@link Comment} into the list, List<Comment> mComments
+         *  in {@link Offers} class, programmatically at this time because there was no provided
+         *  the data of {@link Comment} from Fyber server.
+         *
+         *  In real project, the data of {@link Comment} should be put into to the list,
+         *  List<Comment> mComments in {@link Offers} class, automatically.
+         *  It means the server have to provide comments data to App as the client.
+         *  It's very important to display the data of Comments on the list of Drawer's comments.
+         */
+        if (mOffers.getComments() == null || mOffers.getComments().size() == 0) {
+            List<Comment> comments = new ArrayList<>();
+            for(int i = 0; i < 10; i++) {
+                Comment comment = new Comment();
+                comment.setCommentId(i);
+                comment.setOfferId(mOffers.getOfferId());
+                comment.setDate(CommonUtils.getCurrentDateTime());
+                comment.setCommentId(123456789 + i);
+                if (comment.getPicture() == null) {
+                    Comment.Picture picture = new Comment.Picture();
+                    if (i % 2 == 0) {
+                        comment.setCommenterId(414343978);
+                        comment.setCommenterName("Paul");
+                        comment.setComment("I love it. It has good shape and color. I recommend you to use it.");
+                        comment.setCommentLikeCount(14);
+                        picture.setCommenterPictureUrl("https://github.com/Lukoh/Fyber_challenge_android/blob/master/profile.jpg?raw");
+                    } else {
+                        comment.setCommenterId(115681534);
+                        comment.setCommenterName("Lukoh");
+                        comment.setComment("I like it. It's fit in me and comfortable.");
+                        comment.setCommentLikeCount(10);
+                        picture.setCommenterPictureUrl("https://raw.githubusercontent.com/Lukoh/Fyber_challenge_android/master/profile.jpg");
+                    }
+
+                    comment.setPicture(picture);
+                }
+
+                comments.add(comment);
+            }
+
+            mOffers.setComments(comments);
+        }
+
+
         mCommentsDrawer = new DrawerBuilder()
                 .withActivity(activity)
-                .addDrawerItems(
-                        createExpandableDrawerItem(R.drawable.ic_drawer_comment,
-                                CUSTOM_ITEM_COMMENTS_TYPE,
-                                activity.getResources().getString(R.string.drawer_item_comments),
-                                mOffers.getEvents(), SECONDARY_DRAWER_LEVEL)
-                )
+                .withDrawerItems(createCommentsDrawerItem(activity, mOffers.getComments(),
+                        SECONDARY_DRAWER_LEVEL))
                 .withSavedInstance(savedInstanceState)
                 .withDrawerGravity(Gravity.END)
                 .append(mDrawer);
 
         return mCommentsDrawer;
 
+    }
+
+    private List<IDrawerItem> createCommentsDrawerItem(Activity activity, List<?> items,
+                                                       int level) {
+        List<IDrawerItem> drawerItems = new ArrayList<>();
+        int commentIdentifier = DRAWER_INFO_ITEM_FIRST_COMMENTS_ID;
+        final List<Comment> itemsForComment = (List<Comment>) items;
+        drawerItems.add(createExpandableDrawerItem(R.drawable.ic_drawer_comment,
+                CUSTOM_ITEM_COMMENTS_TYPE,
+                activity.getResources().getString(R.string.drawer_item_comments),
+                mOffers.getEvents(), SECONDARY_DRAWER_LEVEL));
+        for (final Comment comment : itemsForComment) {
+            CommentDrawerItem item = new CommentDrawerItem();
+                item.withCommenter(comment.getCommenterName())
+                    .withComment(comment.getComment())
+                    .withDate(comment.getDate())
+                    .withLikeCount(String.valueOf(comment.getCommentLikeCount()))
+                    .withLevel(level)
+                    .withPicture(comment.getPicture().getCommenterPictureUrl())
+                    .withCommentId(comment.getCommentId())
+                    .withCommenterId(comment.getCommenterId())
+                    .withIdentifier(commentIdentifier)
+                    .withSelectable(false);
+            drawerItems.add(item);
+            commentIdentifier++;
+        }
+
+        return drawerItems;
     }
 
     private Drawer createInfoDrawer(final BaseActivity activity,

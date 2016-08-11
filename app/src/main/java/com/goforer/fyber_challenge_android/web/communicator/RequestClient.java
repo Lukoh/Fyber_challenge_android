@@ -43,7 +43,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public enum RequestClient {
@@ -283,6 +286,15 @@ public enum RequestClient {
                 @Query("timestamp") long timestamp,
                 @Query("uid") String uid,
                 @Query("hashkey") String hashkey
+        );
+
+        @FormUrlEncoded
+        @POST("offers/comment/like")
+        Call<ResponseClient> postLikeComment(
+                @Field("uid") String my_id,
+                @Field("offer_id") long offer_id,
+                @Field("commenter_id") long commenter_id,
+                @Field("comment_id") long comment_id
         );
     }
 }

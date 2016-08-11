@@ -40,16 +40,23 @@ import com.goforer.base.ui.activity.BaseActivity;
 import com.goforer.base.ui.view.SwipeViewPager;
 import com.goforer.fyber_challenge_android.R;
 import com.goforer.fyber_challenge_android.model.action.BookmarkChangeAction;
+import com.goforer.fyber_challenge_android.model.action.CommentLikeAction;
 import com.goforer.fyber_challenge_android.model.action.SubscriptionChangeAction;
+import com.goforer.fyber_challenge_android.model.data.Comment;
 import com.goforer.fyber_challenge_android.model.data.Offers;
+import com.goforer.fyber_challenge_android.model.event.LikeCommentEvent;
 import com.goforer.fyber_challenge_android.ui.adapter.OffersInfoAdapter;
 import com.goforer.fyber_challenge_android.ui.view.drawer.SlidingDrawer;
 import com.goforer.fyber_challenge_android.utility.ActivityCaller;
+import com.goforer.fyber_challenge_android.utility.CommonUtils;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -413,5 +420,74 @@ public class OffersInfoActivity extends BaseActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
+    }
+
+    private void changeComment() {
+        List<Comment> comments = new ArrayList<>();
+        /**
+         *  In case this project, I put the data of {@link Comment} into the list, List<Comment> mComments
+         *  in {@link Offers} class, programmatically at this time because there was no provided
+         *  the data of {@link Comment} from Fyber server.
+         *
+         *  In real project, the data of {@link Comment} should be put into to the list,
+         *  List<Comment> mComments in {@link Offers} class, automatically.
+         *  It means the server have to provide comments data to App as the client.
+         *  It's very important to display the data of Comments on the list of Drawer's comments.
+         */
+        for(int i = 0; i < 10; i++) {
+            Comment comment = new Comment();
+            comment.setCommentId(i);
+            comment.setOfferId(mOffersItems.get(mItemPosition).getOfferId());
+            comment.setDate(CommonUtils.getCurrentDateTime());
+            comment.setCommentId(123456789 + i);
+            if (comment.getPicture() == null) {
+                Comment.Picture picture = new Comment.Picture();
+                if (i % 2 == 0) {
+                    comment.setCommenterId(414343978);
+                    comment.setCommenterName("Paul");
+                    comment.setComment("I love it. It has good shape and color. I recommend you to use it.");
+                    comment.setCommentLikeCount(16);
+                    picture.setCommenterPictureUrl("https://github.com/Lukoh/Fyber_challenge_android/blob/master/profile.jpg?raw");
+                } else {
+                    comment.setCommenterId(115681534);
+                    comment.setCommenterName("Lukoh");
+                    comment.setComment("I like it. It's fit in me and comfortable.");
+                    comment.setCommentLikeCount(12);
+                    picture.setCommenterPictureUrl("https://raw.githubusercontent.com/Lukoh/Fyber_challenge_android/master/profile.jpg");
+                }
+
+                comment.setPicture(picture);
+            }
+
+            comments.add(comment);
+        }
+
+        mOffersItems.get(mItemPosition).setComments(comments);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAction(CommentLikeAction action) {
+        Toast.makeText(getApplicationContext(), getString(R.string.like_phrase),
+                Toast.LENGTH_SHORT).show();
+
+        changeComment();
+        // To update comments
+        mSlidingDrawer.setDrawerType(SlidingDrawer.DRAWER_INFO_COMMENT_TYPE);
+        mSlidingDrawer.setDrawerInfo(mOffersItems.get(mItemPosition));
+        /**
+         * In this case, Fyber server does not support Like function. So the below code is commented.
+         * Remove the commented code in the real project.
+         */
+        /*
+        LikeCommentEvent event = new LikeCommentEvent(true);
+
+        Intermediary.INSTANCE.postLikeComment(this, mOffersItems.get(mItemPosition).getOfferId(),
+                action.getCommenterId(), action.getCommentId(), event);
+        */
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEvent(LikeCommentEvent event) {
+        //TODO:: In case of real project, Parsing json data and put into the object of Comment class
     }
 }

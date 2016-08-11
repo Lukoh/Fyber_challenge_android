@@ -19,6 +19,7 @@ package com.goforer.fyber_challenge_android.web;
 import android.content.Context;
 
 import com.goforer.base.model.event.ResponseEvent;
+import com.goforer.fyber_challenge_android.utility.CommonUtils;
 import com.goforer.fyber_challenge_android.web.communicator.RequestClient;
 import com.goforer.fyber_challenge_android.web.communicator.ResponseClient;
 
@@ -68,6 +69,24 @@ public enum Intermediary {
 
         Call<ResponseClient> call = RequestClient.INSTANCE.getRequestMethod(context)
                 .getOffers(appId, device_id, ip, locale, offer_type, pageNum, timestamp, uid, hashKey);
+        call.enqueue(new RequestClient.RequestCallback(event) {
+            @Override
+            public void onResponse(Call<ResponseClient> call, Response<ResponseClient> response) {
+                super.onResponse(call, response);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseClient> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+
+        });
+    }
+
+    public void postLikeComment(Context context, long offerId, long commenterId,
+                                long commentId, ResponseEvent event) {
+        Call<ResponseClient> call = RequestClient.INSTANCE.getRequestMethod(context)
+                .postLikeComment(CommonUtils.getProfile().getId(), offerId, commenterId, commentId);
         call.enqueue(new RequestClient.RequestCallback(event) {
             @Override
             public void onResponse(Call<ResponseClient> call, Response<ResponseClient> response) {
