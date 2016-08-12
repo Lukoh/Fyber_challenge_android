@@ -18,7 +18,7 @@ RecyclerFragment was improved to be more efficient and more great. Please refer 
 - **the easiest structure**
 - quick and simple code
 - **applied Retrofit, EventBus and ButterKnife library**
-- appied Google Material Design
+- applied Google Material Design
 - **uses the AppCompat support library**
 - comes with multiple Activities and Fragments
 - based on a **RecyclerView**
