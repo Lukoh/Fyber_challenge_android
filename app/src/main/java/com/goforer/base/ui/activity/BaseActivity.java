@@ -30,9 +30,9 @@ import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.goforer.fyber_challenge_android.R;
-import com.goforer.fyber_challenge_android.model.event.ActivityStackClearEvent;
-import com.goforer.fyber_challenge_android.utility.ConnectionUtils;
+import com.goforer.fyber_challenge.R;
+import com.goforer.fyber_challenge.model.event.ActivityStackClearEvent;
+import com.goforer.fyber_challenge.utility.ConnectionUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

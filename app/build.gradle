@@ -6,7 +6,7 @@ android {
     buildToolsVersion setup.buildTools
 
     defaultConfig {
-        applicationId "com.goforer.fyber_challenge_android"
+        applicationId "com.goforer.fyber_challenge"
         minSdkVersion  setup.minSdk
         targetSdkVersion setup.targetSdk
         versionCode 6

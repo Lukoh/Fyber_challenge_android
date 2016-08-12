@@ -39,7 +39,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.signature.StringSignature;
 
-import com.goforer.fyber_challenge_android.R;
+import com.goforer.fyber_challenge.R;
 
 import java.util.UUID;
 

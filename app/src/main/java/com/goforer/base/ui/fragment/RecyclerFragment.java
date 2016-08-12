@@ -36,7 +36,7 @@ import android.widget.Toast;
 import com.goforer.base.model.event.ResponseListEvent;
 import com.goforer.base.ui.adapter.BaseListAdapter;
 import com.goforer.base.ui.adapter.DividerItemDecoration;
-import com.goforer.fyber_challenge_android.R;
+import com.goforer.fyber_challenge.R;
 import com.google.gson.JsonElement;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;

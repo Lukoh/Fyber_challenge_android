@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "557550673902",
-    "project_id": "fyberchallenge"
+    "project_number": "28123282541",
+    "project_id": "firebase-fyber"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:557550673902:android:76373c33043147ca",
+        "mobilesdk_app_id": "1:28123282541:android:8934f1f3385bba6f",
         "android_client_info": {
-          "package_name": "com.goforer.fyber_challenge_android"
+          "package_name": "com.goforer.fyber_challenge"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAfKwqOYlJidAyFP-Wz0HdlzFFGhQgKv3Y"
+          "current_key": "AIzaSyDNUVpFJGlOhcf8bVg4Fl1nH0c2bDXHOH0"
         }
       ],
       "services": {
@@ -26,9 +26,7 @@
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 2,
-          "test_banner_ad_unit_id": "ca-app-pub-3940256099942544/6300978111",
-          "test_interstitial_ad_unit_id": "ca-app-pub-3940256099942544/1033173712"
+          "status": 1
         }
       }
     }

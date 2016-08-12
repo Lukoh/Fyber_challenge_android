@@ -16,7 +16,7 @@
 
 package com.goforer.base.model.event;
 
-import com.goforer.fyber_challenge_android.web.communicator.ResponseClient;
+import com.goforer.fyber_challenge.web.communicator.ResponseClient;
 
 public class ResponseEvent {
     protected ResponseClient mResponseClient;

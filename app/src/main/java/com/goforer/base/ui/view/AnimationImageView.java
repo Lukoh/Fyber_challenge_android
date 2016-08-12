@@ -21,7 +21,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.goforer.fyber_challenge_android.R;
+import com.goforer.fyber_challenge.R;
 
 public class AnimationImageView extends ImageView {
 
