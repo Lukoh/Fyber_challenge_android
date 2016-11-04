@@ -26,7 +26,14 @@ RecyclerFragment was improved to be more efficient and more great. Please refer 
 - expandable fragments
 
 #New Feature
-The sliding function have been applied into seeing Offer-Inforamtion module.
+The new functions for deleting an item on the list(Offer) has been applied.
+It's run by the swife action. Please return null in [createItemTouchHelperToRecyclerView](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/fyber_challenge_android/ui/activity/OffersInfoActivity.java) method if a user don't want to attach the function of removing an item to the fragment which is derived from [RecyclerFragment](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/fragment/RecyclerFragment.java) like bellow example:
+@Override
+protected ItemTouchHelper.Callback createItemTouchHelperToRecyclerView() {
+    return null;
+}
+
+The sliding function has been applied into seeing Offer-Inforamtion module.
 
 A new function is applied into Fyber Challenge App. [OfferInfoActivity](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/fyber_challenge_android/ui/activity/OffersInfoActivity.java) consists of two parts. The top area in [OfferInfoActivity](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/fyber_challenge_android/ui/activity/OffersInfoActivity.java) is the AppBarLayout, and the bottom area is the FrameLayout which is wrapped by the [SwipeViewPager](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/view/SwipeViewPager.java). So I made it could works like a part not two distinct parts. It's very efficient. I  just used two ImageView widgets to work/look like a ViewPager and it provides more awesome function.  
 For more information, see the [OfferInfoActivity.java](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/fyber_challenge_android/ui/activity/OffersInfoActivity.java) and [activity_offers_info.xml](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/res/layout/activity_offers_info.xml) file.
