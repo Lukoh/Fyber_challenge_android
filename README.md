@@ -39,7 +39,9 @@ Please refer to below files if you'd like to see more about deleting an item on 
 
 [RecyclerFragment](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/fragment/RecyclerFragment.java)
 
-[]
+[ItemTouchHelperListener](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/helper/ItemTouchHelperListener.java)
+
+[RecyclerItemTouchHelperCallback](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/helper/RecyclerItemTouchHelperCallback.java)
 
 
 The sliding function has been applied into seeing Offer-Inforamtion module.
