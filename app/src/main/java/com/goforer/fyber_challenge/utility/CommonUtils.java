@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Lukoh Nam, goForer
+ * Copyright (C) 2015-2016 Lukoh Nam, goForer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,9 @@
 package com.goforer.fyber_challenge.utility;
 
 import com.goforer.fyber_challenge.model.data.Profile;
+import com.goforer.fyber_challenge.web.communicator.RequestClient;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -70,5 +72,30 @@ public class CommonUtils {
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return df.format(c.getTime());
+    }
+
+    public static String getHashKey(String advertisingId, long timestamp, int pageNum)
+            throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        StringBuilder tmp;
+        tmp = new StringBuilder();
+        tmp.append("appid=");
+        tmp.append(RequestClient.APP_ID).append("&");
+        tmp.append("device_id=");
+        tmp.append(advertisingId).append("&");
+        tmp.append("ip=");
+        tmp.append(RequestClient.IP).append("&");
+        tmp.append("locale=");
+        tmp.append(RequestClient.LOCALE).append("&");
+        tmp.append("offer_types=");
+        tmp.append(RequestClient.OFFER_TYPES).append("&");
+        tmp.append("page=");
+        tmp.append(pageNum).append("&");
+        tmp.append("timestamp=");
+        tmp.append(timestamp).append("&");
+        tmp.append("uid=");
+        tmp.append(RequestClient.UID).append("&");
+        tmp.append(CommonUtils.API_KEY);
+
+        return CommonUtils.SHA1(tmp.toString());
     }
 }

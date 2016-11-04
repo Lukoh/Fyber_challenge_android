@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Lukoh Nam, goForer
+ * Copyright (C) 2015-2016 Lukoh Nam, goForer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,18 +29,20 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.goforer.base.model.ListModel;
-import com.goforer.base.ui.adapter.GapItemDecoration;
+import com.goforer.base.ui.decoration.GapItemDecoration;
 import com.goforer.base.ui.fragment.RecyclerFragment;
+import com.goforer.base.ui.helper.RecyclerItemTouchHelperCallback;
 import com.goforer.fyber_challenge.FyberChallenge;
 import com.goforer.fyber_challenge.R;
 import com.goforer.fyber_challenge.model.action.MoveImageAction;
+import com.goforer.fyber_challenge.model.action.MoveItemAction;
 import com.goforer.fyber_challenge.model.data.Gallery;
 import com.goforer.fyber_challenge.model.event.OffersGalleryEvent;
 import com.goforer.fyber_challenge.ui.adapter.OffersGalleryAdapter;
 import com.goforer.fyber_challenge.utility.CommonUtils;
 import com.goforer.fyber_challenge.utility.DisplayUtils;
 import com.goforer.fyber_challenge.web.Intermediary;
-import com.goforer.fyber_challenge.web.communicator.ResponseClient;
+import com.goforer.fyber_challenge.model.data.ResponseOffer;
 import com.google.gson.JsonElement;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -93,8 +96,13 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
     }
 
     @Override
+    protected ItemTouchHelper.Callback createItemTouchHelperToRecyclerView() {
+        return new RecyclerItemTouchHelperCallback(mContext, mAdapter);
+    }
+
+    @Override
     protected boolean isItemDecorationVisible() {
-        return true;
+        return false;
     }
 
     @Override
@@ -239,16 +247,16 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEvent(OffersGalleryEvent event) {
         switch(event.getResponseClient().getStatus()) {
-            case ResponseClient.GENERAL_ERROR:
+            case ResponseOffer.GENERAL_ERROR:
                 showToastMessage(getString(R.string.toast_server_error_phrase));
                 break;
-            case ResponseClient.NETWORK_ERROR:
+            case ResponseOffer.NETWORK_ERROR:
                 showToastMessage(getString(R.string.toast_disconnect_phrase));
                 break;
-            case ResponseClient.RESPONSE_SIGNATURE_NOT_MATCH:
+            case ResponseOffer.RESPONSE_SIGNATURE_NOT_MATCH:
                 showToastMessage(getString(R.string.toast_response_signature_mismatch_phrase));
                 break;
-            case ResponseClient.SUCCESSFUL:
+            case ResponseOffer.SUCCESSFUL:
                 if (event.getResponseClient().getCount() == 0) {
                     showToastMessage(getString(R.string.toast_no_offers));
                     return;
@@ -268,5 +276,16 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAction(MoveImageAction action) {
         mAdapter.moveSelectedPosition(getRecyclerView().getLayoutManager(), action.getPosition());
+    }
+
+    @SuppressWarnings("")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAction(MoveItemAction action) {
+        if (action.getType() == MoveItemAction.ITEM_MOVED_START) {
+            getRefreshLayout().setRefreshing(false);
+            getRefreshLayout().setEnabled(false);
+        } else {
+            getRefreshLayout().setEnabled(true);
+        }
     }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.goforer.base.ui.adapter;
+package com.goforer.base.ui.holder;
 
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -29,5 +29,13 @@ public class DefaultViewHolder extends BaseViewHolder<Object> {
 
     @Override
     public void bindItemHolder(@NonNull Object obj, int position) {
+    }
+
+    @Override
+    public void onItemSelected() {
+    }
+
+    @Override
+    public void onItemClear() {
     }
 }

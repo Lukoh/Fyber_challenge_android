@@ -17,15 +17,13 @@
 package com.goforer.fyber_challenge.web.communicator;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkInfo;
-import android.os.Build;
 
+import com.goforer.base.model.data.ResponseBase;
 import com.goforer.base.model.event.ResponseEvent;
-import com.goforer.fyber_challenge.model.action.FinishAction;
-import com.goforer.fyber_challenge.model.data.ResponseError;
+import com.goforer.fyber_challenge.model.data.ResponseOffer;
 import com.goforer.fyber_challenge.utility.CommonUtils;
+import com.goforer.fyber_challenge.utility.ConnectionUtils;
+import com.goforer.fyber_challenge.web.communicator.callback.BaseCallback;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -52,20 +50,25 @@ import retrofit2.http.Query;
 public enum RequestClient {
     INSTANCE;
 
+    public static final String TAG = "OfferListFragment";
+
+    public static final String IP = "109.235.143.113";
+    public static final String LOCALE = "DE";
+    public static final String UID = "spiderman";
+
+    public static final long APP_ID = 2070;
+    public static final int OFFER_TYPES = 112;
+
+
     private static final long READ_TIME_OUT = 5;
     private static final long WRITE_TIME_OUT = 5;
     private static final long CONNECT_TIME_OUT = 5;
 
-    private Context mContext;
     private RequestMethod mRequestor;
-
-    private static ResponseError mErrorResponse = null;
 
     private String mRawResponseBody;
 
-    public RequestMethod getRequestMethod(Context context) {
-        mContext = context;
-
+    public RequestMethod getRequestMethod() {
         if (mRequestor == null) {
            final OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
                     .readTimeout(READ_TIME_OUT, TimeUnit.SECONDS)
@@ -79,6 +82,8 @@ public enum RequestClient {
 
                     Request request = original.newBuilder()
                             .header("Accept", "application/json")
+                            .header("Connection", "keep-alive")
+                            .header("Content-Encoding", "gzip")
                             .method(original.method(), original.body())
                             .build();
 
@@ -110,23 +115,26 @@ public enum RequestClient {
         return mRawResponseBody;
     }
 
+
     /**
      * Communicates responses from Server or offline requests.
      * One and only one method will be invoked in response to a given request.
      */
-    static public class RequestCallback implements Callback<ResponseClient> {
+    static public class OfferCallback extends BaseCallback implements Callback<ResponseOffer> {
         private static final String SIGNATURE_HEADER = "X-Sponsorpay-Response-Signature";
 
         private ResponseEvent mEvent;
+        private Context mContext;
 
-        public RequestCallback(ResponseEvent event) {
+        protected OfferCallback(ResponseEvent event, Context context) {
             mEvent = event;
+            mContext = context;
         }
 
         @Override
-        public void onResponse(Call<ResponseClient> call,
-                               retrofit2.Response<ResponseClient> response) {
-            if (isResponseError(response)) {
+        public void onResponse(Call<ResponseOffer> call,
+                               retrofit2.Response<ResponseOffer> response) {
+            if (!response.isSuccessful() || isResponseError(response.errorBody())) {
                 try {
                     showErrorMessage(response.errorBody().string());
                     System.out.println(response.errorBody().string());
@@ -136,23 +144,16 @@ public enum RequestClient {
 
                 return;
             }
-            if (mEvent != null) {
-                String headerSignature = response.headers().get(SIGNATURE_HEADER);
-                String hashkey = null;
-                try {
-                    hashkey = getResponseSignature(RequestClient.INSTANCE.getBody());
-                } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                }
 
-                if (headerSignature.equals(hashkey)) {
+            if (mEvent != null) {
+                if (responseValidityCheck(response.headers().get(SIGNATURE_HEADER))) {
                     mEvent.setResponseClient(response.body());
-                    mEvent.getResponseClient().setStatus(ResponseClient.SUCCESSFUL);
+                    mEvent.getResponseClient().setStatus(ResponseBase.SUCCESSFUL);
                     mEvent.parseInResponse();
                 } else {
-                    mEvent.setResponseClient(new ResponseClient());
+                    mEvent.setResponseClient(new ResponseOffer());
                     mEvent.getResponseClient().setStatus(
-                            ResponseClient.RESPONSE_SIGNATURE_NOT_MATCH);
+                            ResponseBase.RESPONSE_SIGNATURE_NOT_MATCH);
                 }
 
                 EventBus.getDefault().post(mEvent);
@@ -160,75 +161,23 @@ public enum RequestClient {
         }
 
         @Override
-        public void onFailure(Call<ResponseClient> call, Throwable t) {
+        public void onFailure(Call<ResponseOffer> call, Throwable t) {
             boolean isDeviceEnabled = true;
 
-            if (!RequestClient.INSTANCE.isOnline()) {
+            if (!ConnectionUtils.INSTANCE.isOnline(mContext)) {
                 isDeviceEnabled = false;
             }
 
             if (mEvent != null) {
-                mEvent.setResponseClient(new ResponseClient());
+                mEvent.setResponseClient(new ResponseOffer());
                 if (!isDeviceEnabled) {
-                    mEvent.getResponseClient().setStatus(ResponseClient.NETWORK_ERROR);
+                    mEvent.getResponseClient().setStatus(ResponseOffer.NETWORK_ERROR);
                 } else {
-                    mEvent.getResponseClient().setStatus(ResponseClient.GENERAL_ERROR);
+                    mEvent.getResponseClient().setStatus(ResponseOffer.GENERAL_ERROR);
                 }
 
                 EventBus.getDefault().post(mEvent);
             }
-        }
-
-        private boolean isResponseError(retrofit2.Response<ResponseClient> response) {
-            if (!response.isSuccessful()) {
-                return true;
-            }
-
-            try {
-                if (response.errorBody() != null) {
-                    mErrorResponse = ResponseError.gson()
-                            .fromJson(response.errorBody().string(), ResponseError.class);
-                } else {
-                    return false;
-                }
-            } catch (IOException e) {
-                // do nothing
-            }
-
-            assert (mErrorResponse != null ? mErrorResponse.getErrorCode() : null) != null;
-            switch(mErrorResponse.getErrorCode()) {
-                case ResponseClient.ERROR_INVALID_PAGE:
-                case ResponseClient.ERROR_INVALID_APPID:
-                case ResponseClient.ERROR_INVALID_UID:
-                case ResponseClient.ERROR_INVALID_DEVICE_ID:
-                case ResponseClient.ERROR_INVALID_IP:
-                case ResponseClient.ERROR_INVALID_TIMESTAMP:
-                case ResponseClient.ERROR_INVALID_LOCALE:
-                case ResponseClient.ERROR_INVALID_ANDROID_ID:
-                case ResponseClient.ERROR_INVALID_CATEGORY:
-                case ResponseClient.ERROR_INVALID_HASHKEY:
-                case ResponseClient.NOT_FOUND:
-                case ResponseClient.ERROR_INTERNAL_SERVER:
-                case ResponseClient.BAD_GATEWAY:
-                    return true;
-                case ResponseClient.OK:
-                case ResponseClient.NO_CONTENT:
-                    return false;
-                default:
-                    return false;
-            }
-        }
-
-        private void showErrorMessage(String error) {
-            FinishAction action = new FinishAction();
-
-            if (mErrorResponse == null) {
-                mErrorResponse= ResponseError.gson().fromJson(error, ResponseError.class);
-            }
-
-            action.setCode(mErrorResponse.getErrorCode());
-            action.setMessage(mErrorResponse.getErrorMessage());
-            EventBus.getDefault().post(action);
         }
 
         private String getResponseSignature(String body)
@@ -237,46 +186,32 @@ public enum RequestClient {
 
             return CommonUtils.SHA1(value);
         }
-    }
 
-    public boolean isOnline() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        private boolean responseValidityCheck(final String headerSignature) {
+            String hashKey = null;
+            try {
+                hashKey = getResponseSignature(RequestClient.INSTANCE.getBody());
+            } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Network[] networks = connectivityManager.getAllNetworks();
-            NetworkInfo networkInfo;
-            for (Network mNetwork : networks) {
-                networkInfo = connectivityManager.getNetworkInfo(mNetwork);
-                if (networkInfo.getState().equals(NetworkInfo.State.CONNECTED)) {
-                    return true;
-                }
+            if (headerSignature.equals(hashKey)) {
+                return true;
             }
-        }else {
-            if (connectivityManager != null) {
-                @SuppressWarnings("deprecation")
-                NetworkInfo[] info = connectivityManager.getAllNetworkInfo();
-                if (info != null) {
-                    for (NetworkInfo anInfo : info) {
-                        if (anInfo.getState() == NetworkInfo.State.CONNECTED) {
-                            return true;
-                        }
-                    }
-                }
-            }
+
+            return false;
         }
-
-        return false;
     }
 
     public interface RequestMethod {
-        @GET("")
-        Call<ResponseClient> getProfile(
+        @GET("profile.json")
+        Call<ResponseOffer> getProfile(
                 @Query("id") String id,
                 @Query("hashkey") String hashkey
         );
 
         @GET("offers.json")
-        Call<ResponseClient> getOffers(
+        Call<ResponseOffer> getOffers(
                 @Query("appid") long appid,
                 @Query("device_id") String google_ad_id,
                 @Query("ip") String ip,
@@ -290,7 +225,7 @@ public enum RequestClient {
 
         @FormUrlEncoded
         @POST("offers/comment/like")
-        Call<ResponseClient> postLikeComment(
+        Call<ResponseOffer> postLikeComment(
                 @Field("uid") String my_id,
                 @Field("offer_id") long offer_id,
                 @Field("commenter_id") long commenter_id,

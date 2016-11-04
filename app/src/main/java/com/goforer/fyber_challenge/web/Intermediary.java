@@ -21,7 +21,7 @@ import android.content.Context;
 import com.goforer.base.model.event.ResponseEvent;
 import com.goforer.fyber_challenge.utility.CommonUtils;
 import com.goforer.fyber_challenge.web.communicator.RequestClient;
-import com.goforer.fyber_challenge.web.communicator.ResponseClient;
+import com.goforer.fyber_challenge.model.data.ResponseOffer;
 
 import java.io.IOException;
 
@@ -39,44 +39,43 @@ import retrofit2.Response;
  * A call that is busy writing its request or reading its response may receive a {@link IOException};
  * this is working as designed.
  *
- * ResponseClient: Successful response body type.
+ * ResponseOffer: Successful response body type.
  * </p>
  *
  */
 public enum Intermediary {
     INSTANCE;
 
-    public void getProfile(Context context, String id, String hashKey,  ResponseEvent event) {
-        Call<ResponseClient> call = RequestClient.INSTANCE.getRequestMethod(context)
+    public void getProfile(final Context context, String id, String hashKey,  ResponseEvent event) {
+        Call<ResponseOffer> call = RequestClient.INSTANCE.getRequestMethod()
                 .getProfile(id, hashKey);
-        call.enqueue(new RequestClient.RequestCallback(event) {
+        call.enqueue(new RequestClient.OfferCallback(event, context) {
             @Override
-            public void onResponse(Call<ResponseClient> call, Response<ResponseClient> response) {
+            public void onResponse(Call<ResponseOffer> call, Response<ResponseOffer> response) {
                 super.onResponse(call, response);
             }
 
             @Override
-            public void onFailure(Call<ResponseClient> call, Throwable t) {
+            public void onFailure(Call<ResponseOffer> call, Throwable t) {
                 super.onFailure(call, t);
             }
 
         });
     }
 
-    public void getOffers(Context context, int appId, String device_id, String ip, String locale,
+    public void getOffers(final Context context, long appId, String device_id, String ip, String locale,
                           int offer_type, int pageNum, long timestamp, String uid, String hashKey,
                           ResponseEvent event)  {
-
-        Call<ResponseClient> call = RequestClient.INSTANCE.getRequestMethod(context)
+        Call<ResponseOffer> call = RequestClient.INSTANCE.getRequestMethod()
                 .getOffers(appId, device_id, ip, locale, offer_type, pageNum, timestamp, uid, hashKey);
-        call.enqueue(new RequestClient.RequestCallback(event) {
+        call.enqueue(new RequestClient.OfferCallback(event, context) {
             @Override
-            public void onResponse(Call<ResponseClient> call, Response<ResponseClient> response) {
+            public void onResponse(Call<ResponseOffer> call, Response<ResponseOffer> response) {
                 super.onResponse(call, response);
             }
 
             @Override
-            public void onFailure(Call<ResponseClient> call, Throwable t) {
+            public void onFailure(Call<ResponseOffer> call, Throwable t) {
                 super.onFailure(call, t);
             }
 
@@ -85,16 +84,16 @@ public enum Intermediary {
 
     public void postLikeComment(Context context, long offerId, long commenterId,
                                 long commentId, ResponseEvent event) {
-        Call<ResponseClient> call = RequestClient.INSTANCE.getRequestMethod(context)
+        Call<ResponseOffer> call = RequestClient.INSTANCE.getRequestMethod()
                 .postLikeComment(CommonUtils.getProfile().getId(), offerId, commenterId, commentId);
-        call.enqueue(new RequestClient.RequestCallback(event) {
+        call.enqueue(new RequestClient.OfferCallback(event, context) {
             @Override
-            public void onResponse(Call<ResponseClient> call, Response<ResponseClient> response) {
+            public void onResponse(Call<ResponseOffer> call, Response<ResponseOffer> response) {
                 super.onResponse(call, response);
             }
 
             @Override
-            public void onFailure(Call<ResponseClient> call, Throwable t) {
+            public void onFailure(Call<ResponseOffer> call, Throwable t) {
                 super.onFailure(call, t);
             }
 

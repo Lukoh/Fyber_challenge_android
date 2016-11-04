@@ -14,25 +14,20 @@
  * limitations under the License.
  */
 
-package com.goforer.fyber_challenge.model.action;
+package com.goforer.base.ui.helper;
 
-public class SubscriptionChangeAction {
-    private boolean mSubscribed;
-    private int mPosition;
+import android.support.v7.widget.RecyclerView;
 
-    public boolean isSubscribed() {
-        return mSubscribed;
-    }
+/**
+ * Listener for manual initiation of a drag.
+ */
+public interface OnStartDragListener {
 
-    public int getPosition() {
-        return mPosition;
-    }
+    /**
+     * Called when a view is requesting a start of a drag.
+     *
+     * @param viewHolder The holder of the view to drag.
+     */
+    void onStartDrag(RecyclerView.ViewHolder viewHolder);
 
-    public void setSubscribed(boolean subscribed) {
-        mSubscribed = subscribed;
-    }
-
-    public void setPosition(int position) {
-        mPosition = position;
-    }
 }

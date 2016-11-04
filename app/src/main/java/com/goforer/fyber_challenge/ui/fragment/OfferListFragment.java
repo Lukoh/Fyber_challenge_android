@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Lukoh Nam, goForer
+ * Copyright (C) 2015-2016 Lukoh Nam, goForer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,12 @@
 
 package com.goforer.fyber_challenge.ui.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,10 +30,14 @@ import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.goforer.base.model.ListModel;
+import com.goforer.base.model.data.ResponseBase;
+import com.goforer.base.ui.decoration.RemoverItemDecoration;
 import com.goforer.base.ui.fragment.RecyclerFragment;
+import com.goforer.base.ui.helper.RecyclerItemTouchHelperCallback;
 import com.goforer.fyber_challenge.R;
 import com.goforer.fyber_challenge.model.action.BookmarkChangeAction;
 import com.goforer.fyber_challenge.model.action.FinishAction;
+import com.goforer.fyber_challenge.model.action.FocusItemAction;
 import com.goforer.fyber_challenge.model.action.MoveItemAction;
 import com.goforer.fyber_challenge.model.action.SubscriptionChangeAction;
 import com.goforer.fyber_challenge.model.data.Offers;
@@ -42,7 +48,7 @@ import com.goforer.fyber_challenge.ui.view.drawer.SlidingDrawer;
 import com.goforer.fyber_challenge.utility.ActivityCaller;
 import com.goforer.fyber_challenge.utility.CommonUtils;
 import com.goforer.fyber_challenge.web.Intermediary;
-import com.goforer.fyber_challenge.web.communicator.ResponseClient;
+import com.goforer.fyber_challenge.web.communicator.RequestClient;
 import com.google.gson.JsonElement;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -57,13 +63,6 @@ import butterknife.OnClick;
 
 public class OfferListFragment extends RecyclerFragment<Offers> {
     private static final String TAG = "OfferListFragment";
-
-    private static final String IP = "109.235.143.113";
-    private static final String LOCALE = "DE";
-    private static final String UID = "spiderman";
-
-    private static final int APP_ID = 2070;
-    private static final int OFFER_TYPES = 112;
 
     private OfferListAdapter mAdapter;
     private SlidingDrawer mSlidingDrawer;
@@ -159,13 +158,23 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     }
 
     @Override
+    protected RecyclerView.ItemDecoration createItemDecoration() {
+       return new RemoverItemDecoration(Color.RED);
+    }
+
+    @Override
     protected RecyclerView.Adapter createAdapter() {
         return mAdapter = new OfferListAdapter(mContext, mItems, R.layout.list_offer_item, true);
     }
 
     @Override
+    protected ItemTouchHelper.Callback createItemTouchHelperToRecyclerView() {
+        return new RecyclerItemTouchHelperCallback(mContext, mAdapter, Color.RED);
+    }
+
+    @Override
     protected boolean isItemDecorationVisible() {
-        return false;
+        return true;
     }
 
     @Override
@@ -193,41 +202,44 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
 
     @Override
     protected List<Offers> parseItems(JsonElement json) {
+        mTotalPageNum = getTotalPage();
         return new ListModel<>(Offers.class).fromJson(json);
     }
 
     @Override
     protected boolean isLastPage(int pageNum) {
-        return (mTotalPageNum == pageNum) && (mTotalPageNum > 1);
+        return (mTotalPageNum == pageNum);
 
     }
 
-    private void requestOfferList(boolean isNew) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    private void requestOfferList(boolean isNew)
+            throws UnsupportedEncodingException, NoSuchAlgorithmException {
         OffersDataEvent event = new OffersDataEvent(isNew);
         String advertisingId = CommonUtils.getGoogleAID();
         long timestamp = System.currentTimeMillis() / 1000L;
 
-        String hashKey = getHashKey(advertisingId, timestamp, mCurrentPage);
+        String hashKey = CommonUtils.getHashKey(advertisingId, timestamp, mCurrentPage);
         hashKey = hashKey.toLowerCase();
 
-        Intermediary.INSTANCE.getOffers(mContext.getApplicationContext(), APP_ID, advertisingId,
-                IP, LOCALE, OFFER_TYPES, mCurrentPage, timestamp, UID, hashKey, event);
+        Intermediary.INSTANCE.getOffers(mContext.getApplicationContext(), RequestClient.APP_ID,
+                advertisingId, RequestClient.IP, RequestClient.LOCALE, RequestClient.OFFER_TYPES,
+                mCurrentPage, timestamp, RequestClient.UID, hashKey, event);
     }
 
     @SuppressWarnings("")
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEvent(OffersDataEvent event) {
         switch(event.getResponseClient().getStatus()) {
-            case ResponseClient.GENERAL_ERROR:
+            case ResponseBase.GENERAL_ERROR:
                 showToastMessage(getString(R.string.toast_server_error_phrase));
                 break;
-            case ResponseClient.NETWORK_ERROR:
+            case ResponseBase.NETWORK_ERROR:
                 showToastMessage(getString(R.string.toast_disconnect_phrase));
                 break;
-            case ResponseClient.RESPONSE_SIGNATURE_NOT_MATCH:
+            case ResponseBase.RESPONSE_SIGNATURE_NOT_MATCH:
                 showToastMessage(getString(R.string.toast_response_signature_mismatch_phrase));
                 break;
-            case ResponseClient.SUCCESSFUL:
+            case ResponseBase.SUCCESSFUL:
                 if (event.getResponseClient().getCount() == 0) {
                     showToastMessage(getString(R.string.toast_no_offers));
                     return;
@@ -259,34 +271,9 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
         Toast.makeText(mContext.getApplicationContext(), phrase, Toast.LENGTH_SHORT).show();
     }
 
-    private String getHashKey(String advertisingId, long timestamp, int pageNum)
-            throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        StringBuilder tmp;
-        tmp = new StringBuilder();
-        tmp.append("appid=");
-        tmp.append(APP_ID).append("&");
-        tmp.append("device_id=");
-        tmp.append(advertisingId).append("&");
-        tmp.append("ip=");
-        tmp.append(IP).append("&");
-        tmp.append("locale=");
-        tmp.append(LOCALE).append("&");
-        tmp.append("offer_types=");
-        tmp.append(OFFER_TYPES).append("&");
-        tmp.append("page=");
-        tmp.append(pageNum).append("&");
-        tmp.append("timestamp=");
-        tmp.append(timestamp).append("&");
-        tmp.append("uid=");
-        tmp.append(UID).append("&");
-        tmp.append(CommonUtils.API_KEY);
-
-        return CommonUtils.SHA1(tmp.toString());
-    }
-
     @SuppressWarnings("")
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onAction(MoveItemAction action) {
+    public void onAction(FocusItemAction action) {
         mAdapter.moveSelectedPosition(getRecyclerView().getLayoutManager(), action.getPosition());
     }
 
@@ -316,5 +303,16 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     public void onAction(FinishAction action){
         doneRefreshing();
         ((OffersActivity)mActivity).showDialog(action);
+    }
+
+    @SuppressWarnings("")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAction(MoveItemAction action) {
+        if (action.getType() == MoveItemAction.ITEM_MOVED_START) {
+            getRefreshLayout().setRefreshing(false);
+            getRefreshLayout().setEnabled(false);
+        } else {
+            getRefreshLayout().setEnabled(true);
+        }
     }
 }

@@ -16,25 +16,20 @@
 
 package com.goforer.fyber_challenge.model.action;
 
-import android.support.v7.widget.RecyclerView.LayoutManager;
-
 public class MoveItemAction {
-    private LayoutManager mLayoutManager;
-    private int mPosition;
+    public static final int ITEM_MOVED_START = 0;
+    public static final int ITEM_MOVED_END = 1;
 
-    public LayoutManager getLayoutManager() {
-        return mLayoutManager;
+    private int mType;
+
+    public MoveItemAction() {
     }
 
-    public int getPosition() {
-        return mPosition;
+    public void setType(int type) {
+        mType = type;
     }
 
-    public void setLayoutManager(LayoutManager layoutManager) {
-        mLayoutManager = layoutManager;
-    }
-
-    public void setPosition(int position) {
-        mPosition = position;
+    public int getType() {
+        return mType;
     }
 }

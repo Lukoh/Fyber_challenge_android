@@ -19,6 +19,8 @@ package com.goforer.base.ui.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
 
+import com.goforer.base.ui.holder.ItemHolderBinder;
+
 import java.util.List;
 
 /**

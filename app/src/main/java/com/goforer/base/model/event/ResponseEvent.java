@@ -16,10 +16,10 @@
 
 package com.goforer.base.model.event;
 
-import com.goforer.fyber_challenge.web.communicator.ResponseClient;
+import com.goforer.fyber_challenge.model.data.ResponseOffer;
 
 public class ResponseEvent {
-    protected ResponseClient mResponseClient;
+    protected ResponseOffer mResponseClient;
     protected String mTag;
 
     public boolean isMine(String tag){
@@ -29,11 +29,11 @@ public class ResponseEvent {
     public void parseInResponse() {
     }
 
-    public ResponseClient getResponseClient() { return mResponseClient; }
+    public ResponseOffer getResponseClient() { return mResponseClient; }
 
     public String getTag() { return mTag; }
 
-    public void setResponseClient(ResponseClient responseClient) { mResponseClient = responseClient; }
+    public void setResponseClient(ResponseOffer responseClient) { mResponseClient = responseClient; }
 
     public void setTag(String tag) { mTag = tag; }
 }

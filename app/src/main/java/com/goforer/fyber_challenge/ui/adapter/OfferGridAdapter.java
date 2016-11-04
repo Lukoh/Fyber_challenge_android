@@ -18,8 +18,10 @@ package com.goforer.fyber_challenge.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,19 +33,22 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.goforer.base.ui.activity.BaseActivity;
 import com.goforer.base.ui.adapter.BaseListAdapter;
-import com.goforer.base.ui.adapter.BaseViewHolder;
-import com.goforer.base.ui.adapter.DefaultViewHolder;
+import com.goforer.base.ui.helper.ItemTouchHelperListener;
+import com.goforer.base.ui.holder.BaseViewHolder;
+import com.goforer.base.ui.holder.DefaultViewHolder;
 import com.goforer.fyber_challenge.R;
+import com.goforer.fyber_challenge.model.action.MoveItemAction;
 import com.goforer.fyber_challenge.model.action.SelectAction;
 import com.goforer.fyber_challenge.model.data.Offers;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 
-public class OfferGridAdapter extends BaseListAdapter<Offers> {
+public class OfferGridAdapter extends BaseListAdapter<Offers> implements ItemTouchHelperListener {
     private Context mContext;
 
     public OfferGridAdapter(Context context, List<Offers> items, int layoutResId,
@@ -103,7 +108,7 @@ public class OfferGridAdapter extends BaseListAdapter<Offers> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int position) {
         switch (getItemViewType(position)){
             case VIEW_TYPE_FOOTER:
             case VIEW_TYPE_LOADING:
@@ -113,8 +118,41 @@ public class OfferGridAdapter extends BaseListAdapter<Offers> {
         }
     }
 
+    @Override
+    public void onItemDismiss(int position) {
+        mItems.remove(position);
+        notifyItemRemoved(position);
+        notifyItemChanged(position);
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(mItems, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+        if ((fromPosition - toPosition) > 0) {
+            notifyItemRangeChanged(toPosition, fromPosition);
+        } else {
+            notifyItemRangeChanged(fromPosition, toPosition);
+        }
+
+        return true;
+    }
+
+    @Override
+    public void onItemDrag(int actionState) {
+        MoveItemAction action = new MoveItemAction();
+        if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+            action.setType(MoveItemAction.ITEM_MOVED_START);
+        } else if (actionState == ItemTouchHelper.ACTION_STATE_IDLE){
+            action.setType(MoveItemAction.ITEM_MOVED_END);
+        }
+
+        EventBus.getDefault().post(action);
+    }
+
     public static class OffersGridViewHolder extends BaseViewHolder<Offers> {
         private Offers mOffers;
+
         private List<Offers> mOffersItems;
 
         private boolean mIsResumed;
@@ -160,10 +198,22 @@ public class OfferGridAdapter extends BaseListAdapter<Offers> {
                         action.setOffers(offers);
                         action.setOffersList(mOffersItems);
                         action.setPosition(position);
+
                         EventBus.getDefault().post(action);
                     }
                 }
             });
         }
+
+        @Override
+        public void onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundColor(0);
+        }
+
     }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.goforer.base.ui.adapter;
+package com.goforer.base.ui.decoration;
 
 import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;

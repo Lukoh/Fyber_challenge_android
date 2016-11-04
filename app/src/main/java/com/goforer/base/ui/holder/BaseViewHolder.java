@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package com.goforer.base.ui.adapter;
+package com.goforer.base.ui.holder;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import com.goforer.base.ui.adapter.BaseAdapter;
 
 import butterknife.ButterKnife;
 

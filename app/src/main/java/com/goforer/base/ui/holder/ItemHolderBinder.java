@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.goforer.base.ui.adapter;
+package com.goforer.base.ui.holder;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.helper.ItemTouchHelper;
 
 /**
  * A ItemHolderBinder describes an item view and metadata about its place within the RecyclerView.
@@ -36,4 +37,17 @@ public interface ItemHolderBinder<T> {
      *
      */
     void bindItemHolder(@NonNull T item, int position);
+
+    /**
+     * Called when the {@link ItemTouchHelper} first registers an item as being moved or swiped.
+     * Implementations should update the item view to indicate it's active state.
+     */
+    void onItemSelected();
+
+
+    /**
+     * Called when the {@link ItemTouchHelper} has completed the move or swipe, and the active item
+     * state should be cleared.
+     */
+    void onItemClear();
 }

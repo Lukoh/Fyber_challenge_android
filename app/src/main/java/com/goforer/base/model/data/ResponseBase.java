@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package com.goforer.fyber_challenge.web.communicator;
+package com.goforer.base.model.data;
 
-import com.google.gson.JsonElement;
 import com.google.gson.annotations.SerializedName;
 
-public class ResponseClient {
+public class ResponseBase {
     // HTTP Code : 200
     public static final String OK = "OK";
     // HTTP Code : 200
@@ -62,21 +61,6 @@ public class ResponseClient {
     private String mMessage;
     @SerializedName("count")
     private int mCount;
-    @SerializedName("pages")
-    private int mPages;
-    @SerializedName("information")
-    private Information mInformation;
-    /**
-     * This fit in only Fyber server, but The variable's name of JsonElement have to be the data
-     * in real project and the datas have to be parsed and put to each data class.
-     * Please refer to below.
-     *
-     * @SerializedName("datas")
-     * private JsonElement mDatas
-     *
-     */
-    @SerializedName("offers")
-    private JsonElement mOffers;
 
     private int mStatus;
 
@@ -92,18 +76,6 @@ public class ResponseClient {
         return mCount;
     }
 
-    public int getPages() {
-        return mPages;
-    }
-
-    public Information getInformtion() {
-        return mInformation;
-    }
-
-    public JsonElement getOffers() {
-        return mOffers;
-    }
-
     public int getStatus() {
         return mStatus;
     }
@@ -117,45 +89,6 @@ public class ResponseClient {
             return true;
         } else {
             return false;
-        }
-    }
-
-    public static class Information {
-        @SerializedName("app_name")
-        private String mAppName;
-        @SerializedName("appid")
-        private long mAppId;
-        @SerializedName("virtual_currency")
-        private String mVirualCurrency;
-        @SerializedName("country")
-        private String mCountry;
-        @SerializedName("language")
-        private String mLanguage;
-        @SerializedName("support_url")
-        private String mSupportUrl;
-
-        public String getAppName() {
-            return mAppName;
-        }
-
-        public long getAppId() {
-            return mAppId;
-        }
-
-        public String getVirualCurrency() {
-            return mVirualCurrency;
-        }
-
-        public String getCountry() {
-            return mCountry;
-        }
-
-        public String getLanguage() {
-            return mLanguage;
-        }
-
-        public String getSupportUrl() {
-            return mSupportUrl;
         }
     }
 }

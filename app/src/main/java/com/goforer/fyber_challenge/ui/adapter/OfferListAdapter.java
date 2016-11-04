@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Lukoh Nam, goForer
+ * Copyright (C) 2015-2016 Lukoh Nam, goForer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,10 @@ package com.goforer.fyber_challenge.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,20 +29,23 @@ import android.widget.TextView;
 
 import com.goforer.base.ui.activity.BaseActivity;
 import com.goforer.base.ui.adapter.BaseListAdapter;
-import com.goforer.base.ui.adapter.BaseViewHolder;
-import com.goforer.base.ui.adapter.DefaultViewHolder;
+import com.goforer.base.ui.helper.ItemTouchHelperListener;
+import com.goforer.base.ui.holder.BaseViewHolder;
+import com.goforer.base.ui.holder.DefaultViewHolder;
 import com.goforer.base.ui.view.SquircleImageView;
 import com.goforer.fyber_challenge.R;
+import com.goforer.fyber_challenge.model.action.MoveItemAction;
 import com.goforer.fyber_challenge.model.action.SelectAction;
 import com.goforer.fyber_challenge.model.data.Offers;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 
-public class OfferListAdapter extends BaseListAdapter<Offers> {
+public class OfferListAdapter extends BaseListAdapter<Offers> implements ItemTouchHelperListener {
     private static final String PAY_OUT = "PayOut : ";
 
     private Context mContext;
@@ -101,7 +106,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int position) {
         switch (getItemViewType(position)){
             case VIEW_TYPE_FOOTER:
             case VIEW_TYPE_LOADING:
@@ -109,6 +114,35 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
             default:
                 super.onBindViewHolder(viewHolder, position);
         }
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        mItems.remove(position);
+        notifyItemRemoved(position);
+        notifyItemChanged(position);
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(mItems, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+        notifyItemChanged(toPosition);
+        notifyItemChanged(fromPosition);
+
+        return true;
+    }
+
+    @Override
+    public void onItemDrag(int actionState) {
+        MoveItemAction action = new MoveItemAction();
+        if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+            action.setType(MoveItemAction.ITEM_MOVED_START);
+        } else if (actionState == ItemTouchHelper.ACTION_STATE_IDLE){
+            action.setType(MoveItemAction.ITEM_MOVED_END);
+        }
+
+        EventBus.getDefault().post(action);
     }
 
     public static class OfferListViewHolder extends BaseViewHolder<Offers> {
@@ -150,6 +184,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
                         action.setOffers(offers);
                         action.setOffersList(mOffersItems);
                         action.setPosition(position);
+
                         EventBus.getDefault().post(action);
                     }
                 }
@@ -159,6 +194,16 @@ public class OfferListAdapter extends BaseListAdapter<Offers> {
             mTitleView.setText(offers.getTitle());
             mTeaserView.setText(offers.getTeaser());
             mPayoutView.setText(PAY_OUT + String.valueOf(offers.getPayout()));
+        }
+
+        @Override
+        public void onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundColor(0);
         }
     }
 }

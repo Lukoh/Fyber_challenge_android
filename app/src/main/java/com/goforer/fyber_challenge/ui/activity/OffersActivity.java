@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Lukoh Nam, goForer
+ * Copyright (C) 2015-2016 Lukoh Nam, goForer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import android.widget.TextView;
 import com.goforer.base.ui.activity.BaseActivity;
 import com.goforer.fyber_challenge.R;
 import com.goforer.fyber_challenge.model.action.FinishAction;
-import com.goforer.fyber_challenge.model.action.MoveItemAction;
+import com.goforer.fyber_challenge.model.action.FocusItemAction;
 import com.goforer.fyber_challenge.model.action.SelectAction;
 import com.goforer.fyber_challenge.model.data.Profile;
 import com.goforer.fyber_challenge.ui.fragment.OfferGridFragment;
@@ -170,7 +170,7 @@ public class OffersActivity extends BaseActivity {
                     int position = data.getIntExtra(
                             ActivityCaller.EXTRA_SELECTED_ITEM_POSITION, -1);
                     if (position != -1) {
-                        MoveItemAction action = new MoveItemAction();
+                        FocusItemAction action = new FocusItemAction();
                         action.setPosition(position);
                         EventBus.getDefault().post(action);
                     }

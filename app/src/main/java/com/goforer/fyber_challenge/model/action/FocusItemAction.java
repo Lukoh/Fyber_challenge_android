@@ -16,20 +16,22 @@
 
 package com.goforer.fyber_challenge.model.action;
 
-public class SubscriptionChangeAction {
-    private boolean mSubscribed;
+import android.support.v7.widget.RecyclerView.LayoutManager;
+
+public class FocusItemAction {
+    private LayoutManager mLayoutManager;
     private int mPosition;
 
-    public boolean isSubscribed() {
-        return mSubscribed;
+    public LayoutManager getLayoutManager() {
+        return mLayoutManager;
     }
 
     public int getPosition() {
         return mPosition;
     }
 
-    public void setSubscribed(boolean subscribed) {
-        mSubscribed = subscribed;
+    public void setLayoutManager(LayoutManager layoutManager) {
+        mLayoutManager = layoutManager;
     }
 
     public void setPosition(int position) {

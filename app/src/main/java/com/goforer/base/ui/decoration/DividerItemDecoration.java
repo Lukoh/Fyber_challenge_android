@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.goforer.base.ui.adapter;
+package com.goforer.base.ui.decoration;
 
 import android.content.Context;
 import android.content.res.TypedArray;

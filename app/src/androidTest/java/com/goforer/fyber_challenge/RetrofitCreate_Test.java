@@ -2,17 +2,14 @@ package com.goforer.fyber_challenge;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.goforer.fyber_challenge.ui.activity.OffersActivity;
+import com.goforer.fyber_challenge.web.communicator.RequestClient;
+
 import org.jetbrains.annotations.TestOnly;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import com.goforer.fyber_challenge.ui.activity.OffersActivity;
-import com.goforer.fyber_challenge.web.communicator.RequestClient;
-
-/**
- * Created by lukohnam on 16. 5. 25..
- */
 public class RetrofitCreate_Test extends ActivityInstrumentationTestCase2<OffersActivity> {
 
     private static boolean mIsCalled;
@@ -26,8 +23,7 @@ public class RetrofitCreate_Test extends ActivityInstrumentationTestCase2<Offers
         final CountDownLatch signal = new CountDownLatch(1);
 
         RequestClient.RequestMethod call =
-                RequestClient.INSTANCE.getRequestMethod(
-                        getActivity().getApplicationContext());
+                RequestClient.INSTANCE.getRequestMethod();
 
         if (call != null) {
             mIsCalled = true;

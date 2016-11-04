@@ -18,8 +18,10 @@ package com.goforer.fyber_challenge.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,17 +32,22 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.goforer.base.ui.activity.BaseActivity;
 import com.goforer.base.ui.adapter.BaseListAdapter;
-import com.goforer.base.ui.adapter.BaseViewHolder;
-import com.goforer.base.ui.adapter.DefaultViewHolder;
+import com.goforer.base.ui.helper.ItemTouchHelperListener;
+import com.goforer.base.ui.holder.BaseViewHolder;
+import com.goforer.base.ui.holder.DefaultViewHolder;
 import com.goforer.fyber_challenge.R;
+import com.goforer.fyber_challenge.model.action.MoveItemAction;
 import com.goforer.fyber_challenge.model.data.Gallery;
 import com.goforer.fyber_challenge.utility.ActivityCaller;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 
-public class OffersGalleryAdapter extends BaseListAdapter<Gallery> {
+public class OffersGalleryAdapter extends BaseListAdapter<Gallery> implements ItemTouchHelperListener {
     private Context mContext;
 
     public OffersGalleryAdapter(Context context, List<Gallery> items, int layoutResId,
@@ -109,6 +116,38 @@ public class OffersGalleryAdapter extends BaseListAdapter<Gallery> {
         }
     }
 
+    @Override
+    public void onItemDismiss(int position) {
+        mItems.remove(position);
+        notifyItemRemoved(position);
+        notifyItemChanged(position);
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(mItems, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+        if ((fromPosition - toPosition) > 0) {
+            notifyItemRangeChanged(toPosition, fromPosition);
+        } else {
+            notifyItemRangeChanged(fromPosition, toPosition);
+        }
+
+        return true;
+    }
+
+    @Override
+    public void onItemDrag(int actionState) {
+        MoveItemAction action = new MoveItemAction();
+        if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+            action.setType(MoveItemAction.ITEM_MOVED_START);
+        } else if (actionState == ItemTouchHelper.ACTION_STATE_IDLE){
+            action.setType(MoveItemAction.ITEM_MOVED_END);
+        }
+
+        EventBus.getDefault().post(action);
+    }
+
     public static class GalleryContentViewHolder extends BaseViewHolder<Gallery> {
         private Gallery mGallery;
         private List<Gallery> mGalleryItems;
@@ -144,6 +183,16 @@ public class OffersGalleryAdapter extends BaseListAdapter<Gallery> {
                             ActivityCaller.SELECTED_ITEM_POSITION);
                 }
             });
+        }
+
+        @Override
+        public void onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundColor(0);
         }
     }
 }

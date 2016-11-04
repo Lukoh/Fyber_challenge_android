@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Lukoh Nam, goForer
+ * Copyright (C) 2015-2016 Lukoh Nam, goForer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -120,16 +120,16 @@ public class SplashActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEvent(final ProfileEvent event) {
         switch(event.getResponseClient().getStatus()) {
-            case ResponseClient.GENERAL_ERROR:
+            case ResponseOffer.GENERAL_ERROR:
                 showToastMessage(getString(R.string.toast_server_error_phrase));
                 break;
-            case ResponseClient.NETWORK_ERROR:
+            case ResponseOffer.NETWORK_ERROR:
                 showToastMessage(getString(R.string.toast_disconnect_phrase));
                 break;
-            case ResponseClient.RESPONSE_SIGNATURE_NOT_MATCH:
+            case ResponseOffer.RESPONSE_SIGNATURE_NOT_MATCH:
                 showToastMessage(getString(R.string.toast_response_signature_mismatch_phrase));
                 break;
-            case ResponseClient.SUCCESSFUL:
+            case ResponseOffer.SUCCESSFUL:
                 new AsyncTask<Void, Void, Profile>() {
                     @Override
                     protected Profile doInBackground(Void... params) {

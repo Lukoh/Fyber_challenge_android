@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Lukoh Nam, goForer
+ * Copyright (C) 2015-2016 Lukoh Nam, goForer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -157,9 +157,6 @@ public class OffersInfoActivity extends BaseActivity {
                     mBackdrop.setImageBitmap(resource);
                 }
             });
-
-            mSlidingDrawer = new SlidingDrawer(this, SlidingDrawer.DRAWER_INFO_COMMENT_TYPE,
-                    R.id.content_holder, savedInstanceState);
         }
     }
 

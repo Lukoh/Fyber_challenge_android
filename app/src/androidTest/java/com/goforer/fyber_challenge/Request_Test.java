@@ -2,6 +2,12 @@ package com.goforer.fyber_challenge;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.goforer.fyber_challenge.model.event.OffersDataEvent;
+import com.goforer.fyber_challenge.ui.activity.OffersActivity;
+import com.goforer.fyber_challenge.utility.CommonUtils;
+import com.goforer.fyber_challenge.web.communicator.RequestClient;
+import com.goforer.fyber_challenge.model.data.ResponseOffer;
+
 import org.jetbrains.annotations.TestOnly;
 
 import java.io.UnsupportedEncodingException;
@@ -9,17 +15,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import com.goforer.fyber_challenge.model.event.OffersDataEvent;
-import com.goforer.fyber_challenge.ui.activity.OffersActivity;
-import com.goforer.fyber_challenge.utility.CommonUtils;
-import com.goforer.fyber_challenge.web.communicator.RequestClient;
-import com.goforer.fyber_challenge.web.communicator.ResponseClient;
 import retrofit2.Call;
 import retrofit2.Response;
 
-/**
- * Created by lukohnam on 16. 5. 25..
- */
 public class Request_Test extends ActivityInstrumentationTestCase2<OffersActivity> {
     private static final String IP = "109.235.143.113";
     private static final String LOCALE = "DE";
@@ -29,7 +27,7 @@ public class Request_Test extends ActivityInstrumentationTestCase2<OffersActivit
     private static final int APP_ID = 2070;
     private static final int OFFER_TYPES = 112;
 
-    private static boolean mIsCalled;
+    private static boolean mIsSucceeded;
 
     public Request_Test(){
         super(OffersActivity.class);
@@ -74,18 +72,18 @@ public class Request_Test extends ActivityInstrumentationTestCase2<OffersActivit
             e.printStackTrace();
         }
 
-        Call<ResponseClient> call = RequestClient.INSTANCE.getRequestMethod(getActivity().getApplicationContext())
+        Call<ResponseOffer> call = RequestClient.INSTANCE.getRequestMethod()
                 .getOffers(APP_ID, GAID, IP, LOCALE, OFFER_TYPES, 1, timestamp, UID, hashKey);
-        call.enqueue(new RequestClient.RequestCallback(event) {
+        call.enqueue(new RequestClient.OfferCallback(event, getActivity().getApplicationContext()) {
             @Override
-            public void onResponse(Call<ResponseClient> call, Response<ResponseClient> response) {
-                mIsCalled = true;
+            public void onResponse(Call<ResponseOffer> call, Response<ResponseOffer> response) {
+                mIsSucceeded = true;
             }
 
             @Override
-            public void onFailure(Call<ResponseClient> call, Throwable t) {
+            public void onFailure(Call<ResponseOffer> call, Throwable t) {
                 super.onFailure(call, t);
-                mIsCalled = false;
+                mIsSucceeded = false;
             }
 
         });
@@ -94,6 +92,6 @@ public class Request_Test extends ActivityInstrumentationTestCase2<OffersActivit
 	     * above with the countDown() or 30 seconds passes and it times out.
 	     */
         signal.await(10, TimeUnit.SECONDS);
-        assertTrue(mIsCalled);
+        assertTrue(mIsSucceeded);
     }
 }

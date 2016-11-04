@@ -27,6 +27,7 @@ import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ItemAnimator;
 import android.support.v7.widget.RecyclerView.ItemDecoration;
 import android.support.v7.widget.RecyclerView.LayoutManager;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,7 @@ import android.widget.Toast;
 
 import com.goforer.base.model.event.ResponseListEvent;
 import com.goforer.base.ui.adapter.BaseListAdapter;
-import com.goforer.base.ui.adapter.DividerItemDecoration;
+import com.goforer.base.ui.decoration.DividerItemDecoration;
 import com.goforer.fyber_challenge.R;
 import com.google.gson.JsonElement;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
@@ -58,6 +59,10 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
     private BaseListAdapter mBaseArrayAdapter;
     private OnProcessListener mListener;
 
+    private ItemTouchHelper mItemTouchHelper;
+
+    private boolean mItemTouchHelperEnabled = false;
+
     protected List<T> mItems = new ArrayList<>();
     protected RecyclerView.OnScrollListener mOnScrollListener;
 
@@ -65,6 +70,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
     protected boolean mIsReachToLast = false;
     protected boolean mIsUpdated = false;
 
+    protected int mTotalPage = 0;
     protected int mCurrentPage = 0;
 
     @BindView(R.id.swipe_layout)
@@ -111,6 +117,14 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
         super.onDetach();
     }
 
+    protected int getTotalPage() {
+        return mTotalPage;
+    }
+
+    private void setTotalPage(int page) {
+        mTotalPage = page;
+    }
+
     private void setViews() {
         if (mSwipeLayout != null) {
             setupSwipeLayout();
@@ -124,6 +138,10 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
         addItemTouchListener();
         mRecyclerView.setItemAnimator(createItemAnimator());
         Adapter adapter = createAdapter();
+        ItemTouchHelper.Callback callback = createItemTouchHelperToRecyclerView();
+        if (callback != null) {
+            setItemTouchHelper(callback);
+        }
 
         setScrollListener();
 
@@ -231,6 +249,36 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
     }
 
     /**
+     * Set an ItemTouchHelper that will work with the given Callback
+     *
+     * @param callback This is the contract between ItemTouchHelper and your application.
+     *                  It lets you control which touch behaviors are enabled per each ViewHolder
+     *                  and also receive callbacks when user performs these actions.
+     *
+     * @see ItemTouchHelper.Callback
+     */
+    private void setItemTouchHelper(ItemTouchHelper.Callback callback) {
+        mItemTouchHelperEnabled = true;
+        attachItemTouchHelperToRecyclerView(callback);
+    }
+
+    /**
+     * Attaches the ItemTouchHelper to the provided RecyclerView. If TouchHelper is already
+     * attached to a RecyclerView, it will first detach from the previous one. You can call this
+     * method with {@code null} to detach it from the current RecyclerView.
+     *
+     * @param callback This is the contract between ItemTouchHelper and your application.
+     *                  It lets you control which touch behaviors are enabled per each ViewHolder
+     *                  and also receive callbacks when user performs these actions.
+     */
+    private ItemTouchHelper attachItemTouchHelperToRecyclerView(ItemTouchHelper.Callback callback) {
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(getRecyclerView());
+
+        return mItemTouchHelper;
+    }
+
+    /**
      * RecyclerView can perform several optimizations if it can know in advance that changes in
      * adapter content cannot change the size of the RecyclerView itself.
      * If your use of RecyclerView falls into this category, set this to true.
@@ -324,7 +372,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
     }
 
     /**
-     * Create the DividerItemDecoration.
+     * Create the ItemDecoration.
      *
      * An ItemDecoration allows the application to add a special drawing and layout offset
      * to specific item views from the adapter's data set. This can be useful for drawing dividers
@@ -338,9 +386,25 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
     }
 
     /**
+     * Starts dragging the provided ViewHolder.
+     *
+     * @param viewHolder The ViewHolder to start dragging. It must be a direct child of
+     *                    RecyclerView.
+     */
+    protected void startDrag(RecyclerView.ViewHolder viewHolder) {
+        if (mItemTouchHelper != null && mItemTouchHelperEnabled) {
+            mSwipeLayout.setRefreshing(false);
+            mItemTouchHelper.startDrag(viewHolder);
+        }
+    }
+
+    /**
      * This implementation of {@link RecyclerView.ItemAnimator} provides basic
      * animations on remove, add, and move events that happen to the items in
      * a RecyclerView. RecyclerView uses a DefaultItemAnimator by default.
+     *
+     * @return The ItemAnimator for the animations that take place on items as changes are made
+     *           to the adapter.
      *
      * @see RecyclerView#setItemAnimator(RecyclerView.ItemAnimator)
      */
@@ -360,6 +424,20 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
      * @return The new adapter to set, or null to set no adapter.
      */
     protected abstract Adapter createAdapter();
+
+    /**
+     * Attach an ItemTouchHelper to provided RecyclerView.
+     * <p>
+     * To attach an ItemTouchHelper to provided RecyclerView, you must override.
+     * </p>
+     *
+     * @return The callback which is the contract between ItemTouchHelper and your application.
+     *           It lets you control which touch behaviors are enabled per each ViewHolder
+     *           and also receive callbacks when user performs these actions.
+     *
+     *           return null if you don't want to attach an ItemTouchHelper to provided RecyclerView.
+     */
+    protected abstract ItemTouchHelper.Callback createItemTouchHelperToRecyclerView();
 
     /**
      * RequestClient to get the information or images from server.
@@ -397,7 +475,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
     protected abstract boolean isLastPage(int pageNum);
 
     /**
-     * Check if the ItemDecoration is visible.
+     * Check if the DividerItemDecoration is visible.
      *
      * <p>
      * To check if the given page is the last page, you must override
@@ -547,6 +625,10 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
         return mRecyclerView;
     }
 
+    public SwipyRefreshLayout getRefreshLayout() {
+        return mSwipeLayout;
+    }
+
     /**
      * This class carry out the parsing job to put some data, which be got from the server, to the list.
      *
@@ -570,6 +652,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
 
         @Override
         protected List doInBackground(Void... params) {
+            mFragment.setTotalPage(mEvent.getResponseClient().getPages());
             return mFragment.parseItems(mEvent.getResponseClient().getOffers());
         }
 

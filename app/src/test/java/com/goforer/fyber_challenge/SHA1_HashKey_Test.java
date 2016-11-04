@@ -1,5 +1,7 @@
 package com.goforer.fyber_challenge;
 
+import com.goforer.fyber_challenge.utility.CommonUtils;
+
 import junit.framework.TestCase;
 
 import org.junit.Before;
@@ -8,11 +10,6 @@ import org.junit.Test;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
-import com.goforer.fyber_challenge.utility.CommonUtils;
-
-/**
- * Created by lukohnam on 16. 5. 24..
- */
 public class SHA1_HashKey_Test extends TestCase {
     private static final String IP = "109.235.143.113";
     private static final String LOCALE = "DE";
