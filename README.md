@@ -32,7 +32,9 @@ It's run by the swife action. Please return null in [createItemTouchHelperToRecy
 @Override
 
 protected ItemTouchHelper.Callback createItemTouchHelperToRecyclerView() {
+
     return null;
+
 }
 
 Please refer to below files if you'd like to see more about deleting an item on the list(Offer):
