@@ -53,7 +53,7 @@ A new function is applied into Fyber Challenge App. [OfferInfoActivity](https://
 For more information, see the [OfferInfoActivity.java](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/fyber_challenge_android/ui/activity/OffersInfoActivity.java) and [activity_offers_info.xml](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/res/layout/activity_offers_info.xml) file.
 
 This technique can enable your App to have more powerful function and great UX. Please watch this demo video if you'd like to know how that function works or how to provide great UX. 
-Here is [demo video](https://youtu.be/-Kjko2VJ_qU). 
+Here is [demo video](https://youtu.be/93VroFq11ws). 
 
 #Preview
 ##Demo
