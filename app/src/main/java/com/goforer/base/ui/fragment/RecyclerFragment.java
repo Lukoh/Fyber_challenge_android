@@ -32,7 +32,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.goforer.base.model.event.ResponseListEvent;
 import com.goforer.base.ui.adapter.BaseListAdapter;
@@ -138,7 +137,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
         addItemTouchListener();
         mRecyclerView.setItemAnimator(createItemAnimator());
         Adapter adapter = createAdapter();
-        ItemTouchHelper.Callback callback = createItemTouchHelperToRecyclerView();
+        ItemTouchHelper.Callback callback = createItemTouchHelper();
         if (callback != null) {
             setItemTouchHelper(callback);
         }
@@ -437,7 +436,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
      *
      *           return null if you don't want to attach an ItemTouchHelper to provided RecyclerView.
      */
-    protected abstract ItemTouchHelper.Callback createItemTouchHelperToRecyclerView();
+    protected abstract ItemTouchHelper.Callback createItemTouchHelper();
 
     /**
      * RequestClient to get the information or images from server.
@@ -445,6 +444,9 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
      * To request information or data to Web server, you must override
      * This method is called whenever the adapter position of the last visible view is to last item on the list.
      * </p>
+     *
+     * Don't implement any code in this overridden method if you don't like to request any information
+     * or data to Web server.
      *
      * @param isNew set to true to request new information or images, or false
      *
@@ -500,20 +502,24 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
      * The information must be provided to allow refresh of the content wherever this gesture
      * is used in case of a vertical swipe gesture.
      * </p>
+     *
+     * @return true if the information should be refreshed
      */
-    protected void refresh() {
+    protected void refresh(boolean refreshed) {
         Log.i(TAG, "refresh");
 
-        if (mSwipeLayout != null) {
-            mSwipeLayout.post(new Runnable() {
-                @Override
-                public void run() {
-                    mSwipeLayout.setRefreshing(true);
-                    request(true);
-                }
-            });
-        } else {
-            request(false);
+        if (refreshed) {
+            if (mSwipeLayout != null) {
+                mSwipeLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeLayout.setRefreshing(true);
+                        request(true);
+                    }
+                });
+            } else {
+                request(false);
+            }
         }
     }
 
@@ -665,9 +671,9 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
             // activity could be null.
             if (fragment != null) {
                 if (items.size() == 0) {
-                    Toast.makeText(mFragment.getContext(), R.string.toast_no_offers,
-                            Toast.LENGTH_SHORT).show();
-                }
+                    mFragment.mListener.onError(mFragment.getContext()
+                            .getString(R.string.toast_no_data));
+            }
 
                 if (mFragment.isAdded()) {
                     if (mEvent.isNew()) {
@@ -723,6 +729,8 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
          * This listener method to be invoked when scrolling is done.
          */
         void onScrolled();
+
+        void onError(String message);
     }
 }
 

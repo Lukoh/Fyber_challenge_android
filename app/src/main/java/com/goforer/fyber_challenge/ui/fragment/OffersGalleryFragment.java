@@ -83,7 +83,7 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
 
         setItemHasFixedSize(true);
         if (!mIsImageBrowserClosed) {
-            refresh();
+            refresh(true);
         }
 
         mIsImageBrowserClosed = false;
@@ -96,7 +96,7 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
     }
 
     @Override
-    protected ItemTouchHelper.Callback createItemTouchHelperToRecyclerView() {
+    protected ItemTouchHelper.Callback createItemTouchHelper() {
         return new RecyclerItemTouchHelperCallback(mContext, mAdapter);
     }
 
@@ -154,6 +154,11 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
             @Override
             public void onScrolled() {
                 Log.i(TAG, "onScrolled");
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -258,7 +263,7 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
                 break;
             case ResponseOffer.SUCCESSFUL:
                 if (event.getResponseClient().getCount() == 0) {
-                    showToastMessage(getString(R.string.toast_no_offers));
+                    showToastMessage(getString(R.string.toast_no_data));
                     return;
                 }
 

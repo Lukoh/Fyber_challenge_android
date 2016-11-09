@@ -92,7 +92,7 @@ public class OfferGridFragment extends RecyclerFragment<Offers> {
         mMenu.hideMenu(false);
         setItemHasFixedSize(true);
 
-        refresh();
+        refresh(true);
 
         mSlidingDrawer = new SlidingDrawer(getBaseActivity(), SlidingDrawer.DRAWER_PROFILE_TYPE,
                 R.id.drawer_container,
@@ -156,6 +156,11 @@ public class OfferGridFragment extends RecyclerFragment<Offers> {
             public void onScrolled() {
                 Log.i(TAG, "onScrolled");
             }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+            }
         });
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity, SPAN_COUNT,
@@ -199,7 +204,7 @@ public class OfferGridFragment extends RecyclerFragment<Offers> {
     }
 
     @Override
-    protected ItemTouchHelper.Callback createItemTouchHelperToRecyclerView() {
+    protected ItemTouchHelper.Callback createItemTouchHelper() {
         return new RecyclerItemTouchHelperCallback(mContext, mAdapter);
     }
 
@@ -282,7 +287,7 @@ public class OfferGridFragment extends RecyclerFragment<Offers> {
                 break;
             case ResponseBase.SUCCESSFUL:
                 if (event.getResponseClient().getCount() == 0) {
-                    showToastMessage(getString(R.string.toast_no_offers));
+                    showToastMessage(getString(R.string.toast_no_data));
                     return;
                 }
 

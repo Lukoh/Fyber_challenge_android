@@ -110,7 +110,7 @@ public class OffersInfoActivity extends BaseActivity {
         */
 
         if (mOffersItems == null && mItemPosition == -1) {
-            showToastMessage(getString(R.string.toast_no_offers));
+            showToastMessage(getString(R.string.toast_no_data));
         }
 
         mSlidingDrawer = new SlidingDrawer(this, SlidingDrawer.DRAWER_INFO_COMMENT_TYPE,
