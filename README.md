@@ -1,5 +1,6 @@
 # Fyber_challenge_android
 
+Fyber_challenge_andorid has been updated to 2.0 . 
 This is the reference of Android application to make some SNS or O2O service on Android. New drawer and awesome funtionalaties were applied into Fyber App. All Android App developer can see how to make some SNS or O2O service on Android via the Fyber source code. The Fyber App currently works well now. 
 All technical things/stuffs to make SNS or 020 service on Android are provided into this open-source project.
 If you want to make the food delivery service, shopping or O2O service App on Android, please refer to my open-source project and you can make awesome those App very easily. If you want to learn more technical knowledge of Web-Communication, which is related Web APIs, please visit my [BEatery](https://github.com/Lukoh/beateries) open-source project and [BEatery APIs](https://github.com/Lukoh/beateries/blob/master/BEatery%20REST%20APIs.pdf).  You can get more details you need. Also you can know the way how to communicate with Server. if you want to get this technical knowledge, please visit here below:
@@ -26,19 +27,50 @@ RecyclerFragment was improved to be more efficient and more great. Please refer 
 - expandable fragments
 
 #New Feature
-The sliding function have been applied into seeing Offer-Inforamtion module.
+The new functions for deleting an item on the list(Offer) has been applied.
+It's run by the swipe action. Please return null in [createItemTouchHelperToRecyclerView](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/fragment/RecyclerFragment.java) method if a user don't want to attach the function of removing an item to the fragment which is derived from [RecyclerFragment](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/fragment/RecyclerFragment.java) like below example:
+
+@Override
+
+protected ItemTouchHelper.Callback createItemTouchHelper() {
+
+    return null;
+
+}
+
+or would like to attach that like below example:
+
+@Override
+
+protected ItemTouchHelper.Callback createItemTouchHelper() {
+    
+    return new RecyclerItemTouchHelperCallback(mContext, mAdapter, Color.RED);
+    
+}
+
+
+Please refer to below files if you'd like to see more about deleting an item on the list(Offer):
+
+[RecyclerFragment](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/fragment/RecyclerFragment.java)
+
+[ItemTouchHelperListener](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/helper/ItemTouchHelperListener.java)
+
+[RecyclerItemTouchHelperCallback](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/helper/RecyclerItemTouchHelperCallback.java)
+
+
+The sliding function has been applied into seeing Offer-Inforamtion module.
 
 A new function is applied into Fyber Challenge App. [OfferInfoActivity](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/fyber_challenge_android/ui/activity/OffersInfoActivity.java) consists of two parts. The top area in [OfferInfoActivity](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/fyber_challenge_android/ui/activity/OffersInfoActivity.java) is the AppBarLayout, and the bottom area is the FrameLayout which is wrapped by the [SwipeViewPager](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/view/SwipeViewPager.java). So I made it could works like a part not two distinct parts. It's very efficient. I  just used two ImageView widgets to work/look like a ViewPager and it provides more awesome function.  
 For more information, see the [OfferInfoActivity.java](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/fyber_challenge_android/ui/activity/OffersInfoActivity.java) and [activity_offers_info.xml](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/res/layout/activity_offers_info.xml) file.
 
 This technique can enable your App to have more powerful function and great UX. Please watch this demo video if you'd like to know how that function works or how to provide great UX. 
-Here is [demo video](https://youtu.be/-Kjko2VJ_qU). 
+Here is [demo video](https://youtu.be/93VroFq11ws). 
 
 #Preview
 ##Demo
 You can try it out here [Google Play](https://play.google.com/store/apps/details?id=com.goforer.fyber_challenge) (an open source application). Or you can download the [Fyber Challenge Application](https://play.google.com/store/apps/details?id=com.goforer.fyber_challenge)
 
-Here is [demo video](https://www.youtube.com/watch?v=fTUQjK_UyyM). Please watch this demo video if you'd like to know how Fyber App runs. 
+Here is [demo video](https://youtu.be/93VroFq11ws). Please watch this demo video if you'd like to know how Fyber App runs. 
 
 ##Screenshots
 <img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164240.png" alt="Log-in Demo" width="350" />
