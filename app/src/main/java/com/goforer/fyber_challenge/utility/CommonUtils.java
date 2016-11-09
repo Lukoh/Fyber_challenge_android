@@ -16,6 +16,9 @@
 
 package com.goforer.fyber_challenge.utility;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import com.goforer.fyber_challenge.model.data.Profile;
 import com.goforer.fyber_challenge.web.communicator.RequestClient;
 
@@ -72,6 +75,10 @@ public class CommonUtils {
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return df.format(c.getTime());
+    }
+
+    public static void showToastMessage(Context context, String text, int duration) {
+        Toast.makeText(context, text, duration).show();
     }
 
     public static String getHashKey(String advertisingId, long timestamp, int pageNum)

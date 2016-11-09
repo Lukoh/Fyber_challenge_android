@@ -126,7 +126,7 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
             @Override
             public void onCompleted(int result) {
                 if (result == OnProcessListener.RESULT_ERROR) {
-                    showToastMessage(getString(R.string.toast_process_error));
+                    CommonUtils.showToastMessage(mContext, getString(R.string.toast_process_error), Toast.LENGTH_SHORT);
                 }
 
                 mMenu.showMenuButton(true);
@@ -155,7 +155,7 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
 
             @Override
             public void onError(String message) {
-                Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+                CommonUtils.showToastMessage(mContext, message, Toast.LENGTH_SHORT);
             }
         });
 
@@ -236,17 +236,17 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     public void onEvent(OffersDataEvent event) {
         switch(event.getResponseClient().getStatus()) {
             case ResponseBase.GENERAL_ERROR:
-                showToastMessage(getString(R.string.toast_server_error_phrase));
+                CommonUtils.showToastMessage(mContext, getString(R.string.toast_server_error_phrase), Toast.LENGTH_SHORT);
                 break;
             case ResponseBase.NETWORK_ERROR:
-                showToastMessage(getString(R.string.toast_disconnect_phrase));
+                CommonUtils.showToastMessage(mContext, getString(R.string.toast_disconnect_phrase), Toast.LENGTH_SHORT);
                 break;
             case ResponseBase.RESPONSE_SIGNATURE_NOT_MATCH:
-                showToastMessage(getString(R.string.toast_response_signature_mismatch_phrase));
+                CommonUtils.showToastMessage(mContext, getString(R.string.toast_response_signature_mismatch_phrase), Toast.LENGTH_SHORT);
                 break;
             case ResponseBase.SUCCESSFUL:
                 if (event.getResponseClient().getCount() == 0) {
-                    showToastMessage(getString(R.string.toast_no_data));
+                    CommonUtils.showToastMessage(mContext, getString(R.string.toast_no_data), Toast.LENGTH_SHORT);
                     return;
                 }
 
@@ -270,10 +270,6 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     @OnClick(R.id.fab_help)
     void onCallHelp() {
         ActivityCaller.INSTANCE.callLink(mContext, ActivityCaller.HELP_URL);
-    }
-
-    private void showToastMessage(String phrase) {
-        Toast.makeText(mContext.getApplicationContext(), phrase, Toast.LENGTH_SHORT).show();
     }
 
     @SuppressWarnings("")

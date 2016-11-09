@@ -133,7 +133,7 @@ public class OfferGridFragment extends RecyclerFragment<Offers> {
                 Log.i(TAG, "onCompleted");
 
                 if (result == OnProcessListener.RESULT_ERROR) {
-                    showToastMessage(getString(R.string.toast_process_error));
+                    CommonUtils.showToastMessage(mContext, getString(R.string.toast_process_error), Toast.LENGTH_SHORT);
                     FyberChallenge.closeApplication();
                 }
 
@@ -159,6 +159,7 @@ public class OfferGridFragment extends RecyclerFragment<Offers> {
 
             @Override
             public void onError(String message) {
+                CommonUtils.showToastMessage(mContext, message, Toast.LENGTH_SHORT);
                 Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
             }
         });
@@ -277,17 +278,17 @@ public class OfferGridFragment extends RecyclerFragment<Offers> {
     public void onEvent(OffersDataEvent event) {
         switch(event.getResponseClient().getStatus()) {
             case ResponseBase.GENERAL_ERROR:
-                showToastMessage(getString(R.string.toast_server_error_phrase));
+                CommonUtils.showToastMessage(mContext, getString(R.string.toast_server_error_phrase), Toast.LENGTH_SHORT);
                 break;
             case ResponseBase.NETWORK_ERROR:
-                showToastMessage(getString(R.string.toast_disconnect_phrase));
+                CommonUtils.showToastMessage(mContext, getString(R.string.toast_disconnect_phrase), Toast.LENGTH_SHORT);
                 break;
             case ResponseBase.RESPONSE_SIGNATURE_NOT_MATCH:
-                showToastMessage(getString(R.string.toast_response_signature_mismatch_phrase));
+                CommonUtils.showToastMessage(mContext, getString(R.string.toast_response_signature_mismatch_phrase), Toast.LENGTH_SHORT);
                 break;
             case ResponseBase.SUCCESSFUL:
                 if (event.getResponseClient().getCount() == 0) {
-                    showToastMessage(getString(R.string.toast_no_data));
+                    CommonUtils.showToastMessage(mContext, getString(R.string.toast_no_data), Toast.LENGTH_SHORT);
                     return;
                 }
 
@@ -299,10 +300,6 @@ public class OfferGridFragment extends RecyclerFragment<Offers> {
 
                 break;
         }
-    }
-
-    private void showToastMessage(String phrase) {
-        Toast.makeText(mContext, phrase, Toast.LENGTH_SHORT).show();
     }
 
     @SuppressWarnings("")

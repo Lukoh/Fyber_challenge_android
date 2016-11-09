@@ -136,7 +136,7 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
                 Log.i(TAG, "onCompleted");
 
                 if (result == OnProcessListener.RESULT_ERROR) {
-                    showToastMessage(getString(R.string.toast_process_error));
+                    CommonUtils.showToastMessage(mContext, getString(R.string.toast_process_error), Toast.LENGTH_SHORT);
                     FyberChallenge.closeApplication();
                 }
             }
@@ -158,7 +158,7 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
 
             @Override
             public void onError(String message) {
-                Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+                CommonUtils.showToastMessage(mContext, message, Toast.LENGTH_SHORT);
             }
         });
 
@@ -244,26 +244,22 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
         return CommonUtils.SHA1(tmp.toString());
     }
 
-    private void showToastMessage(String phrase) {
-        Toast.makeText(mContext.getApplicationContext(), phrase, Toast.LENGTH_SHORT).show();
-    }
-
     @SuppressWarnings("")
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEvent(OffersGalleryEvent event) {
         switch(event.getResponseClient().getStatus()) {
             case ResponseOffer.GENERAL_ERROR:
-                showToastMessage(getString(R.string.toast_server_error_phrase));
+                CommonUtils.showToastMessage(mContext, getString(R.string.toast_server_error_phrase), Toast.LENGTH_SHORT);
                 break;
             case ResponseOffer.NETWORK_ERROR:
-                showToastMessage(getString(R.string.toast_disconnect_phrase));
+                CommonUtils.showToastMessage(mContext, getString(R.string.toast_disconnect_phrase), Toast.LENGTH_SHORT);
                 break;
             case ResponseOffer.RESPONSE_SIGNATURE_NOT_MATCH:
-                showToastMessage(getString(R.string.toast_response_signature_mismatch_phrase));
+                CommonUtils.showToastMessage(mContext, getString(R.string.toast_response_signature_mismatch_phrase), Toast.LENGTH_SHORT);
                 break;
             case ResponseOffer.SUCCESSFUL:
                 if (event.getResponseClient().getCount() == 0) {
-                    showToastMessage(getString(R.string.toast_no_data));
+                    CommonUtils.showToastMessage(mContext, getString(R.string.toast_no_data), Toast.LENGTH_SHORT);
                     return;
                 }
 
