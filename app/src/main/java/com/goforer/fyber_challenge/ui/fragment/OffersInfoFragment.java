@@ -114,5 +114,4 @@ public class OffersInfoFragment extends BaseFragment {
     void onGoToLink() {
         ActivityCaller.INSTANCE.callLink(mContext.getApplicationContext(), mOffers.getLink());
     }
-
 }

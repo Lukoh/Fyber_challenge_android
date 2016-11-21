@@ -144,6 +144,17 @@ public class OffersInfoActivity extends BaseActivity {
     @Override
     protected void setViews(Bundle savedInstanceState) {
         if (mOffersItems != null && mItemPosition != -1) {
+            /**
+             *  In case this project, I put below 3 line code, programmatically at this time
+             *  because there was no provided the data of {@link Comment} from Fyber server.
+             *
+             *  In real project, the data should be put automatically.
+             *  It means the server have to provide comments data to App as the client.
+             */
+            mOffersItems.get(mItemPosition).setBookmarkedCount(306);
+            mOffersItems.get(mItemPosition).setSubscribedCount(500);
+            mOffersItems.get(mItemPosition).setGalleryCount(30);
+
             OffersInfoAdapter mAdapter = new OffersInfoAdapter(getSupportFragmentManager(), mOffersItems);
             mSwipePager.setAdapter(mAdapter);
             ViewCompat.setTransitionName(mSwipePager, TRANSITION_IMAGE);
@@ -195,6 +206,9 @@ public class OffersInfoActivity extends BaseActivity {
                 if (menuItem.isChecked()) {
                     menuItem.setChecked(false);
                     mOffersItems.get(mItemPosition).setSubscribed(false);
+                    mOffersItems.get(mItemPosition).setSubscribedCount(
+                            mOffersItems.get(mItemPosition).getSubscribedCount() - 1);
+                    mSlidingDrawer.subtractSubscribedCount();
                     menuItem.setIcon(R.drawable.ic_menu_subscribe);
                     action.setSubscribed(false);
                     action.setPosition(mItemPosition);
@@ -202,6 +216,9 @@ public class OffersInfoActivity extends BaseActivity {
                 } else {
                     menuItem.setChecked(true);
                     mOffersItems.get(mItemPosition).setSubscribed(true);
+                    mOffersItems.get(mItemPosition).setSubscribedCount(
+                            mOffersItems.get(mItemPosition).getSubscribedCount() + 1);
+                    mSlidingDrawer.addSubscribedCount();
                     action.setSubscribed(true);
                     action.setPosition(mItemPosition);
                     menuItem.setIcon(R.drawable.ic_menu_subscribed);
@@ -266,7 +283,7 @@ public class OffersInfoActivity extends BaseActivity {
 
     private void showSubscription() {
         if ((mFrom == ActivityCaller.FROM_OFFERS_LIST)
-            || (mFrom == ActivityCaller.FROM_PROFILE_SUBSCRIPTION)) {
+                || (mFrom == ActivityCaller.FROM_PROFILE_SUBSCRIPTION)) {
             mMenu.getItem(1).setVisible(true);
             if (mOffersItems.get(mItemPosition).isSubscribed()) {
                 mMenu.getItem(1).setChecked(true);
@@ -339,6 +356,9 @@ public class OffersInfoActivity extends BaseActivity {
                     BookmarkChangeAction action = new BookmarkChangeAction();
                     if (mOffersItems.get(mItemPosition).isBookmarked()) {
                         mOffersItems.get(mItemPosition).setBookmarked(false);
+                        mOffersItems.get(mItemPosition).setBookmarkedCount(
+                                mOffersItems.get(mItemPosition).getBookmarkedCount() - 1);
+                        mSlidingDrawer.subtractBookmarkedCount();
                         action.setBookmarked(false);
                         action.setPosition(mItemPosition);
                         mFabStar.setImageDrawable(new IconicsDrawable(v.getContext(),
@@ -347,6 +367,9 @@ public class OffersInfoActivity extends BaseActivity {
 
                     } else {
                         mOffersItems.get(mItemPosition).setBookmarked(true);
+                        mOffersItems.get(mItemPosition).setBookmarkedCount(
+                                mOffersItems.get(mItemPosition).getBookmarkedCount() + 1);
+                        mSlidingDrawer.addBookmarkedCount();
                         action.setBookmarked(true);
                         action.setPosition(mItemPosition);
                         mFabStar.setImageDrawable(new IconicsDrawable(v.getContext(),
@@ -406,10 +429,19 @@ public class OffersInfoActivity extends BaseActivity {
                             GoogleMaterial.Icon.gmd_favorite).actionBar().color(Color.WHITE));
                 }
 
-                mSlidingDrawer.setDrawerInfo(mOffersItems.get(mItemPosition));
+                /**
+                 *  In case this project, I put below 3 line code, programmatically at this time
+                 *  because there was no provided the data of {@link Comment} from Fyber server.
+                 *
+                 *  In real project, the data should be put automatically.
+                 *  It means the server have to provide comments data to App as the client.
+                 */
+                mOffersItems.get(mItemPosition).setBookmarkedCount(306);
+                mOffersItems.get(mItemPosition).setSubscribedCount(500);
+                mOffersItems.get(mItemPosition).setGalleryCount(30);
 
                 mSwipePager.setCurrentItem(position, false);
-
+                mSlidingDrawer.setDrawerInfo(mOffersItems.get(mItemPosition));
                 Log.d(TAG, "called onPageSelected");
             }
 
@@ -477,7 +509,6 @@ public class OffersInfoActivity extends BaseActivity {
          */
         /*
         LikeCommentEvent event = new LikeCommentEvent(true);
-
         Intermediary.INSTANCE.postLikeComment(this, mOffersItems.get(mItemPosition).getOfferId(),
                 action.getCommenterId(), action.getCommentId(), event);
         */

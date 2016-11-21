@@ -87,7 +87,16 @@ public class SlidingDrawer {
     private Drawer mCommentsDrawer = null;
     private Profile mProfile;
     private Offers mOffers;
+    private MenuDrawerItem mMenuDrawerItem;
+    private PrimaryDrawerItem mOfferIdDrawerItem;
+    private PrimaryDrawerItem mPayoutDrawerItem;
+    private CustomCountPanelDrawableItem mBookmarkCountDrawerItem;
+    private CustomCountPanelDrawableItem mSubscribedCountDrawerItem;
+    private CustomCountPanelDrawableItem mGalleryCountDrawerItem;
+    private CustomCountPanelDrawableItem mExpandableEventDrawerItem;
+    private CustomCountPanelDrawableItem mExpandableCommentDrawerItem;
     private Context mContext;
+    private BaseActivity mActivity;
     private Bundle mBundle;
 
     private int mType;
@@ -96,6 +105,7 @@ public class SlidingDrawer {
     public SlidingDrawer(final Context context, final int type, int rootViewRes,
                          @Nullable Bundle savedInstanceState) {
         mContext = context;
+        mActivity = (BaseActivity) context;
         mType = type;
         mRootViewRes = rootViewRes;
         mBundle = savedInstanceState;
@@ -127,17 +137,52 @@ public class SlidingDrawer {
         mType = type;
     }
 
+    public void addSubscribedCount() {
+        setSubscribedCountDrawerItem(mSubscribedCountDrawerItem);
+        mDrawer.updateItem(mSubscribedCountDrawerItem);
+    }
+
+    public void subtractSubscribedCount() {
+        setSubscribedCountDrawerItem(mSubscribedCountDrawerItem);
+        mDrawer.updateItem(mSubscribedCountDrawerItem);
+    }
+
+    public void addBookmarkedCount() {
+        setBookmarkCountDrawerItem(mBookmarkCountDrawerItem);
+        mDrawer.updateItem(mBookmarkCountDrawerItem);
+    }
+
+    public void subtractBookmarkedCount() {
+        setBookmarkCountDrawerItem(mBookmarkCountDrawerItem);
+        mDrawer.updateItem(mBookmarkCountDrawerItem);
+    }
+
     private void setDrawer(int type) {
         switch(type) {
             case DRAWER_PROFILE_TYPE:
-                mDrawer = createProfileDrawer((BaseActivity)mContext, mRootViewRes, mBundle);
+                mDrawer = createProfileDrawer(mActivity, mRootViewRes, mBundle);
                 break;
             case DRAWER_INFO_TYPE:
-                mDrawer = createInfoDrawer((BaseActivity)mContext, mBundle);
+                if (mDrawer == null) {
+                    mDrawer = createInfoDrawer((BaseActivity)mContext, mBundle);
+                } else {
+                    updateDrawerItems(false);
+                }
+
                 break;
             case DRAWER_INFO_COMMENT_TYPE:
-                mDrawer = createInfoDrawer((BaseActivity)mContext, mBundle);
-                mCommentsDrawer = createCommentsDrawer((BaseActivity)mContext, mBundle, false);
+                if (mDrawer == null) {
+                    mDrawer = createInfoDrawer((BaseActivity)mContext, mBundle);
+                } else {
+                    updateDrawerItems(true);
+                }
+
+                if (mCommentsDrawer == null) {
+                    mCommentsDrawer = createCommentsDrawer((BaseActivity)mContext, mBundle, false);
+                } else {
+                    updatedCommentDrawerItems();
+                }
+
                 break;
             default:
         }
@@ -165,7 +210,7 @@ public class SlidingDrawer {
 
     private Drawer createProfileDrawer(final BaseActivity activity, @IdRes int rootViewRes,
                                        @Nullable Bundle savedInstanceState) {
-        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) mActivity.findViewById(R.id.toolbar);
         IProfile profile = null;
 
         if (mHeader == null) {
@@ -180,7 +225,7 @@ public class SlidingDrawer {
 
         assert toolbar != null;
         mDrawer = new DrawerBuilder()
-                .withActivity(activity)
+                .withActivity(mActivity)
                 .withRootView(rootViewRes)
                 .withToolbar(toolbar)
                 .withHasStableIds(true)
@@ -193,11 +238,11 @@ public class SlidingDrawer {
                                 .withSelectable(false),
                         createExpandableDrawerItem(R.drawable.ic_drawer_star,
                                 CUSTOM_ITEM_BOOKMARK_TYPE,
-                                activity.getResources().getString(R.string.drawer_item_bookmark),
+                                mActivity.getResources().getString(R.string.drawer_item_bookmark),
                                 mProfile.getBookmarks(), SECONDARY_DRAWER_LEVEL),
                         createExpandableDrawerItem(R.drawable.ic_drawer_subscription,
                                 CUSTOM_ITEM_SUBSCRIPTION_TYPE,
-                                activity.getResources().getString(R.string.drawer_item_subscription),
+                                mActivity.getResources().getString(R.string.drawer_item_subscription),
                                 mProfile.getSubscriptions(), SECONDARY_DRAWER_LEVEL),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_virtual_currency)
                                 .withDescription(mProfile.getVirtualCurrenccy())
@@ -218,7 +263,7 @@ public class SlidingDrawer {
                         // This method is only called if the Arrow icon is shown.
                         // The hamburger is automatically managed by the MaterialDrawer if the back
                         // arrow is shown. Close the activity
-                        activity.finish();
+                        mActivity.finish();
                         // Return true if we have consumed the event
                         return true;
                     }
@@ -257,18 +302,17 @@ public class SlidingDrawer {
         return mDrawer;
     }
 
-    private Drawer createCommentsDrawer(final BaseActivity activity,
-                                        @Nullable Bundle savedInstanceState, boolean isUpdated) {
-        /**
-         *  In case this project, I put the data of {@link Comment} into the list, List<Comment> mComments
-         *  in {@link Offers} class, programmatically at this time because there was no provided
-         *  the data of {@link Comment} from Fyber server.
-         *
-         *  In real project, the data of {@link Comment} should be put into to the list,
-         *  List<Comment> mComments in {@link Offers} class, automatically.
-         *  It means the server have to provide comments data to App as the client.
-         *  It's very important to display the data of Comments on the list of Drawer's comments.
-         */
+    /**
+     *  In case this project, I put the data of {@link Comment} into the list, List<Comment> mComments
+     *  in {@link Offers} class, programmatically at this time because there was no provided
+     *  the data of {@link Comment} from Fyber server.
+     *
+     *  In real project, the data of {@link Comment} should be put into to the list,
+     *  List<Comment> mComments in {@link Offers} class, automatically.
+     *  It means the server have to provide comments data to App as the client.
+     *  It's very important to display the data of Comments on the list of Drawer's comments.
+     */
+    private void setManualComments() {
         if (mOffers.getComments() == null || mOffers.getComments().size() == 0) {
             List<Comment> comments = new ArrayList<>();
             for(int i = 0; i < 10; i++) {
@@ -301,32 +345,39 @@ public class SlidingDrawer {
 
             mOffers.setComments(comments);
         }
+    }
 
-
+    private Drawer createCommentsDrawer(final BaseActivity activity,
+                                        @Nullable Bundle savedInstanceState, boolean isUpdated) {
+        setManualComments();
+        mExpandableCommentDrawerItem = new CustomCountPanelDrawableItem();
+        setExpandableDrawerItem(mExpandableCommentDrawerItem, R.drawable.ic_drawer_comment,
+                CUSTOM_ITEM_COMMENTS_TYPE, activity.getResources().getString(R.string.drawer_item_comments),
+                mOffers.getComments(), SECONDARY_DRAWER_LEVEL);
         mCommentsDrawer = new DrawerBuilder()
                 .withActivity(activity)
-                .withDrawerItems(createCommentsDrawerItem(activity, mOffers.getComments(),
-                        SECONDARY_DRAWER_LEVEL))
+                .addDrawerItems(mExpandableCommentDrawerItem)
                 .withSavedInstance(savedInstanceState)
                 .withDrawerGravity(Gravity.END)
-                .append(mDrawer);
+                .build();
 
         return mCommentsDrawer;
 
     }
 
+    @Deprecated
     private List<IDrawerItem> createCommentsDrawerItem(Activity activity, List<?> items,
                                                        int level) {
         List<IDrawerItem> drawerItems = new ArrayList<>();
         int commentIdentifier = DRAWER_INFO_ITEM_FIRST_COMMENTS_ID;
         final List<Comment> itemsForComment = (List<Comment>) items;
         drawerItems.add(createExpandableDrawerItem(R.drawable.ic_drawer_comment,
-                CUSTOM_ITEM_COMMENTS_TYPE,
+                        CUSTOM_ITEM_COMMENTS_TYPE,
                 activity.getResources().getString(R.string.drawer_item_comments),
                 mOffers.getEvents(), SECONDARY_DRAWER_LEVEL));
         for (final Comment comment : itemsForComment) {
             CommentDrawerItem item = new CommentDrawerItem();
-                item.withCommenter(comment.getCommenterName())
+            item.withCommenter(comment.getCommenterName())
                     .withComment(comment.getComment())
                     .withDate(comment.getDate())
                     .withLikeCount(String.valueOf(comment.getCommentLikeCount()))
@@ -343,21 +394,139 @@ public class SlidingDrawer {
         return drawerItems;
     }
 
-    private Drawer createInfoDrawer(final BaseActivity activity,
-                                    @Nullable Bundle savedInstanceState) {
-        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
+    private void updateDrawerItems(boolean enabledEventItem) {
+        setManualData();
+        setMenuDrawerItem(mMenuDrawerItem);
+        mDrawer.updateItem(mMenuDrawerItem);
+        setOfferIdPrimaryDrawerItem(mOfferIdDrawerItem);
+        mDrawer.updateItem(mOfferIdDrawerItem);
+        setPayoutPrimaryDrawerItem(mPayoutDrawerItem);
+        mDrawer.updateItem(mPayoutDrawerItem);
+        setBookmarkCountDrawerItem(mBookmarkCountDrawerItem);
+        mDrawer.updateItem(mBookmarkCountDrawerItem);
+        setSubscribedCountDrawerItem(mSubscribedCountDrawerItem);
+        mDrawer.updateItem(mSubscribedCountDrawerItem);
+        setGalleryCountPanelDrawerItem(mGalleryCountDrawerItem);
+        mDrawer.updateItem(mGalleryCountDrawerItem);
+        if (enabledEventItem) {
+            setExpandableDrawerItem(mExpandableEventDrawerItem, R.drawable.ic_drawer_event,
+                    CUSTOM_ITEM_EVENT_TYPE, mActivity.getResources().getString(R.string.drawer_item_event),
+                    mOffers.getEvents(), SECONDARY_DRAWER_LEVEL);
+            mDrawer.updateItem(mExpandableEventDrawerItem);
+        }
+    }
 
-        /**
-         *  In case this project, I put the data of {@link Event} into the list, List<Event> mEvents
-         *  in {@link Offers} class, programmatically at this time because there was no provided
-         *  the data of {@link Event} from Fyber server.
-         *  And I also put the bookmarked count and subscribed count into the list of {@link Offers}.
-         *
-         *  In real project, the data of {@link Event} should be put into to the list,
-         *  List<Event> mEvents in {@link Offers} class, automatically.
-         *  It means the server have to provide events data to App as the client.
-         *  It's very important to display the data of Events on the list of Drawer's events.
-         */
+    private void updatedCommentDrawerItems() {
+        setManualComments();
+        setExpandableDrawerItem(mExpandableCommentDrawerItem, R.drawable.ic_drawer_comment,
+                CUSTOM_ITEM_COMMENTS_TYPE, mActivity.getResources().getString(R.string.drawer_item_comments),
+                mOffers.getComments(), SECONDARY_DRAWER_LEVEL);
+        mDrawer.updateItem(mExpandableCommentDrawerItem);
+    }
+
+    private void setMenuDrawerItem(MenuDrawerItem menuDrawerItem) {
+        menuDrawerItem.withIcon(mOffers.getThumbnail().getLowres())
+                .withMenu(mOffers.getTitle())
+                .withMenuSub2(mActivity.getResources()
+                        .getString(R.string.drawer_item_offer_type) + "  "
+                        + String.valueOf(mOffers.getOfferTypes()
+                        .get(0).getOfferTypeId()))
+                .withDescription(mOffers.getTeaser())
+                .withSelectable(false)
+                .withSelectedTextColorRes(R.color.md_white_1000)
+                .withSelectedColorRes(R.color.material_drawer_menu_selected)
+                .withIdentifier(3000);
+    }
+
+    private void setOfferIdPrimaryDrawerItem(PrimaryDrawerItem offerIdPrimaryDrawerItem) {
+        offerIdPrimaryDrawerItem.withName(R.string.drawer_item_offer_id)
+                .withDescription(String.valueOf(mOffers.getOfferId()))
+                .withIcon(R.drawable.ic_drawer_id)
+                .withTextColor(mContext.getApplicationContext().getResources()
+                        .getColor(R.color.colorPrimaryDark))
+                .withDescriptionTextColor(mContext.getApplicationContext()
+                        .getResources()
+                        .getColor(R.color.material_drawable_offer_id_text))
+                .withSelectable(false);
+    }
+
+    private void setPayoutPrimaryDrawerItem(PrimaryDrawerItem payoutPrimaryDrawerItem) {
+        payoutPrimaryDrawerItem.withName(R.string.drawer_item_payout)
+                .withDescription(String.valueOf(mOffers.getPayout()))
+                .withIcon(R.drawable.ic_drawer_payout)
+                .withTextColor(mContext.getApplicationContext().getResources()
+                        .getColor(R.color.colorPrimaryDark))
+                .withDescriptionTextColor(mContext.getApplicationContext()
+                        .getResources()
+                        .getColor(R.color.material_drawable_offer_id_text))
+                .withSelectable(false);
+    }
+
+    private void setBookmarkCountDrawerItem(
+            CustomCountPanelDrawableItem bookmarkCountDrawerItem) {
+        bookmarkCountDrawerItem
+                .withName(mActivity.getResources().getString(
+                        R.string.drawer_item_bookmarked_count))
+                .withCount(String.valueOf(mOffers.getBookmarkedCount()))
+                .withCountTextColor(mContext.getApplicationContext().getResources()
+                        .getColor(R.color.material_drawable_bookmark_count_text))
+                .withIcon(R.drawable.ic_drawer_star)
+                .withArrowVisible(false)
+                .withSelectable(false);
+    }
+
+    private void setSubscribedCountDrawerItem(
+            CustomCountPanelDrawableItem subscribedCountDrawerItem) {
+        subscribedCountDrawerItem
+                .withName(mActivity.getResources().getString(
+                        R.string.drawer_item_subscribed_count))
+                .withCount(String.valueOf(mOffers.getSubscribedCount()))
+                .withCountTextColor(mContext.getApplicationContext().getResources()
+                        .getColor(R.color.material_drawable_bookmark_count_text))
+                .withIcon(R.drawable.ic_drawer_subscription)
+                .withArrowVisible(false)
+                .withSelectable(false);
+    }
+
+    private void setGalleryCountPanelDrawerItem(
+            CustomCountPanelDrawableItem galleryCountDrawerItem) {
+        galleryCountDrawerItem
+                .withName(mActivity.getResources().getString(
+                        R.string.drawer_item_gallery))
+                .withCount(String.valueOf(mOffers.getGalleryCount()))
+                .withCountTextColor(mContext.getApplicationContext().getResources()
+                        .getColor(R.color.material_drawable_bookmark_count_text))
+                .withIcon(R.drawable.ic_drawer_gallery)
+                .withIdentifier(DRAWER_INFO_ITEM_FIRST_GALLERY_ID)
+                .withArrowVisible(false)
+                .withSelectable(true)
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        if (drawerItem != null) {
+                            ActivityCaller.INSTANCE.callOffersGallery(
+                                    mContext, mOffers.getOfferId(),
+                                    mOffers.getTitle());
+                            mDrawer.closeDrawer();
+                        }
+
+                        return false;
+                    }
+                });
+    }
+
+    /**
+     *  In case this project, I put the data of {@link Event} into the list, List<Event> mEvents
+     *  in {@link Offers} class, programmatically at this time because there was no provided
+     *  the data of {@link Event} from Fyber server.
+     *  And I also put the bookmarked count and subscribed count into the list of {@link Offers}.
+     *
+     *  In real project, the data of {@link Event} should be put into to the list,
+     *  List<Event> mEvents in {@link Offers} class, automatically.
+     *  It means the server have to provide events data to App as the client.
+     *  It's very important to display the data of Events on the list of Drawer's events.
+     */
+    private void setManualData() {
         if (mOffers.getEvents() == null || mOffers.getEvents().size() == 0) {
             List<Event> events = new ArrayList<>();
             for(int i = 0; i < 10; i++) {
@@ -378,95 +547,46 @@ public class SlidingDrawer {
                 events.add(event);
             }
 
-            mOffers.setBookmarkedCount(306);
-            mOffers.setSubscribedCount(500);
-            mOffers.setGalleryCount(30);
             mOffers.setEvents(events);
         }
+    }
+
+    private Drawer createInfoDrawer(final BaseActivity activity,
+                                    @Nullable Bundle savedInstanceState) {
+        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
+
+        setManualData();
 
         assert toolbar != null;
+        mMenuDrawerItem = new MenuDrawerItem();
+        setMenuDrawerItem(mMenuDrawerItem);
+        mOfferIdDrawerItem = new PrimaryDrawerItem();
+        setOfferIdPrimaryDrawerItem(mOfferIdDrawerItem);
+        mPayoutDrawerItem = new PrimaryDrawerItem();
+        setPayoutPrimaryDrawerItem(mPayoutDrawerItem);
+        mBookmarkCountDrawerItem = new CustomCountPanelDrawableItem();
+        setBookmarkCountDrawerItem(mBookmarkCountDrawerItem);
+        mSubscribedCountDrawerItem = new CustomCountPanelDrawableItem();
+        setSubscribedCountDrawerItem(mSubscribedCountDrawerItem);
+        mGalleryCountDrawerItem = new CustomCountPanelDrawableItem();
+        setGalleryCountPanelDrawerItem(mGalleryCountDrawerItem);
+        mExpandableEventDrawerItem = new CustomCountPanelDrawableItem();
+        setExpandableDrawerItem(mExpandableEventDrawerItem, R.drawable.ic_drawer_event,
+                CUSTOM_ITEM_EVENT_TYPE, activity.getResources().getString(R.string.drawer_item_event),
+                mOffers.getEvents(), SECONDARY_DRAWER_LEVEL);
         mDrawer = new DrawerBuilder()
                 .withActivity(activity)
                 .withToolbar(toolbar)
                 //.withHasStableIds(true)
                 //.withActionBarDrawerToggleAnimated(true)
                 .addDrawerItems(
-                        new MenuDrawerItem()
-                                .withIcon(mOffers.getThumbnail().getLowres())
-                                .withMenu(mOffers.getTitle())
-                                .withMenuSub2(activity.getResources()
-                                        .getString(R.string.drawer_item_offer_type) + "  "
-                                        + String.valueOf(mOffers.getOfferTypes()
-                                        .get(0).getOfferTypeId()))
-                                .withDescription(mOffers.getTeaser())
-                                .withSelectable(false)
-                                .withSelectedTextColorRes(R.color.md_white_1000)
-                                .withSelectedColorRes(R.color.material_drawer_menu_selected)
-                                .withIdentifier(3000),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_offer_id)
-                                .withDescription(String.valueOf(mOffers.getOfferId()))
-                                .withIcon(R.drawable.ic_drawer_id)
-                                .withTextColor(mContext.getApplicationContext().getResources()
-                                        .getColor(R.color.colorPrimaryDark))
-                                .withDescriptionTextColor(mContext.getApplicationContext()
-                                        .getResources()
-                                        .getColor(R.color.material_drawable_offer_id_text))
-
-                                .withSelectable(false),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_payout)
-                                .withDescription(String.valueOf(mOffers.getPayout()))
-                                .withIcon(R.drawable.ic_drawer_payout)
-                                .withTextColor(mContext.getApplicationContext().getResources()
-                                        .getColor(R.color.colorPrimaryDark))
-                                .withDescriptionTextColor(mContext.getApplicationContext()
-                                        .getResources()
-                                        .getColor(R.color.material_drawable_offer_id_text))
-                                .withSelectable(false),
-                        createExpandableDrawerItem(R.drawable.ic_drawer_event,
-                                CUSTOM_ITEM_EVENT_TYPE,
-                                activity.getResources().getString(R.string.drawer_item_event),
-                                mOffers.getEvents(), SECONDARY_DRAWER_LEVEL),
-                        new CustomCountPanelDrawableItem()
-                                .withName(activity.getResources().getString(
-                                        R.string.drawer_item_bookmarked_count))
-                                .withCount(String.valueOf(mOffers.getBookmarkedCount()))
-                                .withCountTextColor(mContext.getApplicationContext().getResources()
-                                        .getColor(R.color.material_drawable_bookmark_count_text))
-                                .withIcon(R.drawable.ic_drawer_star)
-                                .withArrowVisible(false)
-                                .withSelectable(false),
-                        new CustomCountPanelDrawableItem()
-                                .withName(activity.getResources().getString(
-                                        R.string.drawer_item_subscribed_count))
-                                .withCount(String.valueOf(mOffers.getSubscribedCount()))
-                                .withCountTextColor(mContext.getApplicationContext().getResources()
-                                        .getColor(R.color.material_drawable_bookmark_count_text))
-                                .withIcon(R.drawable.ic_drawer_subscription)
-                                .withArrowVisible(false)
-                                .withSelectable(false),
-                        new CustomCountPanelDrawableItem()
-                                .withName(activity.getResources().getString(
-                                        R.string.drawer_item_gallery))
-                                .withCount(String.valueOf(mOffers.getGalleryCount()))
-                                .withCountTextColor(mContext.getApplicationContext().getResources()
-                                        .getColor(R.color.material_drawable_bookmark_count_text))
-                                .withIcon(R.drawable.ic_drawer_gallery)
-                                .withIdentifier(DRAWER_INFO_ITEM_FIRST_GALLERY_ID)
-                                .withArrowVisible(false)
-                                .withSelectable(true)
-                                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                                    @Override
-                                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                                        if (drawerItem != null) {
-                                            ActivityCaller.INSTANCE.callOffersGallery(
-                                                    mContext, mOffers.getOfferId(),
-                                                    mOffers.getTitle());
-                                            mDrawer.closeDrawer();
-                                        }
-
-                                        return false;
-                                    }
-                            })
+                        mMenuDrawerItem,
+                        mOfferIdDrawerItem,
+                        mPayoutDrawerItem,
+                        mExpandableEventDrawerItem,
+                        mBookmarkCountDrawerItem,
+                        mSubscribedCountDrawerItem,
+                        mGalleryCountDrawerItem
                 ) // add the items we want to use with our Drawer
                 .withOnDrawerNavigationListener(new Drawer.OnDrawerNavigationListener() {
                     @Override
@@ -511,66 +631,78 @@ public class SlidingDrawer {
         return mDrawer;
     }
 
-    private CustomCountPanelDrawableItem createExpandableDrawerItem(
-            int  iconRes, int type, String itemName, List<?> items, int level) {
-        Drawable drawable;
-
-        CustomCountPanelDrawableItem drawableItem = new CustomCountPanelDrawableItem();
+    private void setDrawerTypeItem(CustomCountPanelDrawableItem drawerItem, int  iconRes, int type,
+                                   String itemName, List<?> items, int level) {
         switch (type) {
             case CUSTOM_ITEM_BOOKMARK_TYPE:
-                drawable = mContext.getApplicationContext().getResources()
-                        .getDrawable(R.drawable.ic_drawer_bookmark);
-                drawableItem.withName(itemName)
-                            .withCount(String.valueOf(items.size()))
-                            .withCountTextColor(mContext.getApplicationContext().getResources()
+                drawerItem.withName(itemName)
+                        .withCount(String.valueOf(items.size()))
+                        .withCountTextColor(mContext.getApplicationContext().getResources()
                                 .getColor(R.color.material_drawable_bookmark_count_text))
-                            .withIcon(iconRes)
-                            .withIdentifier(DRAWER_PROFILE_ITEM_BOOKMARK_ID)
-                            .withSelectable(false)
-                            .withSubItems(
-                                createSecondaryDrawerItem(drawable, items, type, level)
-                            );
+                        .withIcon(iconRes)
+                        .withIdentifier(DRAWER_PROFILE_ITEM_BOOKMARK_ID)
+                        .withSelectable(false)
+                        .withSubItems(
+                                createSecondaryDrawerItem( mContext.getApplicationContext()
+                                                .getResources().getDrawable(R.drawable.ic_drawer_bookmark),
+                                        items, type, level)
+                        );
                 break;
             case CUSTOM_ITEM_SUBSCRIPTION_TYPE:
-                drawable = mContext.getApplicationContext().getResources()
-                        .getDrawable(R.drawable.ic_drawer_subscription);
-                drawableItem.withName(itemName)
-                            .withCount(String.valueOf(items.size()))
-                            .withCountTextColor(mContext.getApplicationContext().getResources()
+                drawerItem.withName(itemName)
+                        .withCount(String.valueOf(items.size()))
+                        .withCountTextColor(mContext.getApplicationContext().getResources()
                                 .getColor(R.color.material_drawable_subscription_count_text))
-                            .withIcon(iconRes)
-                            .withIdentifier(DRAWER_PROFILE_ITEM_SUBSCRIPTION_ID)
-                            .withSelectable(false)
-                            .withSubItems(
-                                createSecondaryDrawerItem(drawable, items, type, level)
-                            );
+                        .withIcon(iconRes)
+                        .withIdentifier(DRAWER_PROFILE_ITEM_SUBSCRIPTION_ID)
+                        .withSelectable(false)
+                        .withSubItems(
+                                createSecondaryDrawerItem(mContext.getApplicationContext()
+                                                .getResources().getDrawable(R.drawable.ic_drawer_subscription),
+                                        items, type, level)
+                        );
                 break;
             case CUSTOM_ITEM_EVENT_TYPE:
-                drawable = mContext.getApplicationContext().getResources()
-                        .getDrawable(R.drawable.ic_drawer_events);
-                drawableItem.withName(itemName)
-                            .withCount(String.valueOf(items.size()))
-                            .withCountTextColor(mContext.getApplicationContext().getResources()
+                drawerItem.withName(itemName)
+                        .withCount(String.valueOf(items.size()))
+                        .withCountTextColor(mContext.getApplicationContext().getResources()
                                 .getColor(R.color.material_drawable_events_count_text))
-                            .withIcon(iconRes)
-                            .withIdentifier(DRAWER_INFO_ITEM_FIRST_EVENT_ID)
-                            .withSelectable(false)
-                            .withSubItems(
-                                createSecondaryDrawerItem(drawable, items, type, level)
-                            );
+                        .withIcon(iconRes)
+                        .withIdentifier(DRAWER_INFO_ITEM_FIRST_EVENT_ID)
+                        .withSelectable(false)
+                        .withSubItems(
+                                createSecondaryDrawerItem(mContext.getApplicationContext()
+                                                .getResources().getDrawable(R.drawable.ic_drawer_events),
+                                        items, type, level)
+                        );
                 break;
             case CUSTOM_ITEM_COMMENTS_TYPE:
-                drawableItem.withName(itemName)
+                drawerItem.withName(itemName)
                         .withCount(String.valueOf(items.size()))
                         .withCountTextColor(mContext.getApplicationContext().getResources()
                                 .getColor(R.color.material_drawable_comments_count_text))
                         .withIcon(iconRes)
                         .withIdentifier(DRAWER_INFO_ITEM_FIRST_COMMENTS_ID)
-                        .withArrowVisible(false)
-                        .withSelectable(false);
+                        .withArrowVisible(true)
+                        .withSelectable(false)
+                        .withSubItems(
+                                createSecondaryDrawerItem(mContext.getApplicationContext()
+                                        .getResources().getDrawable(R.drawable.ic_drawer_comment),
+                                items, type, level));
                 break;
             default:
         }
+    }
+
+    private void setExpandableDrawerItem(CustomCountPanelDrawableItem drawerItem,
+                                         int  iconRes, int type, String itemName, List<?> items, int level) {
+        setDrawerTypeItem(drawerItem, iconRes, type, itemName, items, level);
+    }
+
+    private CustomCountPanelDrawableItem createExpandableDrawerItem(
+            int  iconRes, int type, String itemName, List<?> items, int level) {
+        CustomCountPanelDrawableItem drawableItem = new CustomCountPanelDrawableItem();
+        setDrawerTypeItem(drawableItem, iconRes, type, itemName, items, level);
 
         return drawableItem;
     }
@@ -656,6 +788,26 @@ public class SlidingDrawer {
 
                     drawerItems.add(item);
                     eventIdentifier++;
+                }
+
+                return drawerItems;
+            case CUSTOM_ITEM_COMMENTS_TYPE:
+                int commentIdentifier = DRAWER_INFO_ITEM_FIRST_COMMENTS_ID;
+                final List<Comment> itemsForComment = (List<Comment>) items;
+                for (final Comment comment : itemsForComment) {
+                    CommentDrawerItem item = new CommentDrawerItem();
+                    item.withCommenter(comment.getCommenterName())
+                            .withComment(comment.getComment())
+                            .withDate(comment.getDate())
+                            .withLikeCount(String.valueOf(comment.getCommentLikeCount()))
+                            .withLevel(level)
+                            .withPicture(comment.getPicture().getCommenterPictureUrl())
+                            .withCommentId(comment.getCommentId())
+                            .withCommenterId(comment.getCommenterId())
+                            .withIdentifier(commentIdentifier)
+                            .withSelectable(false);
+                    drawerItems.add(item);
+                    commentIdentifier++;
                 }
 
                 return drawerItems;
