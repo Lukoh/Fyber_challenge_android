@@ -26,6 +26,8 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.goforer.fyber_challenge.ui.view.drawer.model.utils.AbstractSlidingDrawerImageLoader;
 import com.goforer.fyber_challenge.ui.view.drawer.model.utils.SlidingDrawerImageLoader;
 import com.goforer.fyber_challenge.utility.ExceptionHandler;
@@ -44,6 +46,10 @@ public class FyberChallenge extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // Initialize the SDK before executing any other operations,
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
 
         mContext = getApplicationContext();
         mResources = getResources();

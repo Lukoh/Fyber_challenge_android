@@ -2,16 +2,17 @@
 
 buildscript {
     ext {
-        setup = [compileSdk: 23,
-                 buildTools: "23.0.3",
+        setup = [compileSdk: 24,
+                 buildTools: "25.0.1",
                  minSdk    : 18,
-                 targetSdk : 23]
+                 targetSdk : 24]
 
-        versions = [supportLib: "23.4.0"]
+        versions = [supportLib: "24.2.0"]
     }
 
     repositories {
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.2'

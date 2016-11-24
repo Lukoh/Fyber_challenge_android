@@ -12,4 +12,16 @@
         android:icon="@drawable/ic_menu_subscribe"
         android:title="@string/offer_info_view_subscription_menu"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/share_facebook"
+        android:icon="@drawable/ic_menu_share_facebook_content"
+        android:title="@string/offer_info_view_share_facebook_menu"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/share_others"
+        android:icon="@drawable/ic_share_content"
+        android:title="@string/offer_info_view_share_others_menu"
+        app:showAsAction="ifRoom" />
 </menu>

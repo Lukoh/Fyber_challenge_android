@@ -35,6 +35,9 @@
     <string name="offer_info_view_back_menu">Back</string>
     <string name="offer_info_view_star_menu">Bookmark</string>
     <string name="offer_info_view_subscription_menu">Subscription</string>
+    <string name="offer_info_view_share">Share</string>
+    <string name="offer_info_view_share_others_menu">Share to others</string>
+    <string name="offer_info_view_share_facebook_menu">Share to Facebook</string>
     <string name="drawer_item_link">Link</string>
     <string name="drawer_item_help">Help</string>
     <string name="drawer_item_bookmark">Bookmark</string>
@@ -51,4 +54,5 @@
     <string name="toast_unsubscribed">This Offers have been unsubscribed.</string>
     <string name="restart_phrase">&#10;Please restarts Fyber Challenge App.</string>
     <string name="like_phrase">I like this comment.</string>
+    <string name="facebook_app_id">220951048341991</string>
 </resources>

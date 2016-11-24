@@ -16,10 +16,15 @@
 
 package com.goforer.fyber_challenge.ui.activity;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
@@ -36,6 +41,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.facebook.FacebookSdk;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.goforer.base.ui.activity.BaseActivity;
 import com.goforer.base.ui.view.SwipeViewPager;
 import com.goforer.fyber_challenge.R;
@@ -56,6 +64,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +80,8 @@ public class OffersInfoActivity extends BaseActivity {
     private ActionBar mActionBar;
     private SlidingDrawer mSlidingDrawer;
     private Menu mMenu;
+
+    private ShareDialog mShareDialog;
 
     private int mItemPosition;
     private int mFrom;
@@ -168,6 +179,9 @@ public class OffersInfoActivity extends BaseActivity {
                     mBackdrop.setImageBitmap(resource);
                 }
             });
+
+            FacebookSdk.sdkInitialize(getApplicationContext());
+            mShareDialog = new ShareDialog(this);
         }
     }
 
@@ -194,6 +208,26 @@ public class OffersInfoActivity extends BaseActivity {
         showSubscription();
         return super.onCreateOptionsMenu(menu);
     }
+
+    @Override
+    protected boolean onPrepareOptionsPanel(View view, Menu menu) {
+        if (menu != null) {
+            if(menu.getClass().getSimpleName().equals("MenuBuilder")) {
+                try {
+                    Method m = menu.getClass().getDeclaredMethod(
+                            "setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                } catch(NoSuchMethodException e) {
+                } catch(Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        return super.onPrepareOptionsPanel(view, menu);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
@@ -226,6 +260,12 @@ public class OffersInfoActivity extends BaseActivity {
                 }
 
                 EventBus.getDefault().post(action);
+                return true;
+            case R.id.share_others:
+                showAppListToShare();
+                return true;
+            case R.id.share_facebook:
+                shareToFb();
                 return true;
             case android.R.id.home:
                 onBackPressed();
@@ -295,6 +335,130 @@ public class OffersInfoActivity extends BaseActivity {
         } else {
             mMenu.getItem(1).setVisible(false);
         }
+    }
+
+    private void shareToFb() {
+        if (ShareDialog.canShow(ShareLinkContent.class)) {
+            ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                    .setContentTitle(mOffersItems.get(mItemPosition).getTitle())
+                    .setContentDescription(mOffersItems.get(mItemPosition).getTeaser())
+                    .setContentUrl(Uri.parse(mOffersItems.get(mItemPosition).getLink()))
+                    .setImageUrl(Uri.parse(mOffersItems.get(mItemPosition).getThumbnail().getHires()))
+                    .build();
+
+            mShareDialog.show(linkContent);
+        }
+
+    }
+
+    private void showAppListToShare() {
+        boolean isFacebook = false;
+        List<Intent> targetedShareIntents = new ArrayList<>();
+
+        Intent googlePlusIntent = getShareIntent("com.google.android.apps.plus",
+                mOffersItems.get(mItemPosition).getTitle(),
+                        mOffersItems.get(mItemPosition).getTitle() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getThumbnail().getHires() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getLink());
+        if (googlePlusIntent != null) {
+            targetedShareIntents.add(googlePlusIntent);
+        }
+
+        Intent twitterIntent = getShareIntent("twitter",
+                mOffersItems.get(mItemPosition).getTitle(),
+                        mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getThumbnail().getHires() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getLink());
+        if (twitterIntent != null) {
+            targetedShareIntents.add(twitterIntent);
+        }
+
+        Intent whatsAppIntent = getShareIntent("com.whatsapp",
+                mOffersItems.get(mItemPosition).getTitle(),
+                mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getThumbnail().getHires() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getLink());
+        if (whatsAppIntent != null) {
+            targetedShareIntents.add(whatsAppIntent);
+        }
+
+        Intent hangoutIntent = getShareIntent("com.google.android.talk",
+                mOffersItems.get(mItemPosition).getTitle(),
+                        mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getThumbnail().getHires() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getLink());
+        if (hangoutIntent != null) {
+            targetedShareIntents.add(hangoutIntent);
+        }
+
+        Intent kakaotalkIntent = getShareIntent("com.kakao.talk",
+                mOffersItems.get(mItemPosition).getTitle(), "\n\n" +
+                mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getThumbnail().getHires() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getLink());
+        if (kakaotalkIntent != null) {
+            targetedShareIntents.add(kakaotalkIntent);
+        }
+
+        Intent lineIntent = getShareIntent("jp.naver.line.android",
+                mOffersItems.get(mItemPosition).getTitle(),
+                mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getThumbnail().getHires() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getLink());
+        if(lineIntent != null) {
+            targetedShareIntents.add(lineIntent);
+        }
+
+        Intent gmailIntent = getShareIntent("gmail",
+                mOffersItems.get(mItemPosition).getTitle(),
+                        mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getThumbnail().getHires() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getLink());
+        if(gmailIntent != null) {
+            targetedShareIntents.add(gmailIntent);
+        }
+
+        Intent chooser = Intent.createChooser(targetedShareIntents.remove(0),
+                getResources().getString(R.string.offer_info_view_share));
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS,
+                targetedShareIntents.toArray(new Parcelable[]{}));
+
+        chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(chooser);
+    }
+
+    private Intent getShareIntent(String type, String subject, String text)
+    {
+        boolean found = false;
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+
+        // gets the list of intents that can be loaded.
+        List<ResolveInfo> resInfo = getPackageManager().queryIntentActivities(share, 0);
+        if (!resInfo.isEmpty()) {
+            for (ResolveInfo info : resInfo) {
+                if (info.activityInfo.packageName.toLowerCase().contains(type) ||
+                        info.activityInfo.name.toLowerCase().contains(type)) {
+                    ActivityInfo activity = info.activityInfo;
+                    ComponentName name = new ComponentName(
+                            activity.applicationInfo.packageName, activity.name);
+                    share.setComponent(name);
+                    share.addCategory(Intent.CATEGORY_DEFAULT);
+                    share.putExtra(Intent.EXTRA_SUBJECT, subject);
+                    share.putExtra(Intent.EXTRA_TEXT, text);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                return null;
+            }
+
+            return share;
+        }
+        return null;
     }
 
     private void showNewBackDropImage(int position) {
