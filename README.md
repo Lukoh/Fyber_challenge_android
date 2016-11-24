@@ -27,7 +27,9 @@ RecyclerFragment was improved to be more efficient and more great. Please refer 
 - expandable fragments
 
 #New Feature
-Offer Information sharing function has been applied int FyberChallenge. (User can share that to Facebook or ohter SNS, such as Google+, WhatsApp, gmail, and so on.
+Offer Information sharing function has been applied into FyberChallenge. 
+
+(User can share that to Facebook or ohter SNS, such as Google+, WhatsApp, gmail, and so on.
 
 Please refer to below files if you'd like to see more about sharing Offer Information to Facebook or ohter SNS:
 
