@@ -25,6 +25,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
@@ -92,6 +93,8 @@ public class OffersInfoActivity extends BaseActivity {
     CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.appbar)
+    AppBarLayout mAppBar;
     @BindView(R.id.backdrop)
     ImageView mBackdrop;
     @BindView(R.id.backdrop_new)
@@ -171,6 +174,8 @@ public class OffersInfoActivity extends BaseActivity {
             ViewCompat.setTransitionName(mSwipePager, TRANSITION_IMAGE);
             mSwipePager.setPageMargin(PAGE_MARGIN_VALUE);
 
+            mCollapsingToolbarLayout.setTitle(mOffersItems.get(mItemPosition).getTitle());
+
             handleSwipePager();
             Glide.with(getApplicationContext()).load(mOffersItems.get(mItemPosition).getThumbnail()
                     .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
@@ -179,6 +184,24 @@ public class OffersInfoActivity extends BaseActivity {
                     mBackdrop.setImageBitmap(resource);
                 }
             });
+
+            AppBarLayout.OnOffsetChangedListener listener = new AppBarLayout.OnOffsetChangedListener() {
+                @Override
+                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                    mCollapsingToolbarLayout.setTitle(mOffersItems.get(mItemPosition).getTitle());
+
+                    if(mCollapsingToolbarLayout.getHeight() +
+                            verticalOffset < 2 * ViewCompat.getMinimumHeight(mCollapsingToolbarLayout)) {
+                        // collapsed
+                        mBackdrop.animate().alpha(0.3f).setDuration(600);
+                    } else {
+                        // extended
+                        mBackdrop.animate().alpha(1f).setDuration(600);    // 1.0f means opaque
+                    }
+                }
+            };
+
+            mAppBar.addOnOffsetChangedListener(listener);
 
             FacebookSdk.sdkInitialize(getApplicationContext());
             mShareDialog = new ShareDialog(this);
@@ -352,7 +375,6 @@ public class OffersInfoActivity extends BaseActivity {
     }
 
     private void showAppListToShare() {
-        boolean isFacebook = false;
         List<Intent> targetedShareIntents = new ArrayList<>();
 
         Intent googlePlusIntent = getShareIntent("com.google.android.apps.plus",
@@ -559,7 +581,7 @@ public class OffersInfoActivity extends BaseActivity {
             }
         });
 
-        mActionBar.setTitle(mOffersItems.get(mItemPosition).getTitle());
+        //mActionBar.setTitle(mOffersItems.get(mItemPosition).getTitle());
         mSwipePager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -581,9 +603,6 @@ public class OffersInfoActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 mItemPosition = position;
-                mCollapsingToolbarLayout.setTitle(mOffersItems.get(mItemPosition).getTitle());
-                mCollapsingToolbarLayout.setExpandedTitleColor(getResources()
-                        .getColor(R.color.md_white_1000));
                 showSubscription();
                 if (mOffersItems.get(mItemPosition).isBookmarked()) {
                     mFabStar.setImageDrawable(new IconicsDrawable(getBaseContext(),
@@ -606,6 +625,12 @@ public class OffersInfoActivity extends BaseActivity {
 
                 mSwipePager.setCurrentItem(position, false);
                 mSlidingDrawer.setDrawerInfo(mOffersItems.get(mItemPosition));
+
+                mCollapsingToolbarLayout.setTitle(mOffersItems.get(mItemPosition).getTitle());
+                mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources()
+                        .getColor(R.color.md_white_1000));
+                mCollapsingToolbarLayout.setExpandedTitleColor(getResources()
+                        .getColor(R.color.md_white_1000));
                 Log.d(TAG, "called onPageSelected");
             }
 

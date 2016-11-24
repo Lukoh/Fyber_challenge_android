@@ -2,12 +2,12 @@
 
 buildscript {
     ext {
-        setup = [compileSdk: 24,
+        setup = [compileSdk: 25,
                  buildTools: "25.0.1",
                  minSdk    : 18,
-                 targetSdk : 24]
+                 targetSdk : 25]
 
-        versions = [supportLib: "24.2.0"]
+        versions = [supportLib: "25.0.0"]
     }
 
     repositories {
