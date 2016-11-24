@@ -31,7 +31,7 @@ Offer Information sharing function has been applied into FyberChallenge.
 
 (User can share that to Facebook or ohter SNS, such as Google+, WhatsApp, gmail, and so on.
 
-Please refer to below files if you'd like to see more about sharing Offer Information to Facebook or ohter SNS:
+Please refer to below file if you'd like to see more about sharing Offer Information to Facebook or ohter SNS:
 
 [OffersInfoActivity](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/activity/OffersInfoActivity.java)
 
