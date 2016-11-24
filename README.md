@@ -1,6 +1,6 @@
 # Fyber_challenge_android
 
-Fyber_challenge_andorid has been updated to 2.1 . 
+Fyber_challenge_andorid has been updated to 2.2 . 
 This is the reference of Android application to make some SNS or O2O service on Android. New drawer and awesome funtionalaties were applied into Fyber App. All Android App developer can see how to make some SNS or O2O service on Android via the Fyber source code. The Fyber App currently works well now. 
 All technical things/stuffs to make SNS or 020 service on Android are provided into this open-source project.
 If you want to make the food delivery service, shopping or O2O service App on Android, please refer to my open-source project and you can make awesome those App very easily. If you want to learn more technical knowledge of Web-Communication, which is related Web APIs, please visit my [BEatery](https://github.com/Lukoh/beateries) open-source project and [BEatery APIs](https://github.com/Lukoh/beateries/blob/master/BEatery%20REST%20APIs.pdf).  You can get more details you need. Also you can know the way how to communicate with Server. if you want to get this technical knowledge, please visit here below:
@@ -27,7 +27,17 @@ RecyclerFragment was improved to be more efficient and more great. Please refer 
 - expandable fragments
 
 #New Feature
-The performance of SlidingDrawe has been improved very efficiently. That is, Offer slides, transitions between one entire screen to another,  result in higher performance. 
+Offer Information sharing function has been applied into FyberChallenge. 
+
+(User can share that to Facebook or other SNS, such as Google+, WhatsApp, gmail, and so on.)
+
+Please refer to below file if you'd like to see more about sharing Offer Information to Facebook or ohter SNS:
+
+[OffersInfoActivity](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/activity/OffersInfoActivity.java)
+
+Also, if you'd like to see how to apply Facebook SDK to FyberChallenge, please visit to [Facebook SDK](https://developers.facebook.com/docs/sharing/android).
+
+The performance of SlidingDrawer has been improved very efficiently. That is, Offer slides, transitions between one entire screen to another,  result in higher performance. 
 The new functions for deleting an item on the list(Offer) has been applied.
 It's run by the swipe action. Please return null in [createItemTouchHelperToRecyclerView](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/fragment/RecyclerFragment.java) method if a user don't want to attach the function of removing an item to the fragment which is derived from [RecyclerFragment](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/fragment/RecyclerFragment.java) like below example:
 
