@@ -145,7 +145,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> implements ItemTou
         EventBus.getDefault().post(action);
     }
 
-    public static class OfferListViewHolder extends BaseViewHolder<Offers> {
+    static class OfferListViewHolder extends BaseViewHolder<Offers> {
         private List<Offers> mOffersItems;
 
         private boolean mIsResumed;
@@ -159,7 +159,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> implements ItemTou
         @BindView(R.id.tv_payout)
         TextView mPayoutView;
 
-        public OfferListViewHolder(View itemView, List<Offers> items, boolean isResumed) {
+        OfferListViewHolder(View itemView, List<Offers> items, boolean isResumed) {
             super(itemView);
 
             mOffersItems = items;

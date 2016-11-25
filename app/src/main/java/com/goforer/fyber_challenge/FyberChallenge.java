@@ -16,6 +16,7 @@
 
 package com.goforer.fyber_challenge;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -39,6 +40,7 @@ import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 public class FyberChallenge extends MultiDexApplication {
     private static final String TAG = "FyberChallenge";
 
+    @SuppressLint("StaticFieldLeak")
     public static Context mContext;
     public static Resources mResources;
 

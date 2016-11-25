@@ -150,7 +150,7 @@ public class OfferGridAdapter extends BaseListAdapter<Offers> implements ItemTou
         EventBus.getDefault().post(action);
     }
 
-    public static class OffersGridViewHolder extends BaseViewHolder<Offers> {
+    static class OffersGridViewHolder extends BaseViewHolder<Offers> {
         private Offers mOffers;
 
         private List<Offers> mOffersItems;
@@ -162,7 +162,7 @@ public class OfferGridAdapter extends BaseListAdapter<Offers> implements ItemTou
         @BindView(R.id.tv_title)
         TextView mTitleView;
 
-        public OffersGridViewHolder(View itemView, List<Offers> items, boolean isResumed) {
+        OffersGridViewHolder(View itemView, List<Offers> items, boolean isResumed) {
             super(itemView);
 
             mOffersItems = items;

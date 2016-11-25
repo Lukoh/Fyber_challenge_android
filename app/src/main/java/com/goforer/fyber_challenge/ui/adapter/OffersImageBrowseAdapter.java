@@ -77,7 +77,7 @@ public class OffersImageBrowseAdapter extends PagerAdapter {
         container.removeView((View) object);
     }
 
-    public void startAnimation() {
+    private void startAnimation() {
         if (mImage != null) {
             Animation animationImage = AnimationUtils.loadAnimation(mContext.getApplicationContext(),
                     R.anim.scale_up_gallery);

@@ -190,13 +190,13 @@ public class CommentDrawerItem extends AbstractDrawerItem<CommentDrawerItem, Com
 
     @Override
     public CommentDrawerItem withCommentId(long id) {
-        this.comment_id = id;
+        comment_id = id;
         return this;
     }
 
     @Override
     public CommentDrawerItem withCommenterId(long id) {
-        this.commenter_id = id;
+        commenter_id = id;
         return this;
     }
 

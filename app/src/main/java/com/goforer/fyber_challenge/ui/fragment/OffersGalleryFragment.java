@@ -92,7 +92,7 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
 
     @Override
     protected RecyclerView.Adapter createAdapter() {
-        return mAdapter = new OffersGalleryAdapter(mContext, mItems, R.layout.grid_gallery_item, true);
+        return mAdapter = new OffersGalleryAdapter(mItems, R.layout.grid_gallery_item, true);
     }
 
     @Override

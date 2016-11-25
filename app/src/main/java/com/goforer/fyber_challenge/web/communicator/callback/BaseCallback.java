@@ -27,7 +27,7 @@ import java.io.IOException;
 import okhttp3.ResponseBody;
 
 public class BaseCallback {
-    protected static ResponseError mErrorResponse = null;
+    private static ResponseError mErrorResponse = null;
 
     protected boolean isResponseError(ResponseBody errorBody) {
         try {

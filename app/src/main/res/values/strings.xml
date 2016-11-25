@@ -33,6 +33,7 @@
     <string name="offer_list_view_list_menu">List View</string>
     <string name="offer_list_view_grid_menu">Grid View</string>
     <string name="offer_info_view_back_menu">Back</string>
+    <string name="offer_info_view_view_comments_menu">View Comments</string>
     <string name="offer_info_view_star_menu">Bookmark</string>
     <string name="offer_info_view_subscription_menu">Subscription</string>
     <string name="offer_info_view_share">Share</string>

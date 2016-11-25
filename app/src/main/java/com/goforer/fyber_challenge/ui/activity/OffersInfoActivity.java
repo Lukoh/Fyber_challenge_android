@@ -58,6 +58,10 @@ import com.goforer.fyber_challenge.ui.adapter.OffersInfoAdapter;
 import com.goforer.fyber_challenge.ui.view.drawer.SlidingDrawer;
 import com.goforer.fyber_challenge.utility.ActivityCaller;
 import com.goforer.fyber_challenge.utility.CommonUtils;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
@@ -78,7 +82,6 @@ public class OffersInfoActivity extends BaseActivity {
     private static final int PAGE_MARGIN_VALUE = 40;
 
     private List<Offers> mOffersItems;
-    private ActionBar mActionBar;
     private SlidingDrawer mSlidingDrawer;
     private Menu mMenu;
 
@@ -101,6 +104,11 @@ public class OffersInfoActivity extends BaseActivity {
     ImageView mNewBackdrop;
     @BindView(R.id.fab_star)
     FloatingActionButton mFabStar;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +139,9 @@ public class OffersInfoActivity extends BaseActivity {
                 R.id.container_info, savedInstanceState);
 
         super.onCreate(savedInstanceState);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -185,17 +196,16 @@ public class OffersInfoActivity extends BaseActivity {
                 }
             });
 
-            AppBarLayout.OnOffsetChangedListener listener = new AppBarLayout.OnOffsetChangedListener() {
+            AppBarLayout.OnOffsetChangedListener listener
+                    = new AppBarLayout.OnOffsetChangedListener() {
                 @Override
                 public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                     mCollapsingToolbarLayout.setTitle(mOffersItems.get(mItemPosition).getTitle());
-
-                    if(mCollapsingToolbarLayout.getHeight() +
-                            verticalOffset < 2 * ViewCompat.getMinimumHeight(mCollapsingToolbarLayout)) {
-                        // collapsed
+                    if (mCollapsingToolbarLayout.getHeight() +
+                            verticalOffset < 2 * ViewCompat
+                            .getMinimumHeight(mCollapsingToolbarLayout)) {
                         mBackdrop.animate().alpha(0.3f).setDuration(600);
                     } else {
-                        // extended
                         mBackdrop.animate().alpha(1f).setDuration(600);    // 1.0f means opaque
                     }
                 }
@@ -211,15 +221,15 @@ public class OffersInfoActivity extends BaseActivity {
     @Override
     protected void setActionBar() {
         setSupportActionBar(mToolbar);
-        mActionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         mCollapsingToolbarLayout.setTitle(mOffersItems.get(mItemPosition).getTitle());
-        if (mActionBar != null) {
-            mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
-            mActionBar.setTitle(getResources().getString(R.string.app_name));
-            mActionBar.setElevation(0);
-            mActionBar.setDisplayShowTitleEnabled(true);
-            mActionBar.setDisplayHomeAsUpEnabled(false);
-            mActionBar.setHomeButtonEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+            actionBar.setTitle(getResources().getString(R.string.app_name));
+            actionBar.setElevation(0);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setHomeButtonEnabled(true);
 
         }
     }
@@ -235,14 +245,15 @@ public class OffersInfoActivity extends BaseActivity {
     @Override
     protected boolean onPrepareOptionsPanel(View view, Menu menu) {
         if (menu != null) {
-            if(menu.getClass().getSimpleName().equals("MenuBuilder")) {
+            if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
                 try {
-                    Method m = menu.getClass().getDeclaredMethod(
-                            "setOptionalIconsVisible", Boolean.TYPE);
-                    m.setAccessible(true);
-                    m.invoke(menu, true);
-                } catch(NoSuchMethodException e) {
-                } catch(Exception e) {
+                    Method method = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    method.setAccessible(true);
+                    method.invoke(menu, true);
+                } catch (NoSuchMethodException e) {
+                    System.err.println(e.getMessage());
+                    e.printStackTrace();
+                } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -255,8 +266,10 @@ public class OffersInfoActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            case R.id.back:
-                onBackPressed();
+            case R.id.view_comments:
+                if (mSlidingDrawer != null) {
+                    mSlidingDrawer.getCommentsDrawer().openDrawer();
+                }
                 return true;
             case R.id.subscription:
                 SubscriptionChangeAction action = new SubscriptionChangeAction();
@@ -266,7 +279,7 @@ public class OffersInfoActivity extends BaseActivity {
                     mOffersItems.get(mItemPosition).setSubscribedCount(
                             mOffersItems.get(mItemPosition).getSubscribedCount() - 1);
                     mSlidingDrawer.subtractSubscribedCount();
-                    menuItem.setIcon(R.drawable.ic_menu_subscribe);
+                    menuItem.setIcon(R.drawable.ic_menu_cart);
                     action.setSubscribed(false);
                     action.setPosition(mItemPosition);
                     showToastMessage(getString(R.string.toast_unsubscribed));
@@ -328,35 +341,45 @@ public class OffersInfoActivity extends BaseActivity {
 
     @Override
     public void onStart() {
-        super.onStart();
+        super.onStart();// ATTENTION: This was auto-generated to implement the App Indexing API.
+// See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
     @Override
     public void onStop() {
-        super.onStop();
+        super.onStop();// ATTENTION: This was auto-generated to implement the App Indexing API.
+// See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.disconnect();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         //add the values which need to be saved from the drawer to the bundle
         outState = mSlidingDrawer.getDrawer().saveInstanceState(outState);
-        outState =  mSlidingDrawer.getCommentsDrawer().saveInstanceState(outState);
+        outState = mSlidingDrawer.getCommentsDrawer().saveInstanceState(outState);
         super.onSaveInstanceState(outState);
     }
 
     private void showSubscription() {
         if ((mFrom == ActivityCaller.FROM_OFFERS_LIST)
                 || (mFrom == ActivityCaller.FROM_PROFILE_SUBSCRIPTION)) {
-            mMenu.getItem(1).setVisible(true);
+            mMenu.getItem(0).setVisible(true);
             if (mOffersItems.get(mItemPosition).isSubscribed()) {
-                mMenu.getItem(1).setChecked(true);
-                mMenu.getItem(1).setIcon(R.drawable.ic_menu_subscribed) ;
+                mMenu.getItem(0).setChecked(true);
+                mMenu.getItem(0).setIcon(R.drawable.ic_menu_subscribed);
             } else {
-                mMenu.getItem(1).setChecked(false);
-                mMenu.getItem(1).setIcon(R.drawable.ic_menu_subscribe) ;
+                mMenu.getItem(0).setChecked(false);
+                mMenu.getItem(0).setIcon(R.drawable.ic_menu_cart);
             }
         } else {
-            mMenu.getItem(1).setVisible(false);
+            mMenu.getItem(0).setVisible(false);
         }
     }
 
@@ -379,7 +402,7 @@ public class OffersInfoActivity extends BaseActivity {
 
         Intent googlePlusIntent = getShareIntent("com.google.android.apps.plus",
                 mOffersItems.get(mItemPosition).getTitle(),
-                        mOffersItems.get(mItemPosition).getTitle() + "\n\n" +
+                mOffersItems.get(mItemPosition).getTitle() + "\n\n" +
                         mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
                         mOffersItems.get(mItemPosition).getThumbnail().getHires() + "\n\n" +
                         mOffersItems.get(mItemPosition).getLink());
@@ -389,7 +412,7 @@ public class OffersInfoActivity extends BaseActivity {
 
         Intent twitterIntent = getShareIntent("twitter",
                 mOffersItems.get(mItemPosition).getTitle(),
-                        mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
+                mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
                         mOffersItems.get(mItemPosition).getThumbnail().getHires() + "\n\n" +
                         mOffersItems.get(mItemPosition).getLink());
         if (twitterIntent != null) {
@@ -407,7 +430,7 @@ public class OffersInfoActivity extends BaseActivity {
 
         Intent hangoutIntent = getShareIntent("com.google.android.talk",
                 mOffersItems.get(mItemPosition).getTitle(),
-                        mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
+                mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
                         mOffersItems.get(mItemPosition).getThumbnail().getHires() + "\n\n" +
                         mOffersItems.get(mItemPosition).getLink());
         if (hangoutIntent != null) {
@@ -416,7 +439,7 @@ public class OffersInfoActivity extends BaseActivity {
 
         Intent kakaotalkIntent = getShareIntent("com.kakao.talk",
                 mOffersItems.get(mItemPosition).getTitle(), "\n\n" +
-                mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
                         mOffersItems.get(mItemPosition).getThumbnail().getHires() + "\n\n" +
                         mOffersItems.get(mItemPosition).getLink());
         if (kakaotalkIntent != null) {
@@ -428,16 +451,16 @@ public class OffersInfoActivity extends BaseActivity {
                 mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
                         mOffersItems.get(mItemPosition).getThumbnail().getHires() + "\n\n" +
                         mOffersItems.get(mItemPosition).getLink());
-        if(lineIntent != null) {
+        if (lineIntent != null) {
             targetedShareIntents.add(lineIntent);
         }
 
         Intent gmailIntent = getShareIntent("gmail",
                 mOffersItems.get(mItemPosition).getTitle(),
-                        mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
+                mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
                         mOffersItems.get(mItemPosition).getThumbnail().getHires() + "\n\n" +
                         mOffersItems.get(mItemPosition).getLink());
-        if(gmailIntent != null) {
+        if (gmailIntent != null) {
             targetedShareIntents.add(gmailIntent);
         }
 
@@ -450,10 +473,9 @@ public class OffersInfoActivity extends BaseActivity {
         startActivity(chooser);
     }
 
-    private Intent getShareIntent(String type, String subject, String text)
-    {
+    private Intent getShareIntent(String type, String subject, String text) {
         boolean found = false;
-        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
 
         // gets the list of intents that can be loaded.
@@ -652,7 +674,7 @@ public class OffersInfoActivity extends BaseActivity {
          *  It means the server have to provide comments data to App as the client.
          *  It's very important to display the data of Comments on the list of Drawer's comments.
          */
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             Comment comment = new Comment();
             comment.setCommentId(i);
             comment.setOfferId(mOffersItems.get(mItemPosition).getOfferId());
@@ -706,5 +728,21 @@ public class OffersInfoActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEvent(LikeCommentEvent event) {
         //TODO:: In case of real project, Parsing json data and put into the object of Comment class
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("OffersInfo Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
     }
 }

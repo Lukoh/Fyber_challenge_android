@@ -16,7 +16,6 @@
 
 package com.goforer.fyber_challenge.ui.adapter;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -30,7 +29,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.goforer.base.ui.activity.BaseActivity;
 import com.goforer.base.ui.adapter.BaseListAdapter;
 import com.goforer.base.ui.helper.ItemTouchHelperListener;
 import com.goforer.base.ui.holder.BaseViewHolder;
@@ -48,14 +46,11 @@ import java.util.List;
 import butterknife.BindView;
 
 public class OffersGalleryAdapter extends BaseListAdapter<Gallery> implements ItemTouchHelperListener {
-    private Context mContext;
-
-    public OffersGalleryAdapter(Context context, List<Gallery> items, int layoutResId,
+    public OffersGalleryAdapter(List<Gallery> items, int layoutResId,
                                 boolean usedLoadingImage) {
         super(items, layoutResId);
 
         setUsedLoadingImage(usedLoadingImage);
-        mContext = context;
     }
 
     @Override
@@ -102,7 +97,7 @@ public class OffersGalleryAdapter extends BaseListAdapter<Gallery> implements It
 
     @Override
     protected RecyclerView.ViewHolder createViewHolder(View view, int type) {
-        return new GalleryContentViewHolder(view, mItems, ((BaseActivity)mContext).resumed());
+        return new GalleryContentViewHolder(view, mItems);
     }
 
     @Override
@@ -148,20 +143,17 @@ public class OffersGalleryAdapter extends BaseListAdapter<Gallery> implements It
         EventBus.getDefault().post(action);
     }
 
-    public static class GalleryContentViewHolder extends BaseViewHolder<Gallery> {
+    static class GalleryContentViewHolder extends BaseViewHolder<Gallery> {
         private Gallery mGallery;
         private List<Gallery> mGalleryItems;
-
-        private boolean mIsResumed;
 
         @BindView(R.id.iv_content)
         ImageView mContentImageView;
 
-        public GalleryContentViewHolder(View itemView, List<Gallery> items, boolean isResumed) {
+        GalleryContentViewHolder(View itemView, List<Gallery> items) {
             super(itemView);
 
             mGalleryItems = items;
-            mIsResumed = isResumed;
         }
 
         @Override

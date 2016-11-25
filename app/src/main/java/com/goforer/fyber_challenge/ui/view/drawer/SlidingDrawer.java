@@ -178,7 +178,7 @@ public class SlidingDrawer {
                 }
 
                 if (mCommentsDrawer == null) {
-                    mCommentsDrawer = createCommentsDrawer((BaseActivity)mContext, mBundle, false);
+                    mCommentsDrawer = createCommentsDrawer((BaseActivity)mContext, mBundle);
                 } else {
                     updatedCommentDrawerItems();
                 }
@@ -348,7 +348,7 @@ public class SlidingDrawer {
     }
 
     private Drawer createCommentsDrawer(final BaseActivity activity,
-                                        @Nullable Bundle savedInstanceState, boolean isUpdated) {
+                                        @Nullable Bundle savedInstanceState) {
         setManualComments();
         mExpandableCommentDrawerItem = new CustomCountPanelDrawableItem();
         setExpandableDrawerItem(mExpandableCommentDrawerItem, R.drawable.ic_drawer_comment,

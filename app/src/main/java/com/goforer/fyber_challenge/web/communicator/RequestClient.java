@@ -50,8 +50,6 @@ import retrofit2.http.Query;
 public enum RequestClient {
     INSTANCE;
 
-    public static final String TAG = "OfferListFragment";
-
     public static final String IP = "109.235.143.113";
     public static final String LOCALE = "DE";
     public static final String UID = "spiderman";
@@ -195,11 +193,8 @@ public enum RequestClient {
                 e.printStackTrace();
             }
 
-            if (headerSignature.equals(hashKey)) {
-                return true;
-            }
+            return headerSignature.equals(hashKey);
 
-            return false;
         }
     }
 
