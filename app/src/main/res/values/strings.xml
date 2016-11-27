@@ -29,7 +29,7 @@
     <string name="drawer_item_country">Country</string>
     <string name="drawer_item_offer_id">Offer ID</string>
     <string name="drawer_item_payout">Pay Out</string>
-    <string name="drawer_item_gallery">Gallery</string>
+    <string name="drawer_item_gallery">View Gallery</string>
     <string name="offer_list_view_list_menu">List View</string>
     <string name="offer_list_view_grid_menu">Grid View</string>
     <string name="offer_info_view_back_menu">Back</string>
