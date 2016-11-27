@@ -489,7 +489,7 @@ public class SlidingDrawer {
     }
 
     private void setGalleryCountPanelDrawerItem(
-            CustomCountPanelDrawableItem galleryCountDrawerItem) {
+            final CustomCountPanelDrawableItem galleryCountDrawerItem) {
         galleryCountDrawerItem
                 .withName(mActivity.getResources().getString(
                         R.string.drawer_item_gallery))
@@ -507,6 +507,7 @@ public class SlidingDrawer {
                             ActivityCaller.INSTANCE.callOffersGallery(
                                     mContext, mOffers.getOfferId(),
                                     mOffers.getTitle());
+                            galleryCountDrawerItem.withSetSelected(false);
                             mDrawer.closeDrawer();
                         }
 
@@ -683,7 +684,6 @@ public class SlidingDrawer {
                                 .getColor(R.color.material_drawable_comments_count_text))
                         .withIcon(iconRes)
                         .withIdentifier(DRAWER_INFO_ITEM_FIRST_COMMENTS_ID)
-                        .withArrowVisible(true)
                         .withSelectable(false)
                         .withSubItems(
                                 createSecondaryDrawerItem(mContext.getApplicationContext()
