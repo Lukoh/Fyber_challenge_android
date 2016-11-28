@@ -275,7 +275,7 @@ public class SlidingDrawer {
 
                     @Override
                     public void onDrawerClosed(View drawerView) {
-
+                        setDrawerInfo(mProfile);
                     }
 
                     @Override
@@ -350,15 +350,43 @@ public class SlidingDrawer {
     private Drawer createCommentsDrawer(final BaseActivity activity,
                                         @Nullable Bundle savedInstanceState) {
         setManualComments();
+
         mExpandableCommentDrawerItem = new CustomCountPanelDrawableItem();
         setExpandableDrawerItem(mExpandableCommentDrawerItem, R.drawable.ic_drawer_comment,
                 CUSTOM_ITEM_COMMENTS_TYPE, activity.getResources().getString(R.string.drawer_item_comments),
                 mOffers.getComments(), SECONDARY_DRAWER_LEVEL);
         mCommentsDrawer = new DrawerBuilder()
                 .withActivity(activity)
+                .withHasStableIds(true)
                 .addDrawerItems(mExpandableCommentDrawerItem)
-                .withSavedInstance(savedInstanceState)
                 .withDrawerGravity(Gravity.END)
+                .withOnDrawerNavigationListener(new Drawer.OnDrawerNavigationListener() {
+                    @Override
+                    public boolean onNavigationClickListener(View clickedView) {
+                        // This method is only called if the Arrow icon is shown.
+                        // The hamburger is automatically managed by the MaterialDrawer if the back
+                        // arrow is shown. Close the activity
+                        mActivity.finish();
+                        // Return true if we have consumed the event
+                        return true;
+                    }
+                })
+                .withOnDrawerListener(new Drawer.OnDrawerListener() {
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                    }
+
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                        setDrawerInfo(mOffers);
+                    }
+
+                    @Override
+                    public void onDrawerSlide(View drawerView, float slideOffset) {
+
+                    }
+                })
+                .withSavedInstance(savedInstanceState)
                 .build();
 
         return mCommentsDrawer;
@@ -421,7 +449,7 @@ public class SlidingDrawer {
         setExpandableDrawerItem(mExpandableCommentDrawerItem, R.drawable.ic_drawer_comment,
                 CUSTOM_ITEM_COMMENTS_TYPE, mActivity.getResources().getString(R.string.drawer_item_comments),
                 mOffers.getComments(), SECONDARY_DRAWER_LEVEL);
-        mDrawer.updateItem(mExpandableCommentDrawerItem);
+        mCommentsDrawer.updateItem(mExpandableCommentDrawerItem);
     }
 
     private void setMenuDrawerItem(MenuDrawerItem menuDrawerItem) {
@@ -578,8 +606,8 @@ public class SlidingDrawer {
         mDrawer = new DrawerBuilder()
                 .withActivity(activity)
                 .withToolbar(toolbar)
-                //.withHasStableIds(true)
-                //.withActionBarDrawerToggleAnimated(true)
+                .withHasStableIds(true)
+                .withActionBarDrawerToggleAnimated(true)
                 .addDrawerItems(
                         mMenuDrawerItem,
                         mOfferIdDrawerItem,
@@ -597,6 +625,21 @@ public class SlidingDrawer {
                         activity.finish();
                         //return true if we have consumed the event
                         return true;
+                    }
+                })
+                .withOnDrawerListener(new Drawer.OnDrawerListener() {
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                    }
+
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                        setDrawerInfo(mOffers);
+                    }
+
+                    @Override
+                    public void onDrawerSlide(View drawerView, float slideOffset) {
+
                     }
                 })
                 .addStickyDrawerItems(
@@ -644,7 +687,7 @@ public class SlidingDrawer {
                         .withIdentifier(DRAWER_PROFILE_ITEM_BOOKMARK_ID)
                         .withSelectable(false)
                         .withSubItems(
-                                createSecondaryDrawerItem( mContext.getApplicationContext()
+                                createSecondaryDrawerItem(mContext.getApplicationContext()
                                                 .getResources().getDrawable(R.drawable.ic_drawer_bookmark),
                                         items, type, level)
                         );
@@ -715,7 +758,7 @@ public class SlidingDrawer {
                 int bookmarkIdentifier = DRAWER_INFO_SECONDARY_FIRST_DRAWER_ITEM_ID;
                 final List<Offers> itemsForBookmark = (List<Offers>) items;
                 for (final Offers offers : itemsForBookmark) {
-                    SecondaryIconDrawerItem item = new SecondaryIconDrawerItem();
+                    final SecondaryIconDrawerItem item = new SecondaryIconDrawerItem();
                     item.withName(offers.getTitle())
                             .withLevel(level)
                             .withIcon(offers.getThumbnail().getLowres())
@@ -742,7 +785,7 @@ public class SlidingDrawer {
                 int subscriptionIdentifier = DRAWER_INFO_SECONDARY_SECOND_DRAWER_ITEM_ID;
                 final List<Offers> itemsForSubscription = (List<Offers>) items;
                 for (final Offers offers : itemsForSubscription) {
-                    SecondaryIconDrawerItem item = new SecondaryIconDrawerItem();
+                    final SecondaryIconDrawerItem item = new SecondaryIconDrawerItem();
                     item.withName(offers.getTitle())
                             .withLevel(level)
                             .withIcon(offers.getThumbnail().getLowres())
