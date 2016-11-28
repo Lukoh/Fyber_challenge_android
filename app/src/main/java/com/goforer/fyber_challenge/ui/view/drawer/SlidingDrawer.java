@@ -462,6 +462,7 @@ public class SlidingDrawer {
                 .withDescription(mOffers.getTeaser())
                 .withSelectable(false)
                 .withSelectedTextColorRes(R.color.md_white_1000)
+                .withHeaderBackground(R.drawable.img_bg_drawer_menu)
                 .withSelectedColorRes(R.color.material_drawer_menu_selected)
                 .withIdentifier(3000);
     }
