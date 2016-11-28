@@ -437,6 +437,16 @@ public class OffersInfoActivity extends BaseActivity {
             targetedShareIntents.add(hangoutIntent);
         }
 
+        Intent facebookmessengerIntent = getShareIntent("com.facebook.orca",
+                mOffersItems.get(mItemPosition).getTitle(),
+                        mOffersItems.get(mItemPosition).getTitle() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getLink() + "\n\n" +
+                        mOffersItems.get(mItemPosition).getThumbnail().getHires());
+        if (facebookmessengerIntent != null) {
+            targetedShareIntents.add(facebookmessengerIntent);
+        }
+
         Intent kakaotalkIntent = getShareIntent("com.kakao.talk",
                 mOffersItems.get(mItemPosition).getTitle(), "\n\n" +
                         mOffersItems.get(mItemPosition).getTeaser() + "\n\n" +
