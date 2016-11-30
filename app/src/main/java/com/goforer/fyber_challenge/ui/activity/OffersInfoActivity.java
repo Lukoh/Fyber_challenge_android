@@ -79,6 +79,8 @@ public class OffersInfoActivity extends BaseActivity {
     private static final String TAG = "OffersInfoActivity";
     private static final String TRANSITION_IMAGE = "OffersInfoActivity:image";
 
+    private static final int OFF_SCREEN_PAGE_LIMIT = 3;
+
     private static final int PAGE_MARGIN_VALUE = 40;
 
     private List<Offers> mOffersItems;
@@ -182,6 +184,7 @@ public class OffersInfoActivity extends BaseActivity {
 
             OffersInfoAdapter mAdapter = new OffersInfoAdapter(getSupportFragmentManager(), mOffersItems);
             mSwipePager.setAdapter(mAdapter);
+            mSwipePager.setOffscreenPageLimit(OFF_SCREEN_PAGE_LIMIT);
             ViewCompat.setTransitionName(mSwipePager, TRANSITION_IMAGE);
             mSwipePager.setPageMargin(PAGE_MARGIN_VALUE);
 

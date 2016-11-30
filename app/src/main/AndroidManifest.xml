@@ -53,6 +53,7 @@
         <activity
             android:name=".ui.activity.OffersInfoActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar.menu.TranslucentStatus"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
             <intent-filter>
