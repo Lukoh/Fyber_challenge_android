@@ -62,15 +62,16 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
 
     private boolean mItemTouchHelperEnabled = false;
 
-    protected List<T> mItems = new ArrayList<>();
+    private int mTotalPage = 0;
+    private int mCurrentPage = 0;
+
+    private List<T> mItems = new ArrayList<>();
+
     protected RecyclerView.OnScrollListener mOnScrollListener;
 
     protected boolean mIsLoading = false;
     protected boolean mIsReachToLast = false;
     protected boolean mIsUpdated = false;
-
-    protected int mTotalPage = 0;
-    protected int mCurrentPage = 0;
 
     @BindView(R.id.swipe_layout)
     protected SwipyRefreshLayout mSwipeLayout;
@@ -114,10 +115,6 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
         EventBus.getDefault().unregister(this);
 
         super.onDetach();
-    }
-
-    protected int getTotalPage() {
-        return mTotalPage;
     }
 
     private void setTotalPage(int page) {
@@ -269,12 +266,39 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
      * @param callback This is the contract between ItemTouchHelper and your application.
      *                  It lets you control which touch behaviors are enabled per each ViewHolder
      *                  and also receive callbacks when user performs these actions.
+     *
+     * @return the ItemTouchHelper for attaching to the provided RecyclerView
+     *
+     * @see ItemTouchHelper
+     *
      */
     private ItemTouchHelper attachItemTouchHelperToRecyclerView(ItemTouchHelper.Callback callback) {
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(getRecyclerView());
 
         return mItemTouchHelper;
+    }
+
+    /**
+     * Get the total page count
+     *
+     * @return The total page count
+     */
+    protected int getTotalPageCount() {
+        return mTotalPage;
+    }
+
+    /**
+     * Get current page number
+     *
+     * @return Current page number
+     */
+    protected int getCurrentPageNumber() {
+        return mCurrentPage;
+    }
+
+    protected List<T> getListItems() {
+        return mItems;
     }
 
     /**
@@ -390,6 +414,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
      * @param viewHolder The ViewHolder to start dragging. It must be a direct child of
      *                    RecyclerView.
      */
+    @Deprecated
     protected void startDrag(RecyclerView.ViewHolder viewHolder) {
         if (mItemTouchHelper != null && mItemTouchHelperEnabled) {
             mSwipeLayout.setRefreshing(false);
@@ -425,9 +450,9 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
     protected abstract Adapter createAdapter();
 
     /**
-     * Attach an ItemTouchHelper to provided RecyclerView.
+     * Attach an ItemTouchHelper to the provided RecyclerView.
      * <p>
-     * To attach an ItemTouchHelper to provided RecyclerView, you must override.
+     * To attach an ItemTouchHelper to the provided RecyclerView, you must override.
      * </p>
      *
      * @return The callback which is the contract between ItemTouchHelper and your application.
@@ -503,7 +528,6 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
      * is used in case of a vertical swipe gesture.
      * </p>
      *
-     * @return true if the information should be refreshed
      */
     protected void refresh(boolean refreshed) {
         Log.i(TAG, "refresh");
@@ -569,6 +593,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
      * </p>
      *
      * @param event the event with responseClient from Web server
+     *
      * @see ResponseListEvent
      *
      */

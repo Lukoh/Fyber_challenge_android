@@ -67,8 +67,6 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     private OfferListAdapter mAdapter;
     private SlidingDrawer mSlidingDrawer;
 
-    private int mTotalPageNum;
-
     @BindView(R.id.fam_menu)
     FloatingActionMenu mMenu;
 
@@ -83,12 +81,8 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
         super.onViewCreated(view, savedInstanceState);
 
         mMenu.hideMenu(false);
-        mTotalPageNum = 1;
-
         setItemHasFixedSize(true);
-
         refresh(true);
-
         mSlidingDrawer = new SlidingDrawer(getBaseActivity(), SlidingDrawer.DRAWER_PROFILE_TYPE,
                 R.id.drawer_container,
                 savedInstanceState);
@@ -169,7 +163,7 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
 
     @Override
     protected RecyclerView.Adapter createAdapter() {
-        return mAdapter = new OfferListAdapter(mContext, mItems, R.layout.list_offer_item, true);
+        return mAdapter = new OfferListAdapter(mContext, getListItems(), R.layout.list_offer_item, true);
     }
 
     @Override
@@ -207,13 +201,13 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
 
     @Override
     protected List<Offers> parseItems(JsonElement json) {
-        mTotalPageNum = getTotalPage();
+        //mTotalPageNum = getTotalPageCount();
         return new ListModel<>(Offers.class).fromJson(json);
     }
 
     @Override
     protected boolean isLastPage(int pageNum) {
-        return (mTotalPageNum == pageNum);
+        return (getTotalPageCount() == pageNum) && (getTotalPageCount() >= 1);
 
     }
 
@@ -223,12 +217,12 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
         String advertisingId = CommonUtils.getGoogleAID();
         long timestamp = System.currentTimeMillis() / 1000L;
 
-        String hashKey = CommonUtils.getHashKey(advertisingId, timestamp, mCurrentPage);
+        String hashKey = CommonUtils.getHashKey(advertisingId, timestamp, getCurrentPageNumber());
         hashKey = hashKey.toLowerCase();
 
         Intermediary.INSTANCE.getOffers(mContext.getApplicationContext(), RequestClient.APP_ID,
                 advertisingId, RequestClient.IP, RequestClient.LOCALE, RequestClient.OFFER_TYPES,
-                mCurrentPage, timestamp, RequestClient.UID, hashKey, event);
+                getCurrentPageNumber(), timestamp, RequestClient.UID, hashKey, event);
     }
 
     @SuppressWarnings("")
@@ -248,10 +242,6 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
                 if (event.getResponseClient().getCount() == 0) {
                     CommonUtils.showToastMessage(mContext, getString(R.string.toast_no_data), Toast.LENGTH_SHORT);
                     return;
-                }
-
-                if (mCurrentPage == 1) {
-                    mTotalPageNum = event.getResponseClient().getPages();
                 }
 
                 handleEvent(event);
@@ -286,7 +276,7 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
                     .remove(action.getPosition());
         }
 
-        mItems.get(action.getPosition()).setBookmarked(action.isBookmarked());
+        getListItems().get(action.getPosition()).setBookmarked(action.isBookmarked());
     }
 
     @SuppressWarnings("")
@@ -297,7 +287,7 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
                     .remove(action.getPosition());
         }
 
-        mItems.get(action.getPosition()).setSubscribed(action.isSubscribed());
+        getListItems().get(action.getPosition()).setSubscribed(action.isSubscribed());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

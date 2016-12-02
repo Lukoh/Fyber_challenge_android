@@ -92,7 +92,7 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
 
     @Override
     protected RecyclerView.Adapter createAdapter() {
-        return mAdapter = new OffersGalleryAdapter(mItems, R.layout.grid_gallery_item, true);
+        return mAdapter = new OffersGalleryAdapter(getListItems(), R.layout.grid_gallery_item, true);
     }
 
     @Override
@@ -212,11 +212,11 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
         String advertisingId = CommonUtils.getGoogleAID();
         long timestamp = System.currentTimeMillis() / 1000L;
 
-        String hashKey = getHashKey(advertisingId, timestamp, mCurrentPage);
+        String hashKey = getHashKey(advertisingId, timestamp, getCurrentPageNumber());
         hashKey = hashKey.toLowerCase();
 
         Intermediary.INSTANCE.getOffers(mContext.getApplicationContext(), APP_ID, advertisingId,
-                IP, LOCALE, OFFER_TYPES, mCurrentPage, timestamp, UID, hashKey, event);
+                IP, LOCALE, OFFER_TYPES, getCurrentPageNumber(), timestamp, UID, hashKey, event);
     }
 
     private String getHashKey(String advertisingId, long timestamp, int pageNum)
@@ -263,7 +263,7 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
                     return;
                 }
 
-                if (mCurrentPage == 1) {
+                if (getCurrentPageNumber() == 1) {
                     mTotalPageNum = event.getResponseClient().getPages();
                 }
 
