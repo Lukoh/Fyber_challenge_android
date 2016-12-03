@@ -61,6 +61,8 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
     private ItemTouchHelper mItemTouchHelper;
 
     private boolean mItemTouchHelperEnabled = false;
+    private boolean mIsLoading = false;
+    private boolean mIsUpdated = false;
 
     private int mTotalPage = 0;
     private int mCurrentPage = 0;
@@ -68,10 +70,6 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
     private List<T> mItems = new ArrayList<>();
 
     protected RecyclerView.OnScrollListener mOnScrollListener;
-
-    protected boolean mIsLoading = false;
-    protected boolean mIsReachToLast = false;
-    protected boolean mIsUpdated = false;
 
     @BindView(R.id.swipe_layout)
     protected SwipyRefreshLayout mSwipeLayout;
@@ -561,7 +559,6 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
     }
 
     protected void clear() {
-        mIsReachToLast = false;
         mCurrentPage = 1;
 
         if (mItems != null && mItems.size() > 0) {

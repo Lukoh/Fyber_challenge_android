@@ -201,14 +201,12 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
 
     @Override
     protected List<Offers> parseItems(JsonElement json) {
-        //mTotalPageNum = getTotalPageCount();
         return new ListModel<>(Offers.class).fromJson(json);
     }
 
     @Override
     protected boolean isLastPage(int pageNum) {
         return (getTotalPageCount() == pageNum) && (getTotalPageCount() >= 1);
-
     }
 
     private void requestOfferList(boolean isNew)
