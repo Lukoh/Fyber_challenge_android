@@ -12,5 +12,5 @@
     <dimen name="material_drawer_item_menu_description">16sp</dimen>
     <dimen name="material_drawer_item_menu_padding">4dp</dimen>
     <dimen name="material_drawer_item_menu_icon_padding_right">14dp</dimen>
-    <dimen name="helper_icon_clear_margin">16dp</dimen>
+    <dimen name="helper_icon_clear_margin">32dp</dimen>
 </resources>

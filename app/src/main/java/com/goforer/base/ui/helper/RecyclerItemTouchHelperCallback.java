@@ -19,7 +19,6 @@ package com.goforer.base.ui.helper;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
@@ -40,9 +39,9 @@ public class RecyclerItemTouchHelperCallback extends ItemTouchHelper.Callback {
     private final ItemTouchHelperListener mHelperListener;
 
     private Drawable mBackground;
-    private Drawable mXMark;
+    private Drawable mDeleteIcon;
 
-    private int mXMarkMargin;
+    private int mDeleteIconMargin;
     private int mBgColor;
 
     private boolean mInitiated;
@@ -118,18 +117,18 @@ public class RecyclerItemTouchHelperCallback extends ItemTouchHelper.Callback {
             mBackground.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
             mBackground.draw(canvas);
 
-            // draw x mark
+            // draw delete-icon
             int itemHeight = itemView.getBottom() - itemView.getTop();
-            int intrinsicWidth = mXMark.getIntrinsicWidth();
-            int intrinsicHeight = mXMark.getIntrinsicWidth();
+            int intrinsicWidth = mDeleteIcon.getIntrinsicWidth();
+            int intrinsicHeight = mDeleteIcon.getIntrinsicWidth();
 
-            int xMarkLeft = itemView.getRight() - mXMarkMargin - intrinsicWidth;
-            int xMarkRight = itemView.getRight() - mXMarkMargin;
+            int xMarkLeft = itemView.getRight() - mDeleteIconMargin - intrinsicWidth;
+            int xMarkRight = itemView.getRight() - mDeleteIconMargin;
             int xMarkTop = itemView.getTop() + (itemHeight - intrinsicHeight)/2;
             int xMarkBottom = xMarkTop + intrinsicHeight;
-            mXMark.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom);
 
-            mXMark.draw(canvas);
+            mDeleteIcon.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom);
+            mDeleteIcon.draw(canvas);
 
 
             // Fade out the view as it is swiped out of the parent's bounds
@@ -175,9 +174,8 @@ public class RecyclerItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private void init() {
         mBackground = new ColorDrawable(mBgColor);
-        mXMark = ContextCompat.getDrawable(mContext, R.drawable.ic_clear_24dp);
-        mXMark.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-        mXMarkMargin = (int) mContext.getResources().getDimension(R.dimen.helper_icon_clear_margin);
+        mDeleteIcon = ContextCompat.getDrawable(mContext, R.drawable.ic_delete_item);
+        mDeleteIconMargin = (int) mContext.getResources().getDimension(R.dimen.helper_icon_clear_margin);
         mInitiated = true;
     }
 }
