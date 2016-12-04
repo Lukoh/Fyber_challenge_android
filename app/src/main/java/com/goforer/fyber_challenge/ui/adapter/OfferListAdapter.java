@@ -102,7 +102,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> implements ItemTou
 
     @Override
     protected RecyclerView.ViewHolder createViewHolder(View view, int type) {
-        return new OfferListViewHolder(view, mItems, ((BaseActivity)mContext).resumed());
+        return new OfferListViewHolder(view, getItems(), ((BaseActivity)mContext).resumed());
     }
 
     @Override
@@ -118,14 +118,14 @@ public class OfferListAdapter extends BaseListAdapter<Offers> implements ItemTou
 
     @Override
     public void onItemDismiss(int position) {
-        mItems.remove(position);
+        getItems().remove(position);
         notifyItemRemoved(position);
         notifyItemChanged(position);
     }
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
-        Collections.swap(mItems, fromPosition, toPosition);
+        Collections.swap(getItems(), fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
         notifyItemChanged(toPosition);
         notifyItemChanged(fromPosition);
@@ -145,7 +145,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> implements ItemTou
         EventBus.getDefault().post(action);
     }
 
-    static class OfferListViewHolder extends BaseViewHolder<Offers> {
+    final static class OfferListViewHolder extends BaseViewHolder<Offers> {
         private List<Offers> mOffersItems;
 
         private boolean mIsResumed;

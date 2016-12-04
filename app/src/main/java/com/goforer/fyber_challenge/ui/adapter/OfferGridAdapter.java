@@ -104,7 +104,7 @@ public class OfferGridAdapter extends BaseListAdapter<Offers> implements ItemTou
 
     @Override
     protected RecyclerView.ViewHolder createViewHolder(View view, int type) {
-        return new OffersGridViewHolder(view, mItems, ((BaseActivity)mContext).resumed());
+        return new OffersGridViewHolder(view, getItems(), ((BaseActivity)mContext).resumed());
     }
 
     @Override
@@ -120,14 +120,14 @@ public class OfferGridAdapter extends BaseListAdapter<Offers> implements ItemTou
 
     @Override
     public void onItemDismiss(int position) {
-        mItems.remove(position);
+        getItems().remove(position);
         notifyItemRemoved(position);
         notifyItemChanged(position);
     }
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
-        Collections.swap(mItems, fromPosition, toPosition);
+        Collections.swap(getItems(), fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
         if ((fromPosition - toPosition) > 0) {
             notifyItemRangeChanged(toPosition, fromPosition);
@@ -150,7 +150,7 @@ public class OfferGridAdapter extends BaseListAdapter<Offers> implements ItemTou
         EventBus.getDefault().post(action);
     }
 
-    static class OffersGridViewHolder extends BaseViewHolder<Offers> {
+    final static class OffersGridViewHolder extends BaseViewHolder<Offers> {
         private Offers mOffers;
 
         private List<Offers> mOffersItems;

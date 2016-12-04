@@ -97,7 +97,7 @@ public class OffersGalleryAdapter extends BaseListAdapter<Gallery> implements It
 
     @Override
     protected RecyclerView.ViewHolder createViewHolder(View view, int type) {
-        return new GalleryContentViewHolder(view, mItems);
+        return new GalleryContentViewHolder(view, getItems());
     }
 
     @Override
@@ -113,14 +113,14 @@ public class OffersGalleryAdapter extends BaseListAdapter<Gallery> implements It
 
     @Override
     public void onItemDismiss(int position) {
-        mItems.remove(position);
+        getItems().remove(position);
         notifyItemRemoved(position);
         notifyItemChanged(position);
     }
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
-        Collections.swap(mItems, fromPosition, toPosition);
+        Collections.swap(getItems(), fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
         if ((fromPosition - toPosition) > 0) {
             notifyItemRangeChanged(toPosition, fromPosition);
@@ -143,7 +143,7 @@ public class OffersGalleryAdapter extends BaseListAdapter<Gallery> implements It
         EventBus.getDefault().post(action);
     }
 
-    static class GalleryContentViewHolder extends BaseViewHolder<Gallery> {
+    final static class GalleryContentViewHolder extends BaseViewHolder<Gallery> {
         private Gallery mGallery;
         private List<Gallery> mGalleryItems;
 

@@ -36,7 +36,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
     private boolean mIsLoadingItems = false;
     private boolean mUsedLoadingImage = false;
 
-    protected List<T> mItems;
+    private List<T> mItems;
 
     public BaseListAdapter(List<T> items, int layoutResId) {
         super(layoutResId);
@@ -89,6 +89,10 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
             setReachedToLastItem(false);
             notifyItemInserted(mItems.size());
         }
+    }
+
+    public List<T> getItems() {
+        return mItems;
     }
 
     /**
