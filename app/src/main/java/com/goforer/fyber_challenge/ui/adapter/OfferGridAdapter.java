@@ -173,7 +173,7 @@ public class OfferGridAdapter extends BaseListAdapter<Offers> implements ItemTou
         public void bindItemHolder(@NonNull final Offers offers, final int position) {
             mOffers = offers;
 
-            Glide.with(mContext.getApplicationContext()).load(mOffers.getThumbnail()
+            Glide.with(getContext().getApplicationContext()).load(mOffers.getThumbnail()
                     .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {

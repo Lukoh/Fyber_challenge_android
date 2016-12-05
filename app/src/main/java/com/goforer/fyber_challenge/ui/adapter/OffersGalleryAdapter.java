@@ -160,7 +160,7 @@ public class OffersGalleryAdapter extends BaseListAdapter<Gallery> implements It
         public void bindItemHolder(@NonNull final Gallery gallery, final int position) {
             mGallery = gallery;
 
-            Glide.with(mContext.getApplicationContext()).load(mGallery.getThumbnail()
+            Glide.with(getContext().getApplicationContext()).load(mGallery.getThumbnail()
                     .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -171,7 +171,7 @@ public class OffersGalleryAdapter extends BaseListAdapter<Gallery> implements It
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ActivityCaller.INSTANCE.callImageBrowse(mContext, mGalleryItems, position,
+                    ActivityCaller.INSTANCE.callImageBrowse(getContext(), mGalleryItems, position,
                             ActivityCaller.SELECTED_ITEM_POSITION);
                 }
             });
