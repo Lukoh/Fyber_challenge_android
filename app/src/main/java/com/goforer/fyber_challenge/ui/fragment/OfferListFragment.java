@@ -39,6 +39,7 @@ import com.goforer.fyber_challenge.model.action.BookmarkChangeAction;
 import com.goforer.fyber_challenge.model.action.FinishAction;
 import com.goforer.fyber_challenge.model.action.FocusItemAction;
 import com.goforer.fyber_challenge.model.action.MoveItemAction;
+import com.goforer.fyber_challenge.model.action.SortAction;
 import com.goforer.fyber_challenge.model.action.SubscriptionChangeAction;
 import com.goforer.fyber_challenge.model.data.Offers;
 import com.goforer.fyber_challenge.model.event.OffersDataEvent;
@@ -303,5 +304,11 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
         } else {
             getRefreshLayout().setEnabled(true);
         }
+    }
+
+    @SuppressWarnings("")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAction(SortAction action) {
+        mAdapter.sort(action.getType(), action.getFlag());
     }
 }

@@ -37,6 +37,7 @@ import com.goforer.fyber_challenge.R;
 import com.goforer.fyber_challenge.model.action.MoveItemAction;
 import com.goforer.fyber_challenge.model.action.SelectAction;
 import com.goforer.fyber_challenge.model.data.Offers;
+import com.goforer.fyber_challenge.model.data.sort.OffersComparator;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -143,6 +144,11 @@ public class OfferListAdapter extends BaseListAdapter<Offers> implements ItemTou
         }
 
         EventBus.getDefault().post(action);
+    }
+
+    public void sort(int type, int flag) {
+        Collections.sort(getItems(), new OffersComparator(type, flag));
+        notifyItemRangeChanged(0, getItems().size());
     }
 
     final static class OfferListViewHolder extends BaseViewHolder<Offers> {

@@ -33,6 +33,8 @@ import com.goforer.fyber_challenge.R;
 import com.goforer.fyber_challenge.model.action.FinishAction;
 import com.goforer.fyber_challenge.model.action.FocusItemAction;
 import com.goforer.fyber_challenge.model.action.SelectAction;
+import com.goforer.fyber_challenge.model.action.SortAction;
+import com.goforer.fyber_challenge.model.data.Offers;
 import com.goforer.fyber_challenge.model.data.Profile;
 import com.goforer.fyber_challenge.ui.fragment.OfferGridFragment;
 import com.goforer.fyber_challenge.ui.fragment.OfferListFragment;
@@ -49,6 +51,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Method;
 
 import butterknife.BindView;
 
@@ -131,13 +134,53 @@ public class OffersActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean onPrepareOptionsPanel(View view, Menu menu) {
+        if (menu != null) {
+            if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
+                try {
+                    Method method = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    method.setAccessible(true);
+                    method.invoke(menu, true);
+                } catch (NoSuchMethodException e) {
+                    System.err.println(e.getMessage());
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        return super.onPrepareOptionsPanel(view, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
+
+
         switch (menuItem.getItemId()) {
             case R.id.view_list:
                 transactFragment(OfferListFragment.class, R.id.content_holder, null);
+
                 return true;
             case R.id.view_grid:
                 transactFragment(OfferGridFragment.class, R.id.content_holder, null);
+
+                return true;
+            case R.id.view_sort_title:
+                doAction(Offers.SORT_TITLE_TYPE, Offers.SORT_ASCENDING_FLAG);
+
+                return true;
+            case R.id.view_sort_payout:
+                doAction(Offers.SORT_PAYOUT_TYPE, Offers.SORT_ASCENDING_FLAG);
+
+                return true;
+            case R.id.view_sort_bookmark_amount:
+                doAction(Offers.SORT_BOOKMARK_AMOUNT_TYPE, Offers.SORT_ASCENDING_FLAG);
+
+                return true;
+            case R.id.view_sort_subscription_amount:
+                doAction(Offers.SORT_SUBSCRIPTION_AMOUNT_TYPE, Offers.SORT_ASCENDING_FLAG);
+
                 return true;
             case android.R.id.home:
                 onBackPressed();
@@ -244,5 +287,12 @@ public class OffersActivity extends BaseActivity {
     public void onAction(SelectAction action) {
         ActivityCaller.INSTANCE.callInfo(this, action.getOffersList(), action.getPosition(),
                 ActivityCaller.FROM_OFFERS_LIST, ActivityCaller.SELECTED_ITEM_POSITION);
+    }
+
+    private void doAction(int type, int flag) {
+        SortAction action = new SortAction();
+        action.setType(type);
+        action.setFlag(flag);
+        EventBus.getDefault().post(action);
     }
 }

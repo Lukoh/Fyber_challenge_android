@@ -37,6 +37,7 @@ import com.goforer.base.model.event.ResponseListEvent;
 import com.goforer.base.ui.adapter.BaseListAdapter;
 import com.goforer.base.ui.decoration.DividerItemDecoration;
 import com.goforer.fyber_challenge.R;
+import com.goforer.fyber_challenge.model.data.sort.OffersComparator;
 import com.google.gson.JsonElement;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
@@ -45,6 +46,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -543,6 +546,10 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
                 request(false);
             }
         }
+    }
+
+    protected void sort(int type, int flag) {
+        Collections.sort(mItems, (Comparator<? super T>) new OffersComparator(type, flag));
     }
 
     protected void scrolledReachToLast() {

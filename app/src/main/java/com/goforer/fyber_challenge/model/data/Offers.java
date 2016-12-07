@@ -26,6 +26,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Offers extends BaseModel implements Parcelable {
+    public static final int SORT_TITLE_TYPE = 0;
+    public static final int SORT_PAYOUT_TYPE = 1;
+    public static final int SORT_BOOKMARK_AMOUNT_TYPE = 2;
+    public static final int SORT_SUBSCRIPTION_AMOUNT_TYPE = 3;
+
+    public static final int SORT_ASCENDING_FLAG = 100;
+    public static final int SORT_DESCENDING_FLAG = 101;
+
+    public static final int NO_SORT = -1;
+
     @SerializedName("title")
     private String mTitle;
     @SerializedName("offer_id")

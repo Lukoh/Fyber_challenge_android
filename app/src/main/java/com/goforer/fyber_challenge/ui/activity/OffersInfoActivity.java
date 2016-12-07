@@ -265,7 +265,6 @@ public class OffersInfoActivity extends BaseActivity {
         return super.onPrepareOptionsPanel(view, menu);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
@@ -355,7 +354,7 @@ public class OffersInfoActivity extends BaseActivity {
     @Override
     public void onStop() {
         super.onStop();// ATTENTION: This was auto-generated to implement the App Indexing API.
-// See https://g.co/AppIndexing/AndroidStudio for more information.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.

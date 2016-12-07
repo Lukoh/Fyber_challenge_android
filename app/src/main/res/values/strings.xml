@@ -56,4 +56,8 @@
     <string name="restart_phrase">&#10;Please restarts Fyber Challenge App.</string>
     <string name="like_phrase">I like this comment.</string>
     <string name="facebook_app_id">220951048341991</string>
+    <string name="offer_list_view_sort_title_menu">Sort by Title</string>
+    <string name="offer_list_view_sort_payout_menu">Sort by Payout</string>
+    <string name="offer_list_view_sort_bookmark_amount_menu">Sort by Bookmark</string>
+    <string name="offer_list_view_sort_subscription_amount_menu">Sort by Subscription</string>
 </resources>
