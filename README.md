@@ -1,6 +1,6 @@
 # Fyber_challenge_android
 
-Fyber_challenge_andorid has been updated to 2.3.7 . 
+Fyber_challenge_andorid has been updated to 2.4 . 
 This is the reference of Android application to make some SNS or O2O service on Android. New drawer and awesome funtionalaties were applied into Fyber App. All Android App developer can see how to make some SNS or O2O service on Android via the Fyber source code. The Fyber App currently works well now. 
 All technical things/stuffs to make SNS or 020 service on Android are provided into this open-source project.
 If you want to make the food delivery service, shopping or O2O service App on Android, please refer to my open-source project and you can make awesome those App very easily. If you want to learn more technical knowledge of Web-Communication, which is related Web APIs, please visit my [BEatery](https://github.com/Lukoh/beateries) open-source project and [BEatery APIs](https://github.com/Lukoh/beateries/blob/master/BEatery%20REST%20APIs.pdf).  You can get more details you need. Also you can know the way how to communicate with Server. if you want to get this technical knowledge, please visit here below:
@@ -27,7 +27,9 @@ RecyclerFragment was improved to be more efficient and more great. Please refer 
 - expandable fragments
 
 #New Feature
-Offer Information sharing function has been applied into FyberChallenge. 
+[Version 2.4] Sort functions(by Title, Payout, Bookmart amount and subscription amount) hass been applied into FyberChallenge.
+
+[Version 2.3.8] Offer Information sharing function has been applied into FyberChallenge. 
 
 (User can share that to Facebook or other SNS, such as Google+, WhatsApp, gmail, and so on.)
 
