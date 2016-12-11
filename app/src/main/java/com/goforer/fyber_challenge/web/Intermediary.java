@@ -19,9 +19,9 @@ package com.goforer.fyber_challenge.web;
 import android.content.Context;
 
 import com.goforer.base.model.event.ResponseEvent;
+import com.goforer.fyber_challenge.model.data.ResponseOffer;
 import com.goforer.fyber_challenge.utility.CommonUtils;
 import com.goforer.fyber_challenge.web.communicator.RequestClient;
-import com.goforer.fyber_challenge.model.data.ResponseOffer;
 
 import java.io.IOException;
 
@@ -46,7 +46,8 @@ import retrofit2.Response;
 public enum Intermediary {
     INSTANCE;
 
-    public void getProfile(final Context context, String id, String hashKey,  ResponseEvent event) {
+    public void getProfile(final Context context, String id, String hashKey,
+                           ResponseEvent<ResponseOffer> event) {
         Call<ResponseOffer> call = RequestClient.INSTANCE.getRequestMethod()
                 .getProfile(id, hashKey);
         call.enqueue(new RequestClient.OfferCallback(event, context) {
@@ -65,7 +66,7 @@ public enum Intermediary {
 
     public void getOffers(final Context context, long appId, String device_id, String ip, String locale,
                           int offer_type, int pageNum, long timestamp, String uid, String hashKey,
-                          ResponseEvent event)  {
+                          ResponseEvent<ResponseOffer> event)  {
         Call<ResponseOffer> call = RequestClient.INSTANCE.getRequestMethod()
                 .getOffers(appId, device_id, ip, locale, offer_type, pageNum, timestamp, uid, hashKey);
         call.enqueue(new RequestClient.OfferCallback(event, context) {
@@ -83,7 +84,7 @@ public enum Intermediary {
     }
 
     public void postLikeComment(Context context, long offerId, long commenterId,
-                                long commentId, ResponseEvent event) {
+                                long commentId, ResponseEvent<ResponseOffer> event) {
         Call<ResponseOffer> call = RequestClient.INSTANCE.getRequestMethod()
                 .postLikeComment(CommonUtils.getProfile().getId(), offerId, commenterId, commentId);
         call.enqueue(new RequestClient.OfferCallback(event, context) {

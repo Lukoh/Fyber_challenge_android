@@ -121,10 +121,10 @@ public enum RequestClient {
     static public class OfferCallback extends BaseCallback implements Callback<ResponseOffer> {
         private static final String SIGNATURE_HEADER = "X-Sponsorpay-Response-Signature";
 
-        private ResponseEvent mEvent;
+        private ResponseEvent<ResponseOffer> mEvent;
         private Context mContext;
 
-        protected OfferCallback(ResponseEvent event, Context context) {
+        protected OfferCallback(ResponseEvent<ResponseOffer> event, Context context) {
             mEvent = event;
             mContext = context;
         }

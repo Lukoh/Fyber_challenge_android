@@ -42,6 +42,7 @@ import com.goforer.fyber_challenge.model.action.MoveItemAction;
 import com.goforer.fyber_challenge.model.action.SortAction;
 import com.goforer.fyber_challenge.model.action.SubscriptionChangeAction;
 import com.goforer.fyber_challenge.model.data.Offers;
+import com.goforer.fyber_challenge.model.data.ResponseOffer;
 import com.goforer.fyber_challenge.model.event.OffersDataEvent;
 import com.goforer.fyber_challenge.ui.activity.OffersActivity;
 import com.goforer.fyber_challenge.ui.adapter.OfferListAdapter;
@@ -50,7 +51,6 @@ import com.goforer.fyber_challenge.utility.ActivityCaller;
 import com.goforer.fyber_challenge.utility.CommonUtils;
 import com.goforer.fyber_challenge.web.Intermediary;
 import com.goforer.fyber_challenge.web.communicator.RequestClient;
-import com.google.gson.JsonElement;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -201,8 +201,8 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     }
 
     @Override
-    protected List<Offers> parseItems(JsonElement json) {
-        return new ListModel<>(Offers.class).fromJson(json);
+    protected List<Offers> parseItems(Object object) {
+        return new ListModel<>(Offers.class).fromJson(((ResponseOffer)object).getOffers());
     }
 
     @Override
@@ -212,7 +212,7 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
 
     private void requestOfferList(boolean isNew)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        OffersDataEvent event = new OffersDataEvent(isNew);
+        OffersDataEvent<ResponseOffer> event = new OffersDataEvent<>(isNew);
         String advertisingId = CommonUtils.getGoogleAID();
         long timestamp = System.currentTimeMillis() / 1000L;
 
@@ -226,7 +226,7 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
 
     @SuppressWarnings("")
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEvent(OffersDataEvent event) {
+    public void onEvent(OffersDataEvent<ResponseOffer> event) {
         switch(event.getResponseClient().getStatus()) {
             case ResponseBase.GENERAL_ERROR:
                 CommonUtils.showToastMessage(mContext, getString(R.string.toast_server_error_phrase), Toast.LENGTH_SHORT);

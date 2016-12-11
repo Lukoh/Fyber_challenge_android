@@ -37,13 +37,12 @@ import com.goforer.fyber_challenge.R;
 import com.goforer.fyber_challenge.model.action.MoveImageAction;
 import com.goforer.fyber_challenge.model.action.MoveItemAction;
 import com.goforer.fyber_challenge.model.data.Gallery;
+import com.goforer.fyber_challenge.model.data.ResponseOffer;
 import com.goforer.fyber_challenge.model.event.OffersGalleryEvent;
 import com.goforer.fyber_challenge.ui.adapter.OffersGalleryAdapter;
 import com.goforer.fyber_challenge.utility.CommonUtils;
 import com.goforer.fyber_challenge.utility.DisplayUtils;
 import com.goforer.fyber_challenge.web.Intermediary;
-import com.goforer.fyber_challenge.model.data.ResponseOffer;
-import com.google.gson.JsonElement;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -197,8 +196,8 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
     }
 
     @Override
-    protected List<Gallery> parseItems(JsonElement json) {
-        return new ListModel<>(Gallery.class).fromJson(json);
+    protected List<Gallery> parseItems(Object object) {
+        return new ListModel<>(Gallery.class).fromJson(((ResponseOffer)object).getOffers());
     }
 
     @Override

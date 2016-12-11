@@ -21,8 +21,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.annotations.SerializedName;
 
 public class ResponseOffer extends ResponseBase {
-    @SerializedName("pages")
-    private int mPages;
     @SerializedName("information")
     private Information mInformation;
     /**
@@ -36,10 +34,6 @@ public class ResponseOffer extends ResponseBase {
      */
     @SerializedName("offers")
     private JsonElement mOffers;
-
-    public int getPages() {
-        return mPages;
-    }
 
     public Information getInformtion() {
         return mInformation;

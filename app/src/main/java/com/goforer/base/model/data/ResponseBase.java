@@ -61,6 +61,8 @@ public class ResponseBase {
     private String mMessage;
     @SerializedName("count")
     private int mCount;
+    @SerializedName("pages")
+    private int mPages;
 
     private int mStatus;
 
@@ -82,6 +84,10 @@ public class ResponseBase {
 
     public void setStatus(int status) {
         mStatus = status;
+    }
+
+    public int getPages() {
+        return mPages;
     }
 
     public boolean isSuccessful(){

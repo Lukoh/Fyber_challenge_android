@@ -37,7 +37,6 @@ import com.goforer.base.model.event.ResponseListEvent;
 import com.goforer.base.ui.adapter.BaseListAdapter;
 import com.goforer.base.ui.decoration.DividerItemDecoration;
 import com.goforer.fyber_challenge.R;
-import com.goforer.fyber_challenge.model.data.sort.OffersComparator;
 import com.google.gson.JsonElement;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
@@ -46,8 +45,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -118,8 +115,8 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
         super.onDetach();
     }
 
-    private void setTotalPage(int page) {
-        mTotalPage = page;
+    private void setTotalPage(int pageCount) {
+        mTotalPage = pageCount;
     }
 
     private void setViews() {
@@ -548,10 +545,6 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
         }
     }
 
-    protected void sort(int type, int flag) {
-        Collections.sort(mItems, (Comparator<? super T>) new OffersComparator(type, flag));
-    }
-
     protected void scrolledReachToLast() {
         Log.i(TAG, "scrolledReachToLast");
 
@@ -638,16 +631,16 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
     }
 
     /**
-     * Parses an element of Json.
+     * Parses an an object of data received from the web server.
      *
      * <p>
-     * You must override to parse an element of Json
+     * You must override to parse an object of data received from the web server
      * </p>
      *
-     * @param json an element of Json
+     * @param object an an object of data received from the web server
      * @see JsonElement
      */
-    protected abstract List<T> parseItems(JsonElement json);
+    protected abstract List<T> parseItems(Object object);
 
     /**
      * Sets the listener to be notified when a process is completed
@@ -688,7 +681,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
         @Override
         protected List doInBackground(Void... params) {
             mFragment.setTotalPage(mEvent.getResponseClient().getPages());
-            return mFragment.parseItems(mEvent.getResponseClient().getOffers());
+            return mFragment.parseItems(mEvent.getResponseClient());
         }
 
         @Override

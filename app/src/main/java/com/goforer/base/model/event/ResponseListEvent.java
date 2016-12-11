@@ -16,7 +16,9 @@
 
 package com.goforer.base.model.event;
 
-public class ResponseListEvent extends ResponseEvent {
+import com.goforer.base.model.data.ResponseBase;
+
+public class ResponseListEvent<R0 extends ResponseBase> extends ResponseEvent<R0> {
     private boolean mIsNew = true;
 
     public ResponseListEvent() {
