@@ -623,7 +623,7 @@ public class OffersInfoActivity extends BaseActivity {
                 int displaceNew = -positionOffsetPixels + mSwipePager.getWidth();
 
                 if (positionOffset > 0.999) {
-                    mBackdrop.setX(0);
+                    mBackdrop.setX(-mNewBackdrop.getWidth());
                     mNewBackdrop.setX(0);
                 } else {
                     setTitle(position, positionOffset);
