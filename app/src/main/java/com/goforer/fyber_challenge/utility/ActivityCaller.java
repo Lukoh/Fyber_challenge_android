@@ -54,6 +54,7 @@ public enum  ActivityCaller {
     public static final int SELECTED_ITEM_POSITION = 1000;
 
     public static final String HELP_URL = "https://github.com/Lukoh/Fyber_challenge_android";
+    public static final String APP_LINK_URL = "goforer://github_challenge?user=jakewharton";
 
     public Intent createIntent(Context context, Class<?> cls, boolean isNewTask) {
         Intent intent = new Intent(context, cls);

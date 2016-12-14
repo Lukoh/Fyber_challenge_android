@@ -262,6 +262,12 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     }
 
     @SuppressWarnings("")
+    @OnClick(R.id.fab_app_link)
+    void onCallAppLink() {
+        ActivityCaller.INSTANCE.callLink(mContext, ActivityCaller.APP_LINK_URL);
+    }
+
+    @SuppressWarnings("")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAction(FocusItemAction action) {
         mAdapter.moveSelectedPosition(getRecyclerView().getLayoutManager(), action.getPosition());

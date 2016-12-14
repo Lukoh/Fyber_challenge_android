@@ -4,6 +4,7 @@
     <string name="toast_process_error">This app is going to exit due to an error of data processing.</string>
     <string name="loading">Loading on&#8230;</string>
     <string name="fab_menu_help">Help</string>
+    <string name="fab_menu_link">App Link</string>
     <string name="toast_last_page">Last page.</string>
     <string name="toast_no_data">No data available.</string>
     <string name="toast_disconnect_phrase">Can not access the internet.</string>

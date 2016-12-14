@@ -59,6 +59,15 @@
                 fab:fab_label="@string/fab_menu_help"
                 style="@style/MenuButtonsSmall.OfferList" />
 
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_app_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_fab_link"
+                android:elevation="6dp"
+                fab:fab_label="@string/fab_menu_link"
+                style="@style/MenuButtonsSmall.OfferList" />
+
 
         </com.github.clans.fab.FloatingActionMenu>
 
