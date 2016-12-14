@@ -16,7 +16,8 @@
 
 package com.goforer.fyber_challenge.model.event;
 
+import com.goforer.base.model.data.ResponseBase;
 import com.goforer.base.model.event.ResponseEvent;
 
-public class ProfileEvent extends ResponseEvent {
+public class ProfileEvent<RO extends ResponseBase> extends ResponseEvent<RO> {
 }

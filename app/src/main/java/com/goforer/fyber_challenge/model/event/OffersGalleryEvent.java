@@ -16,10 +16,10 @@
 
 package com.goforer.fyber_challenge.model.event;
 
+import com.goforer.base.model.data.ResponseBase;
 import com.goforer.base.model.event.ResponseListEvent;
-import com.goforer.fyber_challenge.model.data.ResponseOffer;
 
-public class OffersGalleryEvent extends ResponseListEvent<ResponseOffer> {
+public class OffersGalleryEvent<RO extends ResponseBase> extends ResponseListEvent<RO> {
     public OffersGalleryEvent(boolean isNew) {
         super(isNew);
     }
