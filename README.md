@@ -33,6 +33,10 @@ Motion helps guide your users through your app by providing hierarchy and spacia
 #New Feature
 [Version 2.5] Transitions are the best way to implement this kind of scene change and to choreograph the journey through your app. Version 2.5 provides a deep dive on Android's transition APIs focusing on content and shared element transitions.
 
+[A window into transitions](https://github.com/Lukoh/Fyber_challenge_android/tree/master/app/src/main/java/com/goforer/fyber_challenge/ui/transition)
+
+Motion helps guide your users through your app by providing hierarchy and spacial relationships. Transitions are the best way to implement this kind of scene change and to choreograph the journey through your app. This session provides a deep dive on Android's transition APIs focusing on content and shared element transitions.
+
 [Version 2.4] Sort functions(by Title, Payout, Bookmart amount and subscription amount) hass been applied into FyberChallenge.
 
 [Version 2.3.8] Offer Information sharing function has been applied into FyberChallenge. 
