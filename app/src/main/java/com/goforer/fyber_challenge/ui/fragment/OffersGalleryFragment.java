@@ -40,7 +40,6 @@ import com.goforer.fyber_challenge.model.data.ResponseOffer;
 import com.goforer.fyber_challenge.model.event.OffersGalleryEvent;
 import com.goforer.fyber_challenge.ui.adapter.OffersGalleryAdapter;
 import com.goforer.fyber_challenge.utility.CommonUtils;
-import com.goforer.fyber_challenge.utility.DisplayUtils;
 import com.goforer.fyber_challenge.web.Intermediary;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -165,7 +164,14 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
         GridLayoutManager.SpanSizeLookup spanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return SPAN_NUMBER_ONE;
+                switch (position % 6) {
+                    case 5:
+                        return 3;
+                    case 3:
+                        return 2;
+                    default:
+                        return 1;
+                }
             }
         };
 
@@ -176,20 +182,12 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
 
     @Override
     protected RecyclerView.ItemDecoration createItemDecoration() {
-        int gap = DisplayUtils.INSTANCE.dpToPx(mContext, 5);
-        return new GapItemDecoration(GapItemDecoration.VERTICAL_LIST, gap) {
+        return new GapItemDecoration(GapItemDecoration.VERTICAL_LIST,
+                getResources().getDimensionPixelSize(R.dimen.grid_item_spacing)) {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
                                        RecyclerView.State state) {
-                int position = parent.getChildAdapterPosition(view);
-
-                if ((position + 1) % SPAN_COUNT == 1) {
-                    outRect.set(mGap, mGap, 0, 0);
-                } else if ((position + 1) % SPAN_COUNT == 2) {
-                    outRect.set(mGap, mGap, 0, 0);
-                } else if ((position + 1) % SPAN_COUNT == 0) {
-                    outRect.set(mGap, mGap, mGap, 0);
-                }
+                outRect.set(mGap, mGap, mGap, mGap);
             }
         };
     }
