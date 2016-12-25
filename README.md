@@ -1,6 +1,6 @@
 # Fyber_challenge_android
 
-Fyber_challenge_andorid has been updated to 2.4.1 . 
+Fyber_challenge_andorid has been updated to 2.5 . 
 This is the reference of Android application to make some SNS or O2O service on Android. New drawer and awesome funtionalaties were applied into Fyber App. All Android App developer can see how to make some SNS or O2O service on Android via the Fyber source code. The Fyber App currently works well now. 
 All technical things/stuffs to make SNS or 020 service on Android are provided into this open-source project.
 If you want to make the food delivery service, shopping or O2O service App on Android, please refer to my open-source project and you can make awesome those App very easily. If you want to learn more technical knowledge of Web-Communication, which is related Web APIs, please visit my [BEatery](https://github.com/Lukoh/beateries) open-source project and [BEatery APIs](https://github.com/Lukoh/beateries/blob/master/BEatery%20REST%20APIs.pdf).  You can get more details you need. Also you can know the way how to communicate with Server. if you want to get this technical knowledge, please visit here below:
@@ -15,6 +15,10 @@ Let me know if you want to add some menu list into SlidingDrawer. I can help you
 
 RecyclerFragment was improved to be more efficient and more great. Please refer to [RecyclerFragment.java](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/fragment/RecyclerFragment.java).
 
+[A window into transitions]
+
+Motion helps guide your users through your app by providing hierarchy and spacial relationships. Transitions are the best way to implement this kind of scene change and to choreograph the journey through your app. This session provides a deep dive on Android's transition APIs focusing on content and shared element transitions.
+
 ###A quick overview what's in
 - **the easiest structure**
 - quick and simple code
@@ -27,6 +31,8 @@ RecyclerFragment was improved to be more efficient and more great. Please refer 
 - expandable fragments
 
 #New Feature
+[Version 2.5] Transitions are the best way to implement this kind of scene change and to choreograph the journey through your app. Version 2.5 provides a deep dive on Android's transition APIs focusing on content and shared element transitions.
+
 [Version 2.4] Sort functions(by Title, Payout, Bookmart amount and subscription amount) hass been applied into FyberChallenge.
 
 [Version 2.3.8] Offer Information sharing function has been applied into FyberChallenge. 
