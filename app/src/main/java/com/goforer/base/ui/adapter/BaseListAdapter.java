@@ -19,6 +19,7 @@ package com.goforer.base.ui.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
 
+import com.goforer.base.ui.holder.BaseViewHolder;
 import com.goforer.base.ui.holder.ItemHolderBinder;
 
 import java.util.List;
@@ -55,7 +56,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
         if (holder instanceof ItemHolderBinder) {
             if (position >= mItems.size()) {
                 return;
@@ -63,7 +64,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter {
 
             T item = mItems.get(position);
             if (item != null) {
-                ((ItemHolderBinder<T>) holder).bindItemHolder(item, position);
+                ((ItemHolderBinder<T>) holder).bindItemHolder(holder, item, position);
             }
         }
     }

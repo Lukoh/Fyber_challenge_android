@@ -19,12 +19,12 @@ package com.goforer.fyber_challenge.ui.adapter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -37,15 +37,19 @@ import com.goforer.fyber_challenge.R;
 import com.goforer.fyber_challenge.model.action.MoveItemAction;
 import com.goforer.fyber_challenge.model.data.Gallery;
 import com.goforer.fyber_challenge.utility.ActivityCaller;
+import com.goforer.fyber_challenge.utility.ImageSize;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.BindView;
+import static com.goforer.fyber_challenge.utility.CommonUtils.TRANSITION_NAME_FOR_IMAGE;
+import static com.goforer.fyber_challenge.utility.CommonUtils.TRANSITION_NAME_FOR_TITLE;
 
 public class OffersGalleryAdapter extends BaseListAdapter<Gallery> implements ItemTouchHelperListener {
+    private GalleryContentViewHolder mViewHolder;
+
     public OffersGalleryAdapter(List<Gallery> items, int layoutResId,
                                 boolean usedLoadingImage) {
         super(items, layoutResId);
@@ -78,7 +82,7 @@ public class OffersGalleryAdapter extends BaseListAdapter<Gallery> implements It
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
+    public BaseViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
         View view;
 
         switch (type) {
@@ -96,12 +100,12 @@ public class OffersGalleryAdapter extends BaseListAdapter<Gallery> implements It
     }
 
     @Override
-    protected RecyclerView.ViewHolder createViewHolder(View view, int type) {
-        return new GalleryContentViewHolder(view, getItems());
+    protected GalleryContentViewHolder createViewHolder(ViewGroup viewGroup, View view, int type) {
+        return mViewHolder = new GalleryContentViewHolder(view, getItems());
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(BaseViewHolder viewHolder, int position) {
         switch (getItemViewType(position)){
             case VIEW_TYPE_FOOTER:
             case VIEW_TYPE_LOADING:
@@ -143,36 +147,48 @@ public class OffersGalleryAdapter extends BaseListAdapter<Gallery> implements It
         EventBus.getDefault().post(action);
     }
 
-    final static class GalleryContentViewHolder extends BaseViewHolder<Gallery> {
+    public GalleryContentViewHolder getViewHolder() {
+        return mViewHolder;
+    }
+
+    public final static class GalleryContentViewHolder extends BaseViewHolder<Gallery> {
         private Gallery mGallery;
         private List<Gallery> mGalleryItems;
 
-        @BindView(R.id.iv_content)
-        ImageView mContentImageView;
-
         GalleryContentViewHolder(View itemView, List<Gallery> items) {
             super(itemView);
+
 
             mGalleryItems = items;
         }
 
         @Override
-        public void bindItemHolder(@NonNull final Gallery gallery, final int position) {
+        public void bindItemHolder(final BaseViewHolder holder, @NonNull final Gallery gallery,
+                                   final int position) {
             mGallery = gallery;
 
-            Glide.with(getContext().getApplicationContext()).load(mGallery.getThumbnail()
-                    .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
+            holder.getView().findViewById(R.id.iv_content)
+                    .setTransitionName(TRANSITION_NAME_FOR_IMAGE + position);
+            holder.getView().findViewById(R.id.tv_title)
+                    .setTransitionName(TRANSITION_NAME_FOR_TITLE + position);
+
+            Glide.with(getContext().getApplicationContext()).load(gallery.getThumbnail()
+                    .getHires()).asBitmap().override(ImageSize.NORMAL[0], ImageSize.NORMAL[1])
+                    .into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    mContentImageView.setImageBitmap(resource);
+                    ((ImageView)holder.getView().findViewById(R.id.iv_content)).setImageBitmap(resource);
                 }
             });
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            ((TextView)holder.getView().findViewById(R.id.tv_title)).setText(mGallery.getTitle());
+            holder.getView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ActivityCaller.INSTANCE.callImageBrowse(getContext(), mGalleryItems, position,
-                            ActivityCaller.SELECTED_ITEM_POSITION);
+                    ActivityCaller.INSTANCE.callImageBrowse(getContext(),
+                            holder.getView().findViewById(R.id.iv_content),
+                            holder.getView().findViewById(R.id.tv_title), mGalleryItems,
+                            position, ActivityCaller.SELECTED_ITEM_POSITION);
                 }
             });
         }

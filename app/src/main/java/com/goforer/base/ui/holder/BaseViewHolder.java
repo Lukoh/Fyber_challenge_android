@@ -34,14 +34,21 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implements ItemHolderBinder<T> {
     private Context mContext;
+    private View mView;
+
 
     public BaseViewHolder(View itemView) {
         super(itemView);
         mContext = itemView.getContext();
+        mView = itemView;
         ButterKnife.bind(this, itemView);
     }
 
     public Context getContext() {
         return mContext;
+    }
+
+    public View getView() {
+        return mView;
     }
 }

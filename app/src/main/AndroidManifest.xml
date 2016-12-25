@@ -66,14 +66,14 @@
             android:name=".ui.activity.OffersGalleryActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.NoActionBar.Gallery">
         </activity>
 
         <activity
             android:name=".ui.activity.OffersImageBrowseActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar.Gallery.View">
         </activity>
 
         <provider android:authorities="com.facebook.app.FacebookContentProvider220951048341991"

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
+    <transitionSet>
+        <targets>
+            <target android:targetId="@id/iv_image" />
+        </targets>
+        <changeBounds>
+            <arcMotion android:maximumAngle="50"/>
+        </changeBounds>
+        <changeTransform />
+        <changeClipBounds />
+        <changeImageTransform />
+    </transitionSet>
+    <transitionSet>
+        <targets>
+            <target android:targetId="@id/tv_title" />
+        </targets>
+        <transition class="com.goforer.fyber_challenge.ui.transition.TextResize" />
+        <changeBounds />
+    </transitionSet>
+    <recolor>
+        <targets>
+            <target android:targetId="@android:id/statusBarBackground" />
+            <target android:targetId="@android:id/navigationBarBackground" />
+        </targets>
+    </recolor>
+</transitionSet>

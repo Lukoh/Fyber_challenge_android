@@ -32,5 +32,9 @@
     <color name="material_drawable_offer_id_text">#868686</color>
     <color name="floating_button_background">#42A2DF</color>
     <color name="material_drawable_comment">#172525</color>
+    <color name="grey_ripple">#8DDD</color>
+    <color name="gallery_item_placeholder">#ddd</color>
+    <color name="gallery_item_title_background">#66000000</color>
+    <color name="page_margin">#EEE</color>
 
 </resources>

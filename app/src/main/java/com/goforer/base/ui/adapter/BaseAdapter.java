@@ -26,6 +26,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 
+import com.goforer.base.ui.holder.BaseViewHolder;
+
 /**
  * Base class for an Adapter
  *
@@ -34,7 +36,7 @@ import android.view.animation.DecelerateInterpolator;
  * within a {@link RecyclerView}.
  * </p>
  */
-public abstract class BaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public abstract class BaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private static final float VIEW_VERTICAL_POSITION = 100;
     private static final float ANIMATED_VALUE = 0;
     private static final long ANIMATION_DURATION = 250;
@@ -59,9 +61,9 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
+    public BaseViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(mLayoutResId, viewGroup, false);
-        return createViewHolder(view, type);
+        return createViewHolder(viewGroup, view, type);
     }
 
     /**
@@ -73,11 +75,13 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<RecyclerView.View
      * layout file.
      * <p>
      *
+     * @param viewGroup
      * @param view The view this LayoutManager is bound to
      * @param type The view type of the new View.
      * @return A new ViewHolder that holds a View of the given view type
      */
-    protected abstract RecyclerView.ViewHolder createViewHolder(View view, int type);
+    protected abstract BaseViewHolder createViewHolder(ViewGroup viewGroup,
+                                                                View view, int type);
 
     public void resetAnimation(){
         mLastAnimatedPosition = -1;

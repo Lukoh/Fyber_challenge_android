@@ -30,6 +30,8 @@ public class Gallery extends BaseModel implements Parcelable {
     @SerializedName("gallery_count")
     private int mGalleryCount;
 
+    private long mId;
+
     public String getTitle() {
         return mTitle;
     }
@@ -46,10 +48,19 @@ public class Gallery extends BaseModel implements Parcelable {
         mGalleryCount = count;
     }
 
+    public long getId() {
+        return mId;
+    }
+
+    public void setId(long id) {
+        mId = id;
+    }
+
     protected Gallery(Parcel in) {
         mTitle = in.readString();
         mThumbnail = in.readParcelable(Thumbnail.class.getClassLoader());
         mGalleryCount = in.readInt();
+        mId = in.readLong();
     }
 
     @Override
@@ -62,6 +73,7 @@ public class Gallery extends BaseModel implements Parcelable {
         dest.writeString(mTitle);
         dest.writeParcelable(mThumbnail, flags);
         dest.writeInt(mGalleryCount);
+        dest.writeLong(mId);
     }
 
     @SuppressWarnings("unused")

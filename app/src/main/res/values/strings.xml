@@ -61,4 +61,8 @@
     <string name="offer_list_view_sort_payout_menu">Sort by Payout</string>
     <string name="offer_list_view_sort_bookmark_amount_menu">Sort by Bookmark</string>
     <string name="offer_list_view_sort_subscription_amount_menu">Sort by Subscription</string>
+    <string name="transition_image">transition_image</string>
+    <string name="transition_title">transition_title</string>
+    <string name="lorum_ipsum">I like taking up new challenge and learning new technology. And I’m very sociable and love to communicates with all people. I am confident that my leadership experience and expertise in SW development will make me a good SW engineer who works with many colleagues, and should come up with creative awesome ideas. I believe I will be able to make the best use of my experience and capabilities as a SW tech lead.</string>
+
 </resources>

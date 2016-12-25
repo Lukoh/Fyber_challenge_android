@@ -284,4 +284,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onEvent(ActivityStackClearEvent event) {
         finish();
     }
+
+
 }

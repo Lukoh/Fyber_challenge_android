@@ -17,6 +17,7 @@
 package com.goforer.base.ui.holder;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
@@ -28,7 +29,7 @@ public class DefaultViewHolder extends BaseViewHolder<Object> {
     }
 
     @Override
-    public void bindItemHolder(@NonNull Object obj, int position) {
+    public void bindItemHolder(BaseViewHolder holder, @NonNull Object obj, int position) {
     }
 
     @Override

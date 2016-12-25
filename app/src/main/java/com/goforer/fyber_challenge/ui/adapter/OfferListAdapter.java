@@ -20,7 +20,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,8 +42,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.Collections;
 import java.util.List;
-
-import butterknife.BindView;
 
 public class OfferListAdapter extends BaseListAdapter<Offers> implements ItemTouchHelperListener {
     private static final String PAY_OUT = "PayOut : ";
@@ -84,7 +81,7 @@ public class OfferListAdapter extends BaseListAdapter<Offers> implements ItemTou
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
+    public BaseViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
         View view;
 
         switch (type) {
@@ -102,12 +99,12 @@ public class OfferListAdapter extends BaseListAdapter<Offers> implements ItemTou
     }
 
     @Override
-    protected RecyclerView.ViewHolder createViewHolder(View view, int type) {
+    protected BaseViewHolder createViewHolder(ViewGroup viewGroup, View view, int type) {
         return new OfferListViewHolder(view, getItems(), ((BaseActivity)mContext).resumed());
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final BaseViewHolder viewHolder, int position) {
         switch (getItemViewType(position)){
             case VIEW_TYPE_FOOTER:
             case VIEW_TYPE_LOADING:
@@ -154,28 +151,22 @@ public class OfferListAdapter extends BaseListAdapter<Offers> implements ItemTou
     final static class OfferListViewHolder extends BaseViewHolder<Offers> {
         private List<Offers> mOffersItems;
 
-        private boolean mIsResumed;
+        private View mView;
 
-        @BindView(R.id.iv_hires)
-        SquircleImageView mHiresView;
-        @BindView(R.id.tv_title)
-        TextView mTitleView;
-        @BindView(R.id.tv_teaser)
-        TextView mTeaserView;
-        @BindView(R.id.tv_payout)
-        TextView mPayoutView;
+        private boolean mIsResumed;
 
         OfferListViewHolder(View itemView, List<Offers> items, boolean isResumed) {
             super(itemView);
 
+            mView = itemView;
             mOffersItems = items;
             mIsResumed = isResumed;
         }
 
         @SuppressLint("SetTextI18n")
         @Override
-        public void bindItemHolder(@NonNull final Offers offers, final int position) {
-            itemView.setOnClickListener(new View.OnClickListener() {
+        public void bindItemHolder(BaseViewHolder holder, @NonNull final Offers offers, final int position) {
+            holder.getView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (mIsResumed) {
@@ -196,20 +187,20 @@ public class OfferListAdapter extends BaseListAdapter<Offers> implements ItemTou
                 }
             });
 
-            mHiresView.setImage(offers.getThumbnail().getHires());
-            mTitleView.setText(offers.getTitle());
-            mTeaserView.setText(offers.getTeaser());
-            mPayoutView.setText(PAY_OUT + String.valueOf(offers.getPayout()));
+            ((SquircleImageView)holder.getView().findViewById(R.id.iv_hires)).setImage(offers.getThumbnail().getHires());
+            ((TextView)holder.getView().findViewById(R.id.tv_title)).setText(offers.getTitle());
+            ((TextView)holder.getView().findViewById(R.id.tv_teaser)).setText(offers.getTeaser());
+            ((TextView)holder.getView().findViewById(R.id.tv_payout)).setText(PAY_OUT + String.valueOf(offers.getPayout()));
         }
 
         @Override
         public void onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY);
+            mView.setBackgroundColor(Color.LTGRAY);
         }
 
         @Override
         public void onItemClear() {
-            itemView.setBackgroundColor(0);
+            mView.setBackgroundColor(0);
         }
     }
 }

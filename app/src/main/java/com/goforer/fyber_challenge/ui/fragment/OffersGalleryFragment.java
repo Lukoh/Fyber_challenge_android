@@ -34,7 +34,6 @@ import com.goforer.base.ui.fragment.RecyclerFragment;
 import com.goforer.base.ui.helper.RecyclerItemTouchHelperCallback;
 import com.goforer.fyber_challenge.FyberChallenge;
 import com.goforer.fyber_challenge.R;
-import com.goforer.fyber_challenge.model.action.MoveImageAction;
 import com.goforer.fyber_challenge.model.action.MoveItemAction;
 import com.goforer.fyber_challenge.model.data.Gallery;
 import com.goforer.fyber_challenge.model.data.ResponseOffer;
@@ -206,6 +205,10 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
 
     }
 
+    public OffersGalleryAdapter getAdapter() {
+        return mAdapter;
+    }
+
     private void requestOfferList(boolean isNew) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         OffersGalleryEvent event = new OffersGalleryEvent(isNew);
         String advertisingId = CommonUtils.getGoogleAID();
@@ -270,12 +273,6 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
 
                 break;
         }
-    }
-
-    @SuppressWarnings("")
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onAction(MoveImageAction action) {
-        mAdapter.moveSelectedPosition(getRecyclerView().getLayoutManager(), action.getPosition());
     }
 
     @SuppressWarnings("")

@@ -31,6 +31,9 @@ import java.util.Calendar;
 public class CommonUtils {
     public static final String API_KEY = "1c915e3b5d42d05136185030892fbb846c278927";
 
+    public static final String TRANSITION_NAME_FOR_IMAGE = "Image ";
+    public static final String TRANSITION_NAME_FOR_TITLE = "Title ";
+
     private static String mGoogleAID;
     private static boolean mIsLimitAdTrackingEnabled;
     private static Profile mProfile;

@@ -126,4 +126,15 @@
         <item name="android:maxLines">9</item>
     </style>
 
+    <style name="AppTheme.NoActionBar.Gallery">
+        <item name="android:windowExitTransition">@transition/gallery_grid_exit</item>
+        <item name="android:windowReenterTransition">@transition/gallery_grid_reenter</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.Gallery.View">
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/gallery_shared_image_view
+        </item>
+    </style>
+
 </resources>

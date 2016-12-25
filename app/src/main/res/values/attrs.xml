@@ -28,4 +28,10 @@
     <declare-styleable name="StaticRatioRoundedImageView">
         <attr name="static_ratio" format="float" />
     </declare-styleable>
+
+    <declare-styleable name="ForegroundView">
+        <attr name="android:foreground" />
+        <attr name="android:foregroundInsidePadding" />
+        <attr name="android:foregroundGravity" />
+    </declare-styleable>
 </resources>

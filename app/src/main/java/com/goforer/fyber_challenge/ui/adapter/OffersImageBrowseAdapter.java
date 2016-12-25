@@ -17,35 +17,40 @@
 package com.goforer.fyber_challenge.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.goforer.fyber_challenge.R;
 import com.goforer.fyber_challenge.model.data.Gallery;
+import com.goforer.fyber_challenge.ui.transition.ImageBrowseSharedElementEnterCallback;
+import com.goforer.fyber_challenge.utility.ImageSize;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import static com.goforer.fyber_challenge.utility.CommonUtils.TRANSITION_NAME_FOR_IMAGE;
+import static com.goforer.fyber_challenge.utility.CommonUtils.TRANSITION_NAME_FOR_TITLE;
 
 public class OffersImageBrowseAdapter extends PagerAdapter {
-    private static final int ANIMATION_DURATION = 600;
-
     private Context mContext;
     private List<Gallery> mImageList;
 
-    @BindView(R.id.iv_image)
-    ImageView mImage;
+    private ImageBrowseSharedElementEnterCallback mSharedElementCallback;
 
-    public OffersImageBrowseAdapter(Context context, List<Gallery> imageList) {
+    public OffersImageBrowseAdapter(Context context, List<Gallery> imageList,
+                                    @NonNull ImageBrowseSharedElementEnterCallback callback) {
         mContext = context;
         mImageList = imageList;
+        mSharedElementCallback = callback;
     }
 
     @Override
@@ -54,35 +59,41 @@ public class OffersImageBrowseAdapter extends PagerAdapter {
     }
 
     @Override
+    public Object instantiateItem(ViewGroup container, int pos) {
+        final View view = LayoutInflater.from(mContext.getApplicationContext())
+                .inflate(R.layout.view_gallery_image, container, false);
+        Glide.with(mContext.getApplicationContext()).load(mImageList.get(pos).getThumbnail()
+                .getHires()).asBitmap().override(ImageSize.NORMAL[0], ImageSize.NORMAL[1])
+                .into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                ((ImageView)view.findViewById(R.id.iv_image)).setImageBitmap(resource);
+            }
+        });
+
+        ((TextView)view.findViewById(R.id.tv_title)).setText(mImageList.get(pos).getTitle());
+        container.addView(view);
+        return view;
+    }
+
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        if (object instanceof FrameLayout) {
+            FrameLayout layout = (FrameLayout)object;
+            layout.findViewById(R.id.iv_image).setTransitionName(TRANSITION_NAME_FOR_IMAGE + position);
+            layout.findViewById(R.id.tv_title).setTransitionName(TRANSITION_NAME_FOR_TITLE + position);
+            mSharedElementCallback.setViewBinding(
+                    layout.findViewById(R.id.iv_image), layout.findViewById(R.id.tv_title));
+        }
+    }
+
+    @Override
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int pos) {
-        View view = LayoutInflater.from(mContext.getApplicationContext())
-                .inflate(R.layout.view_gallery_image, container, false);
-        ButterKnife.bind(this, view);
-        Glide.with(mContext.getApplicationContext()).load(mImageList.get(pos).getThumbnail()
-                .getHires()).asBitmap().thumbnail(0.1f).dontAnimate().into(mImage);
-        container.addView(view);
-
-        startAnimation();
-
-        return view;
-    }
-
-    @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
-    }
-
-    private void startAnimation() {
-        if (mImage != null) {
-            Animation animationImage = AnimationUtils.loadAnimation(mContext.getApplicationContext(),
-                    R.anim.scale_up_gallery);
-            animationImage.setDuration(ANIMATION_DURATION);
-            mImage.startAnimation(animationImage);
-        }
     }
 }

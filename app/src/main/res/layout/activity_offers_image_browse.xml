@@ -4,23 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/bg_mask"
-        android:visibility="visible"
-        android:background="@android:color/black" />
-
     <com.goforer.base.ui.view.SwipeViewPager
         android:id="@+id/pager_browse"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <include
-        android:id="@+id/image_container"
-        layout="@layout/view_gallery_image"
+    <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="?android:actionBarSize"
+        android:navigationIcon="@drawable/ic_arrow_back" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,6 +22,6 @@
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:id="@+id/tv_number"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="1dp" />
 
 </FrameLayout>

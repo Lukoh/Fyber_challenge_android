@@ -20,7 +20,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,8 +44,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.Collections;
 import java.util.List;
-
-import butterknife.BindView;
 
 public class OfferGridAdapter extends BaseListAdapter<Offers> implements ItemTouchHelperListener {
     private Context mContext;
@@ -85,7 +82,7 @@ public class OfferGridAdapter extends BaseListAdapter<Offers> implements ItemTou
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
+    public BaseViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
         View view;
 
         switch (type) {
@@ -103,12 +100,12 @@ public class OfferGridAdapter extends BaseListAdapter<Offers> implements ItemTou
     }
 
     @Override
-    protected RecyclerView.ViewHolder createViewHolder(View view, int type) {
+    protected BaseViewHolder createViewHolder(ViewGroup viewGroup, View view, int type) {
         return new OffersGridViewHolder(view, getItems(), ((BaseActivity)mContext).resumed());
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final BaseViewHolder viewHolder, int position) {
         switch (getItemViewType(position)){
             case VIEW_TYPE_FOOTER:
             case VIEW_TYPE_LOADING:
@@ -153,37 +150,35 @@ public class OfferGridAdapter extends BaseListAdapter<Offers> implements ItemTou
     final static class OffersGridViewHolder extends BaseViewHolder<Offers> {
         private Offers mOffers;
 
+        private View mView;
+
         private List<Offers> mOffersItems;
 
         private boolean mIsResumed;
 
-        @BindView(R.id.iv_content)
-        ImageView mContentImageView;
-        @BindView(R.id.tv_title)
-        TextView mTitleView;
-
         OffersGridViewHolder(View itemView, List<Offers> items, boolean isResumed) {
             super(itemView);
 
+            mView = itemView;
             mOffersItems = items;
             mIsResumed = isResumed;
         }
 
         @Override
-        public void bindItemHolder(@NonNull final Offers offers, final int position) {
+        public void bindItemHolder(final BaseViewHolder holder, @NonNull final Offers offers, final int position) {
             mOffers = offers;
 
             Glide.with(getContext().getApplicationContext()).load(mOffers.getThumbnail()
                     .getHires()).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    mContentImageView.setImageBitmap(resource);
+                    ((ImageView)holder.getView().findViewById(R.id.iv_content)).setImageBitmap(resource);
                 }
             });
 
-            mTitleView.setText(mOffers.getTitle());
+            ((TextView)holder.getView().findViewById(R.id.tv_title)).setText(mOffers.getTitle());
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            holder.getView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (mIsResumed) {
@@ -207,12 +202,12 @@ public class OfferGridAdapter extends BaseListAdapter<Offers> implements ItemTou
 
         @Override
         public void onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY);
+            mView.setBackgroundColor(Color.LTGRAY);
         }
 
         @Override
         public void onItemClear() {
-            itemView.setBackgroundColor(0);
+            mView.setBackgroundColor(0);
         }
 
     }
