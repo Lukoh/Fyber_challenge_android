@@ -33,7 +33,7 @@
                     android:layout_height="wrap_content"
                     android:paddingEnd="@dimen/padding_normal"
                     android:paddingStart="@dimen/padding_normal"
-                    android:paddingTop="@dimen/padding_large"
+                    android:paddingTop="@dimen/padding_mini"
                     android:textAppearance="@android:style/TextAppearance.Material.Headline"
                     android:textColor="?android:textColorPrimary" />
 
@@ -44,7 +44,7 @@
                     android:lineSpacingMultiplier="1.26315789474"
                     android:paddingEnd="@dimen/padding_normal"
                     android:paddingStart="@dimen/padding_normal"
-                    android:paddingTop="@dimen/padding_normal"
+                    android:paddingTop="@dimen/padding_mini"
                     android:text="@string/lorum_ipsum"
                     android:textAppearance="@android:style/TextAppearance.Material.Subhead"
                     android:textColor="?android:textColorSecondary" />
