@@ -19,6 +19,8 @@ RecyclerFragment was improved to be more efficient and more great. Please refer 
 
 Motion helps guide your users through your app by providing hierarchy and spacial relationships. Transitions are the best way to implement this kind of scene change and to choreograph the journey through your app. This session provides a deep dive on Android's transition APIs focusing on content and shared element transitions.
 
+Here is demo video(). Please watch this demo video if you'd like to know how Transition effect is runs.
+
 ###A quick overview what's in
 - **the easiest structure**
 - quick and simple code
