@@ -19,7 +19,7 @@ RecyclerFragment was improved to be more efficient and more great. Please refer 
 
 Motion helps guide your users through your app by providing hierarchy and spacial relationships. Transitions are the best way to implement this kind of scene change and to choreograph the journey through your app. This session provides a deep dive on Android's transition APIs focusing on content and shared element transitions.
 
-Here is demo video(). Please watch this demo video if you'd like to know how Transition effect is runs.
+Here is [demo video](https://youtu.be/9uxE3ei-Wwo). Please watch this demo video if you'd like to know how Transition effect is runs.
 
 ###A quick overview what's in
 - **the easiest structure**
@@ -38,6 +38,8 @@ Here is demo video(). Please watch this demo video if you'd like to know how Tra
 [A window into transitions](https://github.com/Lukoh/Fyber_challenge_android/tree/master/app/src/main/java/com/goforer/fyber_challenge/ui/transition)
 
 Motion helps guide your users through your app by providing hierarchy and spacial relationships. Transitions are the best way to implement this kind of scene change and to choreograph the journey through your app. This session provides a deep dive on Android's transition APIs focusing on content and shared element transitions.
+
+Here is [demo video](https://youtu.be/9uxE3ei-Wwo). Please watch this demo video if you'd like to know how Transition effect is runs.
 
 [Version 2.4] Sort functions(by Title, Payout, Bookmart amount and subscription amount) hass been applied into FyberChallenge.
 
@@ -96,6 +98,8 @@ Here is [demo video](https://youtu.be/93VroFq11ws).
 You can try it out here [Google Play](https://play.google.com/store/apps/details?id=com.goforer.fyber_challenge) (an open source application). Or you can download the [Fyber Challenge Application](https://play.google.com/store/apps/details?id=com.goforer.fyber_challenge)
 
 Here is [demo video](https://youtu.be/93VroFq11ws). Please watch this demo video if you'd like to know how Fyber App runs. 
+
+Here is [demo video](https://youtu.be/9uxE3ei-Wwo). Please watch this demo video if you'd like to know how Transition effect is runs.
 
 ##Screenshots
 <img src="https://github.com/Lukoh/Fyber_challenge_android/blob/master/Screenshot_20160710-164240.png" alt="Log-in Demo" width="350" />
