@@ -17,7 +17,7 @@ RecyclerFragment was improved to be more efficient and more great. Please refer 
 
 [A window into transitions](https://github.com/Lukoh/Fyber_challenge_android/tree/master/app/src/main/java/com/goforer/fyber_challenge/ui/transition)
 
-Motion helps guide your users through your app by providing hierarchy and spacial relationships. Transitions are the best way to implement this kind of scene change and to choreograph the journey through your app. This session provides a deep dive on Android's transition APIs focusing on content and shared element transitions.
+Motion helps guide your users through your app by providing hierarchy and spacial relationships. Transitions are the best way to implement this kind of scene change and to choreograph the journey through your app. This provides a deep dive on Android's transition APIs focusing on content and shared element transitions.
 
 Here is [demo video](https://youtu.be/9uxE3ei-Wwo). Please watch this demo video if you'd like to know how Transition effect is runs.
 
@@ -37,7 +37,7 @@ Here is [demo video](https://youtu.be/9uxE3ei-Wwo). Please watch this demo video
 
 [A window into transitions](https://github.com/Lukoh/Fyber_challenge_android/tree/master/app/src/main/java/com/goforer/fyber_challenge/ui/transition)
 
-Motion helps guide your users through your app by providing hierarchy and spacial relationships. Transitions are the best way to implement this kind of scene change and to choreograph the journey through your app. This session provides a deep dive on Android's transition APIs focusing on content and shared element transitions.
+Motion helps guide your users through your app by providing hierarchy and spacial relationships. Transitions are the best way to implement this kind of scene change and to choreograph the journey through your app. This provides a deep dive on Android's transition APIs focusing on content and shared element transitions.
 
 Here is [demo video](https://youtu.be/9uxE3ei-Wwo). Please watch this demo video if you'd like to know how Transition effect is runs.
 
