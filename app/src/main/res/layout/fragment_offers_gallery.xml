@@ -14,16 +14,17 @@
             android:id="@+id/swipe_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/swipyrefreshlayout_bg"
+            android:background="@color/swipyrefreshlayout_gallery_bg"
             android:orientation="vertical" >
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="@dimen/grid_item_spacing"
                 android:scrollbars="vertical"
-                android:clipToPadding="false"
-                android:clipChildren="false" />
+                android:scrollbarStyle="insideOverlay"
+                android:clipToPadding="false" />
 
         </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
 

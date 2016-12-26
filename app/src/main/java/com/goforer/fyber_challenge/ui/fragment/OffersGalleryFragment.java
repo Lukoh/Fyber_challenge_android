@@ -99,7 +99,7 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
 
     @Override
     protected boolean isItemDecorationVisible() {
-        return false;
+        return true;
     }
 
     @Override

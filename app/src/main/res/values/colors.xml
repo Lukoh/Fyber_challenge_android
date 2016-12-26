@@ -11,6 +11,7 @@
     <color name="gray">#868686</color>
     <color name="colorPrimaryDark_transparent_30">#A0303F9F</color>
     <color name="swipyrefreshlayout_bg">#F2F2F2</color>
+    <color name="swipyrefreshlayout_gallery_bg">#E0E0E0</color>
     <color name="swipeBar">#E43231</color>
     <color name="list_divider">#EE0011</color>
     <color name="custom_dialog_text">#666666</color>

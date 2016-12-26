@@ -174,7 +174,7 @@ public class OfferGridFragment extends RecyclerFragment<Offers> {
 
     @Override
     protected RecyclerView.ItemDecoration createItemDecoration() {
-        int gap = DisplayUtils.INSTANCE.dpToPx(mContext, 5);
+        int gap = DisplayUtils.INSTANCE.dpToPx(mContext, 2);
         return new GapItemDecoration(GapItemDecoration.VERTICAL_LIST, gap) {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
