@@ -613,6 +613,22 @@ public class OffersInfoActivity extends BaseActivity {
             @Override
             public void onSwipeOutAtEnd() {
             }
+
+            @Override
+            public void onSwipeLeft(float x, float y) {
+            }
+
+            @Override
+            public void onSwipeRight(float x, float y) {
+            }
+
+            @Override
+            public void onSwipeDown(float x, float y) {
+            }
+
+            @Override
+            public void onSwipeUp(float x, float y) {
+            }
         });
 
         //mActionBar.setTitle(mOffersItems.get(mItemPosition).getTitle());

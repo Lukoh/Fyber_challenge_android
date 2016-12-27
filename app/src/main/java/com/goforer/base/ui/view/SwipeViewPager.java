@@ -25,8 +25,15 @@ import android.view.MotionEvent;
  * SwipeViewPager detect when user is trying to swipe out of bounds
  */
 public class SwipeViewPager extends ViewPager {
-    float mStartDragX;
-    OnSwipeOutListener mListener;
+    private static final int SWIPE_MIN_DISTANCE = 180;
+    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
+    private float mStartDragX;
+    private float mStartDragY;
+
+    private OnSwipeOutListener mListener;
+
+    private boolean mIsPageScrolled;
 
     public SwipeViewPager(Context context) {
         super(context);
@@ -41,12 +48,53 @@ public class SwipeViewPager extends ViewPager {
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
+    public boolean onTouchEvent(MotionEvent ev) {
         float x = ev.getX();
+        float y = ev.getY();
+
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                mStartDragX = x;
+                mStartDragX = ev.getX();
+                mStartDragY = ev.getY();
                 break;
+            case MotionEvent.ACTION_UP:
+                float distanceY = y - mStartDragY;
+                float distanceX = x - mStartDragX;
+                if (Math.abs(distanceY) > Math.abs(distanceX)) {
+                    if (y - mStartDragY > SWIPE_MIN_DISTANCE && Math.abs(y) > SWIPE_THRESHOLD_VELOCITY) {
+                        mListener.onSwipeDown(x, y);
+                    } else if (mStartDragY - y > SWIPE_MIN_DISTANCE && Math.abs(y) > SWIPE_THRESHOLD_VELOCITY) {
+                        mListener.onSwipeUp(x, y);
+                    }
+                } else {
+                    if (x - mStartDragX > SWIPE_MIN_DISTANCE && Math.abs(x) > SWIPE_THRESHOLD_VELOCITY) {
+                        mListener.onSwipeRight(x, y);
+                    } else if (mStartDragX - x > SWIPE_MIN_DISTANCE && Math.abs(x) > SWIPE_THRESHOLD_VELOCITY) {
+                        mListener.onSwipeLeft(x, y);
+                    }
+                }
+                break;
+        }
+
+        try {
+            return super.onTouchEvent(ev);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        float x = ev.getX();
+        float y = ev.getY();
+
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mStartDragX = ev.getX();
+                mStartDragY = ev.getY();
+                return true;
             case MotionEvent.ACTION_MOVE:
                 if (mStartDragX < x && getCurrentItem() == 0) {
                     mListener.onSwipeOutAtStart();
@@ -55,6 +103,7 @@ public class SwipeViewPager extends ViewPager {
                 }
                 break;
         }
+
         try {
             return super.onInterceptTouchEvent(ev);
         } catch (IllegalArgumentException e) {
@@ -63,10 +112,22 @@ public class SwipeViewPager extends ViewPager {
         }
     }
 
+    public void setPageScrolled(boolean isPageScrolled) {
+        mIsPageScrolled  = isPageScrolled;
+    }
+
     public interface OnSwipeOutListener {
         void onSwipeOutAtStart();
 
         void onSwipeOutAtEnd();
+
+        void onSwipeLeft(float x, float y);
+
+        void onSwipeRight(float x, float y);
+
+        void onSwipeDown(float x, float y);
+
+        void onSwipeUp(float x, float y);
     }
 }
 

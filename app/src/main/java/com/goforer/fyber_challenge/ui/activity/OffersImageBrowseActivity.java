@@ -142,6 +142,7 @@ public class OffersImageBrowseActivity extends AppCompatActivity {
                 sharedElementCallback));
         //set current position
         mSwipePager.setCurrentItem(mImagePosition, false);
+        mSwipePager.setPageScrolled(false);
         mSwipePager.setOnSwipeOutListener(new SwipeViewPager.OnSwipeOutListener() {
             @Override
             public void onSwipeOutAtStart() {
@@ -149,6 +150,25 @@ public class OffersImageBrowseActivity extends AppCompatActivity {
 
             @Override
             public void onSwipeOutAtEnd() {
+            }
+
+            @Override
+            public void onSwipeLeft(float x, float y) {
+
+            }
+
+            @Override
+            public void onSwipeRight(float x, float y) {
+
+            }
+
+            @Override
+            public void onSwipeDown(float x, float y) {
+                finishAfterTransition();
+            }
+
+            @Override
+            public void onSwipeUp(float x, float y) {
             }
         });
 
@@ -166,7 +186,7 @@ public class OffersImageBrowseActivity extends AppCompatActivity {
         mSwipePager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                mSwipePager.setPageScrolled(true);
             }
 
             @Override
