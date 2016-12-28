@@ -33,16 +33,20 @@
 package com.goforer.base.ui.view;
 
 import android.content.Context;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 
 /**
  * SwipeViewPager detect when user is trying to swipe out of bounds
  */
 public class SwipeViewPager extends ViewPager {
-    private static final int SWIPE_MIN_DISTANCE = 180;
-    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+    private static final String TAG = "SwipeViewPager";
+
+    private static final float SWIPE_MIN_DISTANCE = 30;
+    private static final float SWIPE_THRESHOLD_VELOCITY = 60;
 
     private float mStartDragX;
     private float mStartDragY;
@@ -64,19 +68,25 @@ public class SwipeViewPager extends ViewPager {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        final int action = ev.getAction() & MotionEventCompat.ACTION_MASK;
+
         float x = ev.getX();
         float y = ev.getY();
 
-        switch (ev.getAction()) {
+        switch (action) {
             case MotionEvent.ACTION_DOWN:
                 mStartDragX = ev.getX();
                 mStartDragY = ev.getY();
                 break;
-            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_MOVE:
                 float distanceY = y - mStartDragY;
                 float distanceX = x - mStartDragX;
-                if (Math.abs(distanceY) > Math.abs(distanceX)) {
+                if (mStartDragX < x && getCurrentItem() == 0) {
+                    mListener.onSwipeOutAtStart();
+                } else if (mStartDragX > x && getCurrentItem() == getAdapter().getCount() - 1) {
+                    mListener.onSwipeOutAtEnd();
+                } else if (Math.abs(distanceY) > Math.abs(distanceX)) {
                     if (y - mStartDragY > SWIPE_MIN_DISTANCE && Math.abs(y) > SWIPE_THRESHOLD_VELOCITY) {
                         mListener.onSwipeDown(x, y);
                     } else if (mStartDragY - y > SWIPE_MIN_DISTANCE && Math.abs(y) > SWIPE_THRESHOLD_VELOCITY) {
@@ -92,40 +102,7 @@ public class SwipeViewPager extends ViewPager {
                 break;
         }
 
-        try {
-            return super.onTouchEvent(ev);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        float x = ev.getX();
-        float y = ev.getY();
-
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                mStartDragX = ev.getX();
-                mStartDragY = ev.getY();
-                return true;
-            case MotionEvent.ACTION_MOVE:
-                if (mStartDragX < x && getCurrentItem() == 0) {
-                    mListener.onSwipeOutAtStart();
-                } else if (mStartDragX > x && getCurrentItem() == getAdapter().getCount() - 1) {
-                    mListener.onSwipeOutAtEnd();
-                }
-                break;
-        }
-
-        try {
-            return super.onInterceptTouchEvent(ev);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return super.onInterceptTouchEvent(ev);
     }
 
     public void setPageScrolled(boolean isPageScrolled) {

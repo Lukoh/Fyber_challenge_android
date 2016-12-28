@@ -13,8 +13,8 @@ android {
         applicationId "com.goforer.fyber_challenge"
         minSdkVersion  setup.minSdk
         targetSdkVersion setup.targetSdk
-        versionCode 28
-        versionName "2.5.2.2"
+        versionCode 29
+        versionName "2.5.2.3"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
