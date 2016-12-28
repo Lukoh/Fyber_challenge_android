@@ -45,8 +45,8 @@ import android.view.MotionEvent;
 public class SwipeViewPager extends ViewPager {
     private static final String TAG = "SwipeViewPager";
 
-    private static final float SWIPE_MIN_DISTANCE = 30;
-    private static final float SWIPE_THRESHOLD_VELOCITY = 60;
+    private static final float SWIPE_MIN_DISTANCE = 20;
+    private static final float SWIPE_THRESHOLD_VELOCITY = 150;
 
     private float mStartDragX;
     private float mStartDragY;
@@ -87,6 +87,8 @@ public class SwipeViewPager extends ViewPager {
                 } else if (mStartDragX > x && getCurrentItem() == getAdapter().getCount() - 1) {
                     mListener.onSwipeOutAtEnd();
                 } else if (Math.abs(distanceY) > Math.abs(distanceX)) {
+                    Log.d(TAG, "onInterceptTouchEvent : ACTION_MOVE = "
+                            + Float.toString(y - mStartDragY) + "Y : " + Math.abs(y));
                     if (y - mStartDragY > SWIPE_MIN_DISTANCE && Math.abs(y) > SWIPE_THRESHOLD_VELOCITY) {
                         mListener.onSwipeDown(x, y);
                     } else if (mStartDragY - y > SWIPE_MIN_DISTANCE && Math.abs(y) > SWIPE_THRESHOLD_VELOCITY) {
