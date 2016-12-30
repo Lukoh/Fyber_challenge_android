@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.goforer.base.ui.view.ThreeTwoImageView;
 import com.goforer.fyber_challenge.R;
 import com.goforer.fyber_challenge.model.data.Gallery;
 import com.goforer.fyber_challenge.ui.transition.ImageBrowseSharedElementEnterCallback;
@@ -80,10 +81,15 @@ public class OffersImageBrowseAdapter extends PagerAdapter {
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
         if (object instanceof FrameLayout) {
             FrameLayout layout = (FrameLayout)object;
-            layout.findViewById(R.id.iv_image).setTransitionName(TRANSITION_NAME_FOR_IMAGE + position);
-            layout.findViewById(R.id.tv_title).setTransitionName(TRANSITION_NAME_FOR_TITLE + position);
-            mSharedElementCallback.setViewBinding(
-                    layout.findViewById(R.id.iv_image), layout.findViewById(R.id.tv_title));
+            ThreeTwoImageView imageView = (ThreeTwoImageView)layout.findViewById(R.id.iv_image);
+            TextView titleView = (TextView)layout.findViewById(R.id.tv_title);
+            if (isNullCheck(imageView, titleView)) {
+                imageView.setTransitionName(
+                        TRANSITION_NAME_FOR_IMAGE + position);
+                titleView.setTransitionName(
+                        TRANSITION_NAME_FOR_TITLE + position);
+                mSharedElementCallback.setViewBinding(imageView, titleView);
+            }
         }
     }
 
@@ -95,5 +101,9 @@ public class OffersImageBrowseAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
+    }
+
+    private boolean isNullCheck(ThreeTwoImageView imageView, TextView titleView) {
+        return imageView.getTransitionName() == null || titleView.getTransitionName() == null;
     }
 }

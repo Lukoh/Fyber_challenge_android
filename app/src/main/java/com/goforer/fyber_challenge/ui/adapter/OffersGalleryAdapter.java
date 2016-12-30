@@ -186,8 +186,8 @@ public class OffersGalleryAdapter extends BaseListAdapter<Gallery> implements It
                 @Override
                 public void onClick(View view) {
                     ActivityCaller.INSTANCE.callImageBrowse(getContext(),
-                            holder.getView().findViewById(R.id.iv_content),
-                            holder.getView().findViewById(R.id.tv_title), mGalleryItems,
+                            view.findViewById(R.id.iv_content),
+                            view.findViewById(R.id.tv_title), mGalleryItems,
                             position, ActivityCaller.SELECTED_ITEM_POSITION);
                 }
             });
