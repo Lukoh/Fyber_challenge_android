@@ -142,7 +142,7 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
             }
 
             @Override
-            public void onScrolled() {
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 Log.i(TAG, "onScrolled");
 
                 mMenu.hideMenu(true);

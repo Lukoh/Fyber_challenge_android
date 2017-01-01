@@ -17,7 +17,6 @@
 package com.goforer.fyber_challenge.ui.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
@@ -25,16 +24,13 @@ import android.transition.Transition;
 import android.view.ViewTreeObserver;
 
 import com.goforer.base.ui.activity.BaseActivity;
+import com.goforer.base.ui.holder.DefaultViewHolder;
 import com.goforer.fyber_challenge.R;
 import com.goforer.fyber_challenge.ui.adapter.OffersGalleryAdapter;
 import com.goforer.fyber_challenge.ui.fragment.OffersGalleryFragment;
 import com.goforer.fyber_challenge.ui.transition.ImageBrowseSharedElementEnterCallback;
 import com.goforer.fyber_challenge.ui.transition.TransitionCallback;
 import com.goforer.fyber_challenge.utility.ActivityCaller;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 public class OffersGalleryActivity extends BaseActivity {
     private String mOffersTitle;
@@ -46,20 +42,12 @@ public class OffersGalleryActivity extends BaseActivity {
                     ActivityCompat.setExitSharedElementCallback(OffersGalleryActivity.this, null);
                 }
             };
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     public void onCreate(Bundle onSavedInstanceState) {
         mOffersTitle = getIntent().getStringExtra(ActivityCaller.EXTRA_OFFERS_TITLE);
 
         super.onCreate(onSavedInstanceState);
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -68,6 +56,31 @@ public class OffersGalleryActivity extends BaseActivity {
         postponeEnterTransition();
         // Listener to reset shared element exit transition callbacks.
         getWindow().getSharedElementExitTransition().addListener(sharedExitListener);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
     @Override
@@ -87,42 +100,6 @@ public class OffersGalleryActivity extends BaseActivity {
             actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-    }
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("OffersGallery Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
     }
 
     @Override
@@ -151,9 +128,15 @@ public class OffersGalleryActivity extends BaseActivity {
 
         fragment.getRecyclerView().scrollToPosition(position);
 
-        OffersGalleryAdapter.GalleryContentViewHolder holder =
-                (OffersGalleryAdapter.GalleryContentViewHolder) fragment.getRecyclerView().
-                findViewHolderForAdapterPosition(position);
+        OffersGalleryAdapter.GalleryContentViewHolder holder;
+
+        if (fragment.getRecyclerView().findViewHolderForAdapterPosition(position)
+                instanceof DefaultViewHolder) {
+            return;
+        } else {
+            holder = (OffersGalleryAdapter.GalleryContentViewHolder) fragment.getRecyclerView().
+                            findViewHolderForAdapterPosition(position);
+        }
 
         if (holder == null) {
             return;
@@ -164,5 +147,11 @@ public class OffersGalleryActivity extends BaseActivity {
         callback.setViewBinding(holder.getView().findViewById(R.id.iv_content),
                 holder.getView().findViewById(R.id.tv_title));
         setExitSharedElementCallback(callback);
+
+        /*
+        if (position == fragment.getAdapter().getItems().size() - 1) {
+            //: do something...
+        }
+        */
     }
 }

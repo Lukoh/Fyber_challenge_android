@@ -212,8 +212,7 @@ public class OffersImageBrowseActivity extends AppCompatActivity {
         }
 
         Intent intent = new Intent();
-        int item = mSwipePager.getCurrentItem();
-        intent.putExtra(ActivityCaller.EXTRA_SELECTED_ITEM_POSITION, item);
+        intent.putExtra(ActivityCaller.EXTRA_SELECTED_ITEM_POSITION, mSwipePager.getCurrentItem());
         setResult(RESULT_OK, intent);
     }
 }

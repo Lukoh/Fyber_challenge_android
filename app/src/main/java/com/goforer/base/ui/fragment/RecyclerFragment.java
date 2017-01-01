@@ -225,7 +225,8 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     mListener.onScrolling();
                 } else {
-                    mListener.onScrolled();
+                    onScrolled(recyclerView, recyclerView.getScrollX(), recyclerView.getScrollY());
+                    mListener.onScrolled(recyclerView, recyclerView.getScrollX(), recyclerView.getScrollY());
                 }
             }
         };
@@ -750,7 +751,7 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
         /**
          * This listener method to be invoked when scrolling is done.
          */
-        void onScrolled();
+        void onScrolled(RecyclerView recyclerView, int dx, int dy);
 
         void onError(String message);
     }

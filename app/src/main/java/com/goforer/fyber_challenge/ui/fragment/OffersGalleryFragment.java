@@ -88,6 +88,11 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
     protected RecyclerView.Adapter createAdapter() {
         return mAdapter = new OffersGalleryAdapter(getListItems(), R.layout.grid_gallery_item, true);
     }
@@ -149,7 +154,7 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
             }
 
             @Override
-            public void onScrolled() {
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 Log.i(TAG, "onScrolled");
             }
 

@@ -73,8 +73,6 @@ public class OfferListAdapter extends BaseListAdapter<Offers> implements ItemTou
 
         if (isReachedToLastPage() && position == itemCount) {
             return VIEW_TYPE_FOOTER;
-        } else if (position == itemCount) {
-            return VIEW_TYPE_LOADING;
         }
 
         return VIEW_TYPE_ITEM;
@@ -88,10 +86,6 @@ public class OfferListAdapter extends BaseListAdapter<Offers> implements ItemTou
             case VIEW_TYPE_FOOTER:
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_last_item,
                         viewGroup, false);
-                return new DefaultViewHolder(view);
-            case VIEW_TYPE_LOADING:
-                view = LayoutInflater.from(viewGroup.getContext()).inflate(
-                        R.layout.list_loading_item, viewGroup, false);
                 return new DefaultViewHolder(view);
             default:
                 return super.onCreateViewHolder(viewGroup, type);
