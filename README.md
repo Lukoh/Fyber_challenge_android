@@ -11,7 +11,7 @@ If you want to make the food delivery service, shopping or O2O service App on An
 
 Let me know if you want to add some menu list into SlidingDrawer. I can help you to make some menu list, you need, in SlidingDrawer, which is based on [MaterialDrawer](https://github.com/mikepenz/MaterialDrawer). It's easy to make some specific menu list. Please visit below link if you want to get more:
 
-[SlidingDrawer](https://github.com/Lukoh/Fyber_challenge_android/tree/master/app/src/main/java/com/goforer/fyber_challenge_android/ui/view/drawer)
+[SlidingDrawer](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/fyber_challenge/ui/view/drawer/SlidingDrawer.java)
 
 RecyclerFragment was improved to be more efficient and more great. Please refer to [RecyclerFragment.java](https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/base/ui/fragment/RecyclerFragment.java).
 
