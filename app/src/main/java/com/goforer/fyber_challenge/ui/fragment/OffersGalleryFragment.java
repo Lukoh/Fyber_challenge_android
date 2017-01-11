@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.goforer.base.model.ListModel;
+import com.goforer.base.model.data.ResponseBase;
 import com.goforer.base.ui.decoration.GapItemDecoration;
 import com.goforer.base.ui.fragment.RecyclerFragment;
 import com.goforer.base.ui.helper.RecyclerItemTouchHelperCallback;
@@ -198,8 +199,8 @@ public class OffersGalleryFragment extends RecyclerFragment<Gallery> {
     }
 
     @Override
-    protected List<Gallery> parseItems(Object object) {
-        return new ListModel<>(Gallery.class).fromJson(((ResponseOffer)object).getOffers());
+    protected List<Gallery> parseItems(ResponseBase responseBase) {
+        return new ListModel<>(Gallery.class).fromJson(((ResponseOffer)responseBase).getOffers());
     }
 
     @Override

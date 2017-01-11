@@ -201,8 +201,8 @@ public class OfferListFragment extends RecyclerFragment<Offers> {
     }
 
     @Override
-    protected List<Offers> parseItems(Object object) {
-        return new ListModel<>(Offers.class).fromJson(((ResponseOffer)object).getOffers());
+    protected List<Offers> parseItems(ResponseBase responseBase) {
+        return new ListModel<>(Offers.class).fromJson(((ResponseOffer)responseBase).getOffers());
     }
 
     @Override

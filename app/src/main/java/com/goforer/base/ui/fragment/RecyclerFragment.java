@@ -33,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.goforer.base.model.data.ResponseBase;
 import com.goforer.base.model.event.ResponseListEvent;
 import com.goforer.base.ui.adapter.BaseListAdapter;
 import com.goforer.base.ui.decoration.DividerItemDecoration;
@@ -638,10 +639,10 @@ public abstract class RecyclerFragment<T> extends BaseFragment {
      * You must override to parse an object of data received from the web server
      * </p>
      *
-     * @param object an an object of data received from the web server
+     * @param responseBase an object of the received data from the web server`
      * @see JsonElement
      */
-    protected abstract List<T> parseItems(Object object);
+    protected abstract List<T> parseItems(ResponseBase responseBase);
 
     /**
      * Sets the listener to be notified when a process is completed
