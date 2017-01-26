@@ -139,7 +139,7 @@ This app leverages third-party libraries:
  * [SwipyRefreshLayout](https://github.com/OrangeGangsters/SwipyRefreshLayout) - For swiping in both direction
  * [FloatingActionButton](https://github.com/Clans/FloatingActionButton) - For using floating action button
  * [MaterialDrawer](https://github.com/mikepenz/MaterialDrawer) - For using drawer menu
-  - I added/implmented more goood containers to be input into MaterialDrawer. Please refer to [SlidingDrawer]( https://github.com/Lukoh/Fyber_challenge_android/tree/master/app/src/main/java/com/goforer/fyber_challenge_android/ui/view/drawer) 
+  - I added/implmented more goood containers to be input into MaterialDrawer. Please refer to [SlidingDrawer]( https://github.com/Lukoh/Fyber_challenge_android/blob/master/app/src/main/java/com/goforer/fyber_challenge/ui/view/drawer/SlidingDrawer.java) 
 
 # License
 ```
